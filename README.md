@@ -1,8 +1,6 @@
-# T-Sol Compiler
+# Detailed description
 
-## Detailed description
-
-### Compiler version
+## Compiler version
 
 T-Sol Compiler add its current version to the generated code. This version can be obtained:
 
@@ -18,11 +16,11 @@ T-Sol Compiler add its current version to the generated code. This version can b
 tonos-cli decode tvc [--tvc] [--boc] <input>
 ```
 
-### TVM specific types
+## TVM specific types
 
 T-Sol Compiler expands functionality of some existing types and adds several new TVM specific types: TvmCell, TvmSlice, TvmBuilder and ExtraCurrencyCollection. Full description of these types can be found in [TVM][1] and [TON Blockchain][2] specifications.
 
-#### TON units
+### TON units
 
 A literal number can take a suffix to specify a subdenomination of TON currency, where numbers without a postfix are assumed to be nanotons.
 
@@ -59,7 +57,7 @@ uint a13 = 1 gigaever; // a13 == 1 000 000 000 000 000 000 (1e18) == 1e9 ever
 uint a14 = 1 GEver; // a14 == 1 000 000 000 000 000 000 (1e18) == 1e9 ever
 ```
 
-#### TvmCell
+### TvmCell
 
 `TvmCell` represents *TVM cell* ([TVM][1] - 1.1.3). The compiler defines the following
 operators and functions to work with this type:
@@ -67,7 +65,7 @@ operators and functions to work with this type:
 Comparison operators:
 `==`, `!=` (evaluate to `bool`)
 
-##### \<TvmCell\>.depth()
+### \<TvmCell\>.depth()
 
 ```TVMSolidity
 <TvmCell>.depth() returns(uint16);
@@ -77,7 +75,7 @@ Returns the depth **d** of the `TvmCell` **c**. If **c** has no references, then
 otherwise **d** is equal to one plus the maximum of depths of cells referred to from **c**.
 If **c** is a Null instead of a Cell, returns zero.
 
-#### \<TvmCell\>.dataSize()
+### \<TvmCell\>.dataSize()
 
 ```TVMSolidity
 <TvmCell>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -88,7 +86,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then a cell overflow [exception](#tvm-exception-codes) is thrown.
 This function is a wrapper for the `CDATASIZE` opcode ([TVM][1] - A.11.7).
 
-#### \<TvmCell\>.dataSizeQ()
+### \<TvmCell\>.dataSizeQ()
 
 ```TVMSolidity
 <TvmCell>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -99,7 +97,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then this function returns an `optional` that has no value.
 This function is a wrapper for the `CDATASIZEQ` opcode ([TVM][1] - A.11.7).
 
-##### \<TvmCell\>.toSlice()
+### \<TvmCell\>.toSlice()
 
 ```TVMSolidity
 <TvmCell>.toSlice() returns (TvmSlice);
@@ -107,7 +105,7 @@ This function is a wrapper for the `CDATASIZEQ` opcode ([TVM][1] - A.11.7).
 
 Converts a `TvmCell` to `TvmSlice`.
 
-#### TvmSlice
+### TvmSlice
 
 `TvmSlice` represents *TVM cell slice* ([TVM][1] - 1.1.3). The compiler defines the following
 operators and functions to work with this type:
@@ -119,7 +117,7 @@ Note: only data bits from the root cells are compared. References are ignored.
 
 `TvmSlice` can be converted to `bytes`. It costs at least 500 gas units.
 
-##### \<TvmSlice\>.empty()
+### \<TvmSlice\>.empty()
 
 ```TVMSolidity
 <TvmSlice>.empty() returns (bool);
@@ -127,7 +125,7 @@ Note: only data bits from the root cells are compared. References are ignored.
 
 Checks whether the `TvmSlice` is empty (i.e., contains no data bits and no cell references).
 
-##### \<TvmSlice\>.size()
+### \<TvmSlice\>.size()
 
 ```TVMSolidity
 <TvmSlice>.size() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -135,7 +133,7 @@ Checks whether the `TvmSlice` is empty (i.e., contains no data bits and no cell 
 
 Returns the number of data bits and references in the `TvmSlice`.
 
-##### \<TvmSlice\>.bits()
+### \<TvmSlice\>.bits()
 
 ```TVMSolidity
 <TvmSlice>.bits() returns (uint16);
@@ -143,7 +141,7 @@ Returns the number of data bits and references in the `TvmSlice`.
 
 Returns the number of data bits in the `TvmSlice`.
 
-##### \<TvmSlice\>.refs()
+### \<TvmSlice\>.refs()
 
 ```TVMSolidity
 <TvmSlice>.refs() returns (uint8);
@@ -151,7 +149,7 @@ Returns the number of data bits in the `TvmSlice`.
 
 Returns the number of references in the `TvmSlice`.
 
-#### \<TvmSlice\>.dataSize()
+### \<TvmSlice\>.dataSize()
 
 ```TVMSolidity
 <TvmSlice>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -164,7 +162,7 @@ Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
 This function is a wrapper for `SDATASIZE` opcode ([TVM][1] - A.11.7).
 
-#### \<TvmSlice\>.dataSizeQ()
+### \<TvmSlice\>.dataSizeQ()
 
 ```TVMSolidity
 <TvmSlice>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -177,7 +175,7 @@ Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
 This function is a wrapper for `SDATASIZEQ` opcode ([TVM][1] - A.11.7).
 
-##### \<TvmSlice\>.depth()
+### \<TvmSlice\>.depth()
 
 ```TVMSolidity
 <TvmSlice>.depth() returns (uint16);
@@ -186,7 +184,7 @@ This function is a wrapper for `SDATASIZEQ` opcode ([TVM][1] - A.11.7).
 Returns the depth of `TvmSlice`. If the `TvmSlice` has no references, then 0 is returned,
 otherwise function result is one plus the maximum of depths of the cells referred to from the slice.
 
-##### \<TvmSlice\>.hasNBits(), \<TvmSlice\>.hasNRefs() and \<TvmSlice\>.hasNBitsAndRefs()
+### \<TvmSlice\>.hasNBits(), \<TvmSlice\>.hasNRefs() and \<TvmSlice\>.hasNBitsAndRefs()
 
 ```TVMSolidity
 <TvmSlice>.hasNBits(uint10 bits) returns (bool);
@@ -196,7 +194,7 @@ otherwise function result is one plus the maximum of depths of the cells referre
 
 Checks whether the `TvmSlice` contains the specified amount of data bits and references.
 
-##### \<TvmSlice\>.compare()
+### \<TvmSlice\>.compare()
 
 ```TVMSolidity
 <TvmSlice>.compare(TvmSlice other) returns (int2);
@@ -208,11 +206,11 @@ Lexicographically compares the `slice` and `other` data bits of the root slices 
 * 0 - `slice` == `other`
 * -1 - `slice` < `other`
 
-##### TvmSlice load primitives
+### TvmSlice load primitives
 
 All `load*` functions below modify the `TvmSlice` object. If you wants to load second reference from the `TvmSlice`, you should load the first one with [\<TvmSlice\>.loadRef()](#tvmsliceloadref) and then load the reference you need. The same rule is applied to data bits. To load bits from 2 to 10 positions, you should load or skip first two bits.
 
-###### \<TvmSlice\>.load()
+#### \<TvmSlice\>.load()
 
 ```TVMSolidity
 <TvmSlice>.load(TypeA, TypeB, ...) returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -232,7 +230,7 @@ TvmSlice slice = ...;
 See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 **Note**: if all the argument types can't be loaded from the slice a cell underflow [exception](#tvm-exception-codes) is thrown.
 
-###### \<TvmSlice\>.loadQ()
+#### \<TvmSlice\>.loadQ()
 
 ```TVMSolidity
 <TvmSlice>.loadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
@@ -249,7 +247,7 @@ optional(uint8, uint16) b = slice.loadQ(uint8, uint16);
 
 See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 
-###### \<TvmSlice\>.loadRef()
+#### \<TvmSlice\>.loadRef()
 
 ```TVMSolidity
 <TvmSlice>.loadRef() returns (TvmCell);
@@ -257,7 +255,7 @@ See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 
 Loads a cell from the `TvmSlice` reference.
 
-###### \<TvmSlice\>.loadRefAsSlice()
+#### \<TvmSlice\>.loadRefAsSlice()
 
 ```TVMSolidity
 <TvmSlice>.loadRefAsSlice() returns (TvmSlice);
@@ -265,7 +263,7 @@ Loads a cell from the `TvmSlice` reference.
 
 Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
-###### \<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()
+#### \<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()
 
 ```TVMSolidity
 (1)
@@ -278,7 +276,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Loads a signed integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
 
-###### \<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()
+#### \<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()
 
 ```TVMSolidity
 (1)
@@ -291,7 +289,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Loads an unsigned integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
 
-###### Load little-endian integers
+#### Load little-endian integers
 
 ```TVMSolidity
 (1)
@@ -312,7 +310,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Same as (1) but returns `null` if it's impossible to load the integer.
 
-###### \<TvmSlice\>.loadTons()
+#### \<TvmSlice\>.loadTons()
 
 ```TVMSolidity
 <TvmSlice>.loadTons() returns (uint128);
@@ -320,7 +318,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 Loads (deserializes) **VarUInteger 16** and returns an unsigned 128-bit integer. See [TL-B scheme][3].
 
-###### \<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()
+#### \<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()
 
 ```TVMSolidity
 (1)
@@ -337,7 +335,7 @@ Loads (deserializes) **VarUInteger 16** and returns an unsigned 128-bit integer.
 (2) Loads the first `bits` bits and `refs` references from `TvmSlice`.
 (3) and (4) are same as (1) and (2) but return `optional` type.
 
-###### \<TvmSlice\>.loadFunctionParams()
+#### \<TvmSlice\>.loadFunctionParams()
 
 ```TVMSolidity
 // Loads parameters of the public/external function without "responsible" attribute
@@ -357,7 +355,7 @@ See example of how to use **onBounce** function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
 
-###### \<TvmSlice\>.loadStateVars()
+#### \<TvmSlice\>.loadStateVars()
 
 ```TVMSolidity
 <TvmSlice>.loadStateVars(ContractName) returns (uint256 /*pubkey*/, uint64 /*timestamp*/, bool /*constructorFlag*/, Type1 /*var1*/, Type2 /*var2*/, ...);
@@ -397,7 +395,7 @@ contract B {
 }
 ```
 
-###### \<TvmSlice\>.skip()
+#### \<TvmSlice\>.skip()
 
 ```TVMSolidity
 <TvmSlice>.skip(uint10 bits);
@@ -406,7 +404,7 @@ contract B {
 
 Skips the first `bits` bits and `refs` references from the `TvmSlice`.
 
-###### \<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()
+#### \<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()
 
 ```TVMSolidity
 (1)
@@ -425,11 +423,11 @@ Skips the first `bits` bits and `refs` references from the `TvmSlice`.
 
 See also: [\<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()](#tvmbuilderstorezeroes-tvmbuilderstoreones-and-tvmbuilderstoresame).
 
-##### TvmSlice preload primitives
+### TvmSlice preload primitives
 
 All `preload*` functions below don't modify the `TvmSlice` object.
 
-###### \<TvmSlice\>.preload()
+#### \<TvmSlice\>.preload()
 
 ```TVMSolidity
 <TvmSlice>.preload(TypeA, TypeB, ...) returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -437,7 +435,7 @@ All `preload*` functions below don't modify the `TvmSlice` object.
 
 Same as [\<TvmSlice\>.load()](#tvmsliceload) but doesn't modify `TvmSlice`.
 
-###### \<TvmSlice\>.preloadQ()
+#### \<TvmSlice\>.preloadQ()
 
 ```TVMSolidity
 <TvmSlice>.preloadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
@@ -445,7 +443,7 @@ Same as [\<TvmSlice\>.load()](#tvmsliceload) but doesn't modify `TvmSlice`.
 
 Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
-###### \<TvmSlice\>.preloadRef()
+#### \<TvmSlice\>.preloadRef()
 
 ```TVMSolidity
 (1)
@@ -458,7 +456,7 @@ Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
 (2) Returns the `index` cell reference of `TvmSlice`, where `0 ≤ index ≤ 3`.
 
-###### \<TvmSlice\>.preloadInt() and \<TvmSlice\>.preloadIntQ()
+#### \<TvmSlice\>.preloadInt() and \<TvmSlice\>.preloadIntQ()
 
 ```TVMSolidity
 (1)
@@ -469,7 +467,7 @@ Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
 Same as [\<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()](#tvmsliceloadint-and-tvmsliceloadintq) but doesn't modify `TvmSlice`.
 
-###### \<TvmSlice\>.preloadUint() and \<TvmSlice\>.preloadUintQ()
+#### \<TvmSlice\>.preloadUint() and \<TvmSlice\>.preloadUintQ()
 
 ```TVMSolidity
 (1)
@@ -480,7 +478,7 @@ Same as [\<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()](#tvmsliceloadint-an
 
 Same as [\<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()](#tvmsliceloaduint-and-tvmsliceloaduintq) but doesn't modify `TvmSlice`.
 
-###### Preload little-endian integers
+#### Preload little-endian integers
 
 ```TVMSolidity
 <TvmSlice>.preloadIntLE4() returns (int32)
@@ -496,7 +494,7 @@ Same as [\<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()](#tvmsliceloaduint
 
 Same as [Load little-endian integers](#load-little-endian-integers) but doesn't modify `TvmSlice`.
 
-###### \<TvmSlice\>.preloadSlice() and \<TvmSlice\>.preloadSliceQ()
+#### \<TvmSlice\>.preloadSlice() and \<TvmSlice\>.preloadSliceQ()
 
 ```TVMSolidity
 (1)
@@ -511,12 +509,12 @@ Same as [Load little-endian integers](#load-little-endian-integers) but doesn't 
 
 Same as [\<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()](#tvmsliceloadslice-and-tvmsliceloadsliceq) but doesn't modify `TvmSlice`.
 
-#### TvmBuilder
+### TvmBuilder
 
 `TvmBuilder` represents *TVM cell builder* ([TVM][1] - 1.1.3). T-Sol Compiler defines the following
 functions to work with this type:
 
-##### \<TvmBuilder\>.toSlice()
+### \<TvmBuilder\>.toSlice()
 
 ```TVMSolidity
 <TvmBuilder>.toSlice() returns (TvmSlice);
@@ -524,7 +522,7 @@ functions to work with this type:
 
 Converts a `TvmBuilder` into `TvmSlice`.
 
-##### \<TvmBuilder\>.toCell()
+### \<TvmBuilder\>.toCell()
 
 ```TVMSolidity
 <TvmBuilder>.toCell() returns (TvmCell);
@@ -532,7 +530,7 @@ Converts a `TvmBuilder` into `TvmSlice`.
 
 Converts a `TvmBuilder` into `TvmCell`.
 
-##### \<TvmBuilder\>.size()
+### \<TvmBuilder\>.size()
 
 ```TVMSolidity
 <TvmBuilder>.size() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -540,7 +538,7 @@ Converts a `TvmBuilder` into `TvmCell`.
 
 Returns the number of data bits and references already stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.bits()
+### \<TvmBuilder\>.bits()
 
 ```TVMSolidity
 <TvmBuilder>.bits() returns (uint16);
@@ -548,7 +546,7 @@ Returns the number of data bits and references already stored in the `TvmBuilder
 
 Returns the number of data bits already stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.refs()
+### \<TvmBuilder\>.refs()
 
 ```TVMSolidity
 <TvmBuilder>.refs() returns (uint8);
@@ -556,7 +554,7 @@ Returns the number of data bits already stored in the `TvmBuilder`.
 
 Returns the number of references already stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.remBits()
+### \<TvmBuilder\>.remBits()
 
 ```TVMSolidity
 <TvmBuilder>.remBits() returns (uint16);
@@ -564,7 +562,7 @@ Returns the number of references already stored in the `TvmBuilder`.
 
 Returns the number of data bits that can still be stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.remRefs()
+### \<TvmBuilder\>.remRefs()
 
 ```TVMSolidity
 <TvmBuilder>.remRefs() returns (uint8);
@@ -572,7 +570,7 @@ Returns the number of data bits that can still be stored in the `TvmBuilder`.
 
 Returns the number of references that can still be stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.remBitsAndRefs()
+### \<TvmBuilder\>.remBitsAndRefs()
 
 ```TVMSolidity
 <TvmBuilder>.remBitsAndRefs() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -580,7 +578,7 @@ Returns the number of references that can still be stored in the `TvmBuilder`.
 
 Returns the number of data bits and references that can still be stored in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.depth()
+### \<TvmBuilder\>.depth()
 
 ```TVMSolidity
 <TvmBuilder>.depth() returns (uint16);
@@ -590,7 +588,7 @@ Returns the depth of `TvmBuilder`. If no cell references are stored
 in the builder, then 0 is returned; otherwise function result is one plus the maximum of
 depths of cells referred to from the builder.
 
-##### \<TvmBuilder\>.store()
+### \<TvmBuilder\>.store()
 
 ```TVMSolidity
 <TvmBuilder>.store(/*list_of_values*/);
@@ -634,7 +632,7 @@ builder.store(a, b, uint(33));
 
 See also: [\<TvmSlice\>.load()](#tvmsliceload).
 
-##### \<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()
+### \<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()
 
 ```TVMSolidity
 (1)
@@ -653,7 +651,7 @@ See also: [\<TvmSlice\>.load()](#tvmsliceload).
 
 See also: [\<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()](#tvmsliceloadzeroes-tvmsliceloadones-and-tvmsliceloadsame).
 
-##### \<TvmBuilder\>.storeInt()
+### \<TvmBuilder\>.storeInt()
 
 ```TVMSolidity
 <TvmBuilder>.storeInt(int256 value, uint9 bitSize);
@@ -661,7 +659,7 @@ See also: [\<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.l
 
 Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
-##### \<TvmBuilder\>.storeUint()
+### \<TvmBuilder\>.storeUint()
 
 ```TVMSolidity
 <TvmBuilder>.storeUint(uint256 value, uint9 bitSize);
@@ -669,7 +667,7 @@ Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
-##### Store little-endian integers
+### Store little-endian integers
 
 ```TVMSolidity
 <TvmBuilder>.storeIntLE2(int16)
@@ -682,7 +680,7 @@ Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores the little-endian integer.
 
-##### \<TvmBuilder\>.storeRef()
+### \<TvmBuilder\>.storeRef()
 
 ```TVMSolidity
 <TvmBuilder>.storeRef(TvmBuilder b);
@@ -692,7 +690,7 @@ Stores the little-endian integer.
 
 Stores `TvmBuilder b`/`TvmCell c`/`TvmSlice s` in the reference of the `TvmBuilder`.
 
-##### \<TvmBuilder\>.storeTons()
+### \<TvmBuilder\>.storeTons()
 
 ```TVMSolidity
 <TvmBuilder>.storeTons(uint128 value);
@@ -706,7 +704,7 @@ See example of how to work with TVM specific types:
 * [Message_construction](https://github.com/tonlabs/samples/blob/master/solidity/15_MessageSender.sol)
 * [Message_parsing](https://github.com/tonlabs/samples/blob/master/solidity/15_MessageReceiver.sol)
 
-#### ExtraCurrencyCollection
+### ExtraCurrencyCollection
 
 ExtraCurrencyCollection represents TVM type ExtraCurrencyCollection. It has the same functions as [**mapping(uint32 => uint256)**](#mapping):
 
@@ -732,11 +730,11 @@ optional(uint256) res = curCol.getReplace(key, value);
 uint256 uintValue = curCol[index];
 ```
 
-#### optional(Type)
+### optional(Type)
 
 The template optional type manages an optional contained value, i.e. a value that may or may not be present.
 
-##### constructing an optional
+### constructing an optional
 
 There are many ways to set a value:
 
@@ -750,7 +748,7 @@ optional(uint) another = ...;
 opt = another;
 ```
 
-##### \<optional(Type)\>.hasValue()
+### \<optional(Type)\>.hasValue()
 
 ```TVMSolidity
 <optional(Type)>.hasValue() returns (bool);
@@ -758,7 +756,7 @@ opt = another;
 
 Checks whether the `optional` contains a value.
 
-##### \<optional(Type)\>.get()
+### \<optional(Type)\>.get()
 
 ```TVMSolidity
 <optional(Type)>.get() returns (Type);
@@ -766,7 +764,7 @@ Checks whether the `optional` contains a value.
 
 Returns the contained value, if the `optional` contains one. Otherwise, throws an exception.
 
-##### \<optional(Type)\>.set()
+### \<optional(Type)\>.set()
 
 ```TVMSolidity
 <optional(Type)>.set(Type value);
@@ -774,7 +772,7 @@ Returns the contained value, if the `optional` contains one. Otherwise, throws a
 
 Replaces content of the `optional` with **value**.
 
-##### \<optional(Type)\>.reset()
+### \<optional(Type)\>.reset()
 
 ```TVMSolidity
 <optional(Type)>.reset();
@@ -782,7 +780,7 @@ Replaces content of the `optional` with **value**.
 
 Deletes content of the `optional`.
 
-##### Keyword `null`
+### Keyword `null`
 
 Keyword `null` is a constant that is used to indicate an optional type with uninitialized state.
 Example:
@@ -792,11 +790,11 @@ optional(uint) x = 123;
 x = null; // reset value
 ```
 
-#### variant
+### variant
 
 The `variant` type acts like a union for the most common solidity data types. Supported only `uint` so far.
 
-#### variant.isUint()
+### variant.isUint()
 
 ```TVMSolidity
 <variant>.isUint() returns (bool)
@@ -804,11 +802,11 @@ The `variant` type acts like a union for the most common solidity data types. Su
 
 Checks whether `<variant>` holds `uint` type. 
 
-#### variant.toUint()
+### variant.toUint()
 
 Converts `<variant>` to `uint` type if it's possible. Otherwise, throws an exception with code `77`.
 
-#### vector(Type)
+### vector(Type)
 
 `vector(Type)` is a template container type capable of storing an arbitrary set of values of a
 single type, pretty much like dynamic-sized array.
@@ -821,7 +819,7 @@ external function call parameter, nor stored in a state variable.
 **Note:** `vector` implementation based on `TVM Tuple` type, and it has a limited
 length of 255 * 255 = 65025 values.
 
-##### \<vector(Type)\>.push(Type)
+### \<vector(Type)\>.push(Type)
 
 ```TVMSolidity
 <vector(Type)>.push(Type obj);
@@ -836,7 +834,7 @@ vect.push(a);
 vect.push(111);
 ```
 
-##### \<vector(Type)\>.pop()
+### \<vector(Type)\>.pop()
 
 ```TVMSolidity
 <vector(Type)>.pop() returns (Type);
@@ -850,7 +848,7 @@ vector(uint) vect;
 uint a = vect.pop();
 ```
 
-##### \<vector(Type)\>.length()
+### \<vector(Type)\>.length()
 
 ```TVMSolidity
 <vector(Type)>.length() returns (uint8);
@@ -864,7 +862,7 @@ vector(uint) vect;
 uint8 len = vect.length();
 ```
 
-##### \<vector(Type)\>.empty()
+### \<vector(Type)\>.empty()
 
 ```TVMSolidity
 <vector(Type)>.empty() returns (bool);
@@ -878,9 +876,9 @@ vector(uint) vect;
 bool is_empty = vect.empty();
 ```
 
-### TON specific control structures
+## TON specific control structures
 
-### Range-based for loop
+## Range-based for loop
 
 Executes a `for` loop over a range. Used as a more readable equivalent to the traditional `for` loop
 operating over a range of values, such as all elements in an array or mapping.
@@ -930,7 +928,7 @@ for ((, uint value) : map) { // key is omitted
 }
 ```
 
-#### repeat
+### repeat
 
 Allows repeating block of code several times.
 A `repeat` loop evaluates the expression only one time.
@@ -956,7 +954,7 @@ repeat(a - 1) {
 // a == 1
 ```
 
-#### try-catch
+### try-catch
 
 It is an experimental feature available only in certain blockchain networks.
 
@@ -995,9 +993,9 @@ try {
 }
 ```
 
-### Changes and extensions in Solidity types
+## Changes and extensions in Solidity types
 
-#### Integers
+### Integers
 
 ``int`` / ``uint``: Signed and unsigned integers of various sizes. Keywords ``uintN`` and ``intN``
 where ``N`` is a number from ``1``  to ``256`` in steps of 1 denotes the number of bits. ``uint`` and ``int``
@@ -1010,7 +1008,7 @@ Operators:
 * Shift operators: ``<<`` (left shift), ``>>`` (right shift)
 * Arithmetic operators: ``+``, ``-``, unary ``-``, ``*``, ``/``, ``%`` (modulo), ``**`` (exponentiation)
 
-##### bitSize() and uBitSize()
+### bitSize() and uBitSize()
 
 ```TVMSolidity
 bitSize(int x) returns (uint16)
@@ -1036,7 +1034,7 @@ uint16 s = uBitSize(1); // s == 1
 uint16 s = uBitSize(0); // s == 0
 ```
 
-#### varInt and varUint
+### varInt and varUint
 
 `varInt`/`varInt16`/`varInt32`/`varUint`/`varUint16`/`varUint32` are kinds of [Integer](#integers)
 types. But they are serialized/deserialized according to [their TLB schemes](https://github.com/ton-blockchain/ton/blob/master/crypto/block/block.tlb#L112).
@@ -1051,11 +1049,11 @@ mapping(uint => varInt) m_map; // use `varInt` as mapping value only if values h
 m_map[10] = 15;
 ```
 
-#### struct
+### struct
 
 Structs are custom defined types that can group several variables.
 
-##### struct constructor
+### struct constructor
 
 ```TVMSolidity
 struct Stakes {
@@ -1075,7 +1073,7 @@ Stakes stakes = Stakes(200, values);
 Stakes stakes = Stakes({stakes: values, total: 200});
 ```
 
-##### \<struct\>.unpack()
+### \<struct\>.unpack()
 
 ```TVMSolidity
 <struct>.unpack() returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -1098,10 +1096,10 @@ function f() pure public {
 }
 ```
 
-#### Arrays
+### Arrays
 
 
-##### Array literals
+### Array literals
 
 An array literal is a comma-separated list of one or more expressions, enclosed in square brackets.
 For example: `[100, 200, 300]`.
@@ -1109,7 +1107,7 @@ For example: `[100, 200, 300]`.
 Initializing constant state variable:
 `uint[] constant fib = [uint(2), 3, 5, 8, 12, 20, 32];`
 
-##### Creating new arrays
+### Creating new arrays
 
 ```TVMSolidity
 uint[] arr; // create 0-length array
@@ -1125,7 +1123,7 @@ uint[] arr = new uint[](10); // create 10-length array
 Note: If `N` is constant expression or integer literal then the complexity of array creation -
 `O(1)`. Otherwise, `O(N)`.
 
-##### \<array\>.empty()
+### \<array\>.empty()
 
 ```TVMSolidity
 <array>.empty() returns (bool);
@@ -1142,7 +1140,7 @@ arr.push(...);
 bool b = arr.empty(); // b == false
 ```
 
-#### bytesN
+### bytesN
 
 Variables of the `bytesN` types can be explicitly converted to `bytes`. Note: it costs ~500 gas.
 
@@ -1151,7 +1149,7 @@ bytes3 b3 = 0x112233;
 bytes b = bytes(b3);
 ```
 
-#### bytes
+### bytes
 
 `bytes` is an array of `byte`. It is similar to `byte[]`, but they are encoded in different ways.
 
@@ -1166,7 +1164,7 @@ bytes b = hex"01239abf";
 
 `bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice\>.loadRef()](#tvmsliceloadref) to load that extra bytes.
 
-##### \<bytes\>.empty()
+### \<bytes\>.empty()
 
 ```TVMSolidity
 <bytes>.empty() returns (bool);
@@ -1174,7 +1172,7 @@ bytes b = hex"01239abf";
 
 Returns status flag whether the `bytes` is empty (its length is 0).
 
-##### \<bytes\>.operator[]
+### \<bytes\>.operator[]
 
 ```TVMSolidity
 <bytes>.operator[](uint index) returns (byte);
@@ -1190,7 +1188,7 @@ int index = 0;
 byte a0 = byteArray[index]; // a0 = 0x61
 ```
 
-##### \<bytes\> slice
+### \<bytes\> slice
 
 ```TVMSolidity
 <bytes>.operator[](uint from, uint to) returns (bytes);
@@ -1208,7 +1206,7 @@ slice = byteArray[:10]; // slice == "0123456789"
 slice = byteArray[:];  // slice == "01234567890123456789"
 ```
 
-##### \<bytes\>.length
+### \<bytes\>.length
 
 ```TVMSolidity
 <bytes>.length returns (uint)
@@ -1216,7 +1214,7 @@ slice = byteArray[:];  // slice == "01234567890123456789"
 
 Returns length of the `bytes` array.
 
-##### \<bytes\>.dataSize()
+### \<bytes\>.dataSize()
 
 ```TVMSolidity
 <bytes>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -1224,7 +1222,7 @@ Returns length of the `bytes` array.
 
 Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
-##### \<bytes\>.dataSizeQ()
+### \<bytes\>.dataSizeQ()
 
 ```TVMSolidity
 <bytes>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -1232,7 +1230,7 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
 Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
-##### \<bytes\>.append()
+### \<bytes\>.append()
 
 ```TVMSolidity
 <bytes>.append(bytes tail);
@@ -1240,7 +1238,7 @@ Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
 Modifies the `bytes` by concatenating **tail** data to the end of the `bytes`.
 
-##### bytes conversion
+### bytes conversion
 
 ```TVMSolidity
 bytes byteArray = "1234";
@@ -1250,7 +1248,7 @@ bytes4 bb = byteArray;
 `bytes` can be converted to `bytesN`.
 If `bytes` object has less than **N** bytes, extra bytes are padded with zero bits.
 
-#### string
+### string
 
 T-Sol Compiler expands `string` type with the following functions:
 
@@ -1258,7 +1256,7 @@ T-Sol Compiler expands `string` type with the following functions:
 
 `string` can be converted to `TvmSlice`.
 
-##### \<string\>.empty()
+### \<string\>.empty()
 
 ```TVMSolidity
 <string>.empty() returns (bool);
@@ -1266,7 +1264,7 @@ T-Sol Compiler expands `string` type with the following functions:
 
 Returns status flag whether the `string` is empty (its length is 0).
 
-##### \<string\>.byteLength()
+### \<string\>.byteLength()
 
 ```TVMSolidity
 <string>.byteLength() returns (uint32);
@@ -1274,7 +1272,7 @@ Returns status flag whether the `string` is empty (its length is 0).
 
 Returns byte length of the `string` data.
 
-##### \<string\>.substr()
+### \<string\>.substr()
 
 ```TVMSolidity
 <string>.substr(uint from[, uint count]) returns (string);
@@ -1290,7 +1288,7 @@ string a = long.substr(1, 2); // a = "12"
 string b = long.substr(6); // b = "6789"
 ```
 
-##### \<string\>.append()
+### \<string\>.append()
 
 ```TVMSolidity
 <string>.append(string tail);
@@ -1298,7 +1296,7 @@ string b = long.substr(6); // b = "6789"
 
 Appends the tail `string` to the `string`.
 
-##### \<string\>.operator+
+### \<string\>.operator+
 
 ```TVMSolidity
 <string>.operator+(string) returns (string);
@@ -1313,7 +1311,7 @@ bytes2 b = "12";
 string c = a + b; // "abc12"
 ```
 
-##### \<string\>.find() and \<string\>.findLast()
+### \<string\>.find() and \<string\>.findLast()
 
 ```TVMSolidity
 <string>.find(bytes1 symbol) returns (optional(uint32));
@@ -1341,7 +1339,7 @@ optional(uint32) c = str.find(sub);
 bool s = c.hasValue(); // s == false
 ```
 
-##### \<string\>.dataSize()
+### \<string\>.dataSize()
 
 ```TVMSolidity
 <string>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -1349,7 +1347,7 @@ bool s = c.hasValue(); // s == false
 
 Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
-##### \<string\>.dataSizeQ()
+### \<string\>.dataSizeQ()
 
 ```TVMSolidity
 <string>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -1357,7 +1355,7 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
 Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
-##### \<string\>.toUpperCase()` and \<string\>.toLowerCase()
+### \<string\>.toUpperCase()` and \<string\>.toLowerCase()
 
 ```TVMSolidity
 <string>.toUpperCase() returns (string)
@@ -1373,7 +1371,7 @@ string a = s.toUpperCase(); // a == "HELLO"
 string b = s.toLowerCase(); // b == "hello" 
 ```
 
-##### format()
+### format()
 
 ```TvmSolidity
 format(string template, TypeA a, TypeB b, ...) returns (string);
@@ -1415,7 +1413,7 @@ fixed256x10 vv = -987123.4567890321;
 str = format("{}", vv); // str == "-987123.4567890321"
 ```
 
-##### stoi()
+### stoi()
 
 ```TvmSolidity
 stoi(string inputStr) returns (optional(int) /*result*/);
@@ -1436,7 +1434,7 @@ res = stoi(hexstr); // res == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 res = stoi("0xag"); // res == null
 ```
 
-##### string conversion
+### string conversion
 
 ```TVMSolidity
 string s = "1";
@@ -1449,15 +1447,15 @@ bytes2 b = bytes2(s); // b = 0x3131
 `string` can be converted to `bytesN` which causes **N** * 8 bits being loaded from the cell and saved to variable.
 If `string` object has less than **N** bytes, extra bytes are padded with zero bits.
 
-#### address
+### address
 
 `address` represents different types of TVM addresses: **addr_none**, **addr_extern**,
 **addr_std** and **addr_var**. T-Sol Compiler expands `address` type with the following
 members and functions:
 
-##### Object creating
+### Object creating
 
-##### constructor()
+### constructor()
 
 ```TVMSolidity
 uint address_value;
@@ -1466,7 +1464,7 @@ address addrStd = address(address_value);
 
 Constructs an `address` of type **addr_std** with zero workchain id and given address value.
 
-##### address.makeAddrStd()
+### address.makeAddrStd()
 
 ```TVMSolidity
 int8 wid;
@@ -1476,7 +1474,7 @@ address addrStd = address.makeAddrStd(wid, address);
 
 Constructs an `address` of type **addr_std** with given workchain id **wid** and value **address_value**.
 
-##### address.makeAddrNone()
+### address.makeAddrNone()
 
 ```TVMSolidity
 address addrNone = address.makeAddrNone();
@@ -1484,7 +1482,7 @@ address addrNone = address.makeAddrNone();
 
 Constructs an `address` of type **addr_none**.
 
-##### address.makeAddrExtern()
+### address.makeAddrExtern()
 
 ```TVMSolidity
 uint addrNumber;
@@ -1494,9 +1492,9 @@ address addrExtern = address.makeAddrExtern(addrNumber, bitCnt);
 
 Constructs an `address` of type **addr_extern** with given **value** with **bitCnt** bit-length.
 
-##### Members
+### Members
 
-##### \<address\>.wid
+### \<address\>.wid
 
 ```TVMSolidity
 <address>.wid returns (int8);
@@ -1504,7 +1502,7 @@ Constructs an `address` of type **addr_extern** with given **value** with **bitC
 
 Returns the workchain id of **addr_std** or **addr_var**. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
 
-##### \<address\>.value
+### \<address\>.value
 
 ```TVMSolidity
 <address>.value returns (uint);
@@ -1512,7 +1510,7 @@ Returns the workchain id of **addr_std** or **addr_var**. Throws "range check er
 
 Returns the `address` value of **addr_std** or **addr_var** if **addr_var** has 256-bit `address` value. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
 
-##### \<address\>.balance
+### \<address\>.balance
 
 ```TVMSolidity
 address(this).balance returns (uint128);
@@ -1520,7 +1518,7 @@ address(this).balance returns (uint128);
 
 Returns balance of the current contract account in nanotons.
 
-##### \<address\>.currencies
+### \<address\>.currencies
 
 ```TVMSolidity
 address(this).currencies returns (ExtraCurrencyCollection);
@@ -1528,9 +1526,9 @@ address(this).currencies returns (ExtraCurrencyCollection);
 
 Returns currencies on the balance of the current contract account.
 
-##### Functions
+### Functions
 
-##### \<address\>.getType()
+### \<address\>.getType()
 
 ```TVMSolidity
 <address>.getType() returns (uint8);
@@ -1541,7 +1539,7 @@ Returns type of the `address`:
 1 - **addr_extern**
 2 - **addr_std**
 
-##### \<address\>.isStdZero()
+### \<address\>.isStdZero()
 
 ```TVMSolidity
 <address>.isStdZero() returns (bool);
@@ -1549,7 +1547,7 @@ Returns type of the `address`:
 
 Returns the result of comparison between this `address` with zero `address` of type **addr_std**.
 
-##### \<address\>.isStdAddrWithoutAnyCast()
+### \<address\>.isStdAddrWithoutAnyCast()
 
 ```TVMSolidity
 <address>.isStdAddrWithoutAnyCast() returns (bool);
@@ -1557,7 +1555,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 Checks whether this `address` is of type **addr_std** without any cast.
 
-##### \<address\>.isExternZero()
+### \<address\>.isExternZero()
 
 ```TVMSolidity
 <address>.isExternZero() returns (bool);
@@ -1565,7 +1563,7 @@ Checks whether this `address` is of type **addr_std** without any cast.
 
 Returns the result of comparison between this `address` with zero `address` of type **addr_extern**.
 
-##### \<address\>.isNone()
+### \<address\>.isNone()
 
 ```TVMSolidity
 <address>.isNone() returns (bool);
@@ -1573,7 +1571,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 Checks whether this `address` is of type **addr_none**.
 
-##### \<address\>.unpack()
+### \<address\>.unpack()
 
 ```TVMSolidity
 <address>.unpack() returns (int8 /*wid*/, uint256 /*value*/);
@@ -1593,7 +1591,7 @@ Example:
 (int8 wid, uint addr) = address(this).unpack();
 ```
 
-##### \<address\>.transfer()
+### \<address\>.transfer()
 
 ```TVMSolidity
 <address>.transfer(uint128 value, bool bounce, uint16 flag, TvmCell body, ExtraCurrencyCollection currencies, TvmCell stateInit);
@@ -1663,7 +1661,7 @@ See example of `address.transfer()` usage:
 
 * [giver](https://github.com/tonlabs/samples/blob/master/solidity/7_Giver.sol)
 
-#### mapping
+### mapping
 
 T-Sol Compiler expands `mapping` type with the following functions. In examples
 below `\<map\>` defines the object of `mapping(KeyType => ValueType)` type.
@@ -1707,7 +1705,7 @@ See example of how to work with mappings:
 * [database](https://github.com/tonlabs/samples/blob/master/solidity/13_BankCollector.sol)
 * [client](https://github.com/tonlabs/samples/blob/master/solidity/13_BankCollectorClient.sol)
 
-##### Keyword `emptyMap`
+### Keyword `emptyMap`
 
 Keyword `emptyMap` is a constant that is used to indicate a mapping of arbitrary type without values.
 
@@ -1723,7 +1721,7 @@ struct Stakes {
 Stakes stakes = Stakes({stakes: emptyMap, total: 200});
 ```
 
-##### \<mapping\>.operator[]
+### \<mapping\>.operator[]
 
 ```TVMSolidity
 <map>.operator[](KeyType index) returns (ValueType);
@@ -1732,7 +1730,7 @@ Stakes stakes = Stakes({stakes: emptyMap, total: 200});
 Returns the item of `ValueType` with **index** key or returns the default value
 if key is not in the mapping.
 
-##### \<mapping\>.at()
+### \<mapping\>.at()
 
 ```TVMSolidity
 <map>.operator[](KeyType index) returns (ValueType);
@@ -1741,7 +1739,7 @@ if key is not in the mapping.
 Returns the item of `ValueType` with **index** key. Throws an [exception](#tvm-exception-codes) if key
 is not in the mapping.
 
-##### \<mapping\>.min() and \<mapping\>.max()
+### \<mapping\>.min() and \<mapping\>.max()
 
 ```TVMSolidity
 <map>.min() returns (optional(KeyType, ValueType));
@@ -1752,7 +1750,7 @@ Computes the minimal (maximal) key in the `mapping` and returns an `optional`
 value containing that key and the associated value. If `mapping` is empty,
 this function returns an empty `optional`.
 
-##### \<mapping\>.next() and \<mapping\>.prev()
+### \<mapping\>.next() and \<mapping\>.prev()
 
 ```TVMSolidity
 <map>.next(KeyType key) returns (optional(KeyType, ValueType));
@@ -1782,7 +1780,7 @@ optional(uint8, uint) = m.next(-1); // ok, param for next/prev can be negative
 optional(uint8, uint) = m.prev(65537); // ok, param for next/prev can not possibly fit to KeyType (uint8 in this case)
 ```
 
-##### \<mapping\>.nextOrEq() and \<mapping\>.prevOrEq()
+### \<mapping\>.nextOrEq() and \<mapping\>.prevOrEq()
 
 ```TVMSolidity
 <map>.nextOrEq(KeyType key) returns (optional(KeyType, ValueType));
@@ -1794,7 +1792,7 @@ or equal to (less than or equal to) **key** and returns an `optional` value cont
 key and the associated value. Returns an empty `optional` if there is no such key.
 If KeyType is an integer type, argument for this functions can not possibly fit `KeyType`.
 
-##### \<mapping\>.delMin() and \<mapping\>.delMax()
+### \<mapping\>.delMin() and \<mapping\>.delMax()
 
 ```TVMSolidity
 <map>.delMin() returns (optional(KeyType, ValueType));
@@ -1805,7 +1803,7 @@ If mapping is not empty then this function computes the minimal (maximum) key of
 deletes that key and the associated value from the `mapping` and returns an `optional` value
 containing that key and the associated value. Returns an empty `optional` if there is no such key.
 
-##### \<mapping\>.fetch()
+### \<mapping\>.fetch()
 
 ```TVMSolidity
 <map>.fetch(KeyType key) returns (optional(ValueType));
@@ -1814,7 +1812,7 @@ containing that key and the associated value. Returns an empty `optional` if the
 Checks whether **key** is present in the `mapping` and returns an `optional` with the associated value.
 Returns an empty `optional` if there is no such key.
 
-##### \<mapping\>.exists()
+### \<mapping\>.exists()
 
 ```TVMSolidity
 <map>.exists(KeyType key) returns (bool);
@@ -1822,7 +1820,7 @@ Returns an empty `optional` if there is no such key.
 
 Returns whether **key** is present in the `mapping`.
 
-##### \<mapping\>.empty()
+### \<mapping\>.empty()
 
 ```TVMSolidity
 <map>.empty() returns (bool);
@@ -1830,7 +1828,7 @@ Returns whether **key** is present in the `mapping`.
 
 Returns whether the `mapping` is empty.
 
-##### \<mapping\>.replace()
+### \<mapping\>.replace()
 
 ```TVMSolidity
 <map>.replace(KeyType key, ValueType value) returns (bool);
@@ -1839,7 +1837,7 @@ Returns whether the `mapping` is empty.
 Sets the value associated with **key** only if **key** is present in the `mapping` and
 returns the success flag.
 
-##### \<mapping\>.add()
+### \<mapping\>.add()
 
 ```TVMSolidity
 <map>.add(KeyType key, ValueType value) returns (bool);
@@ -1847,7 +1845,7 @@ returns the success flag.
 
 Sets the value associated with **key** only if **key** is not present in the `mapping`.
 
-##### \<mapping\>.getSet()
+### \<mapping\>.getSet()
 
 ```TVMSolidity
 <map>.getSet(KeyType key, ValueType value) returns (optional(ValueType));
@@ -1856,7 +1854,7 @@ Sets the value associated with **key** only if **key** is not present in the `ma
 Sets the value associated with **key**, but also returns an `optional` with the
 previous value associated with the **key**, if any. Otherwise, returns an empty `optional`.
 
-##### \<mapping\>.getAdd()
+### \<mapping\>.getAdd()
 
 ```TVMSolidity
 <map>.getAdd(KeyType key, ValueType value) returns (optional(ValueType));
@@ -1866,7 +1864,7 @@ Sets the value associated with **key**, but only if **key** is not present in th
 Returns an `optional` with the old value without changing the dictionary if that value is present
 in the `mapping`, otherwise returns an empty `optional`.
 
-##### \<mapping\>.getReplace()
+### \<mapping\>.getReplace()
 
 ```TVMSolidity
 <map>.getReplace(KeyType key, ValueType value) returns (optional(ValueType));
@@ -1876,7 +1874,7 @@ Sets the value associated with **key**, but only if **key** is present in the `m
 On success, returns an `optional` with the old value associated with the **key**.
 Otherwise, returns an empty `optional`.
 
-#### Fixed point number
+### Fixed point number
 
 `fixed` / `ufixed`: Signed and unsigned fixed point number of various sizes. Keywords `ufixedMxN`
 and `fixedMxN`, where `M` represents the number of bits taken by the type and `N` represents how
@@ -1891,7 +1889,7 @@ Operators:
 * Math operations: [math.min(), math.max()](#mathmin-mathmax), [math.minmax()](#mathminmax),
 [math.abs()](#mathabs), [math.divr(), math.divc()](#mathdivr-mathdivc)
 
-#### \<mapping\>.keys() \<mapping\>.values()
+### \<mapping\>.keys() \<mapping\>.values()
 
 ```TVMSolidity
 (1)
@@ -1914,7 +1912,7 @@ uint16[] keys = map.keys(); // keys == [11, 22, 33]
 uint8[] values = map.values(); // values == [10, 20, 30] 
 ```
 
-#### Function type
+### Function type
 
 Function types are the types of functions. Variables of function type can be assigned from functions
 and function parameters of function type can be used to pass functions to and return functions from
@@ -1942,7 +1940,7 @@ function process(int a, int b, uint8 mode) public returns (int) {
 }
 ```
 
-#### require, revert
+### require, revert
 
 In case of exception state variables of the contract are reverted to the state before
 [tvm.commit()](#tvmcommit) or to the state of the contract before it was called.
@@ -1951,7 +1949,7 @@ Use error codes that are greater than 100 because other error codes can be
 **Note**: if a nonconstant error code is passed as the function argument and the error code
 is less than 2 then the error code will be set to 100.
 
-##### require
+### require
 
 ```TVMSolidity
 require(bool condition, [uint errorCode = 100, [Type exceptionArgument]]);
@@ -1973,7 +1971,7 @@ require(a == 6, 101, "a is not equal to six"); // throws an exception with code 
 require(a == 6, 101, a); // throws an exception with code 101 and number a
 ```
 
-##### revert
+### revert
 
 ```TVMSolidity
 revert(uint errorCode = 100, [Type exceptionArgument]);
@@ -1992,7 +1990,7 @@ revert(102, "We have a some problem"); // throw exception 102 and string
 revert(101, a); // throw exception 101 and number a
 ```
 
-#### Libraries
+### Libraries
 
 Libraries are similar to contracts, but they can't have state variables
 and can't inherit nor be inherited. Libraries can be seen as implicit
@@ -2004,7 +2002,7 @@ another way to call library function: `obj.func(b, c)`.
 For now libraries are stored as a part of the code of the contact that
 uses libraries. In the future, it can be changed.
 
-##### Function call via library name
+### Function call via library name
 
 Example of using library in the manner `LibName.func(a, b, c)`:
 
@@ -2041,7 +2039,7 @@ contract MyContract {
 }
 ```
 
-##### Function call via object
+### Function call via object
 
 In TON solidity **arguments of a function call passed by value not by
 reference**. It's effective for numbers and even for huge arrays.
@@ -2097,7 +2095,7 @@ contract MyContract {
 }
 ```
 
-### Import
+## Import
 
 T-Sol Compiler allows user to import remote files using link starting with `http`.
 If import file name starts with `http`, then compiler tries to download the file using this
@@ -2121,7 +2119,7 @@ contract HelloDebot is Debot {
 }
 ```
 
-### Pragmas
+## Pragmas
 
 `pragma` keyword is used to enable certain compiler features or checks.
 A pragma directive is always local to a source file, so you have to add
@@ -2129,7 +2127,7 @@ the pragma to all your files if you want to enable it in your whole project.
 If you import another file, the pragma from that file is not
 automatically applied to the importing file.
 
-#### pragma ton-solidity
+### pragma ton-solidity
 
 ```TVMSolidity
 pragma ton-solidity >= 0.35.5;      // Check if the compiler version is greater or equal than 0.35.5
@@ -2140,7 +2138,7 @@ pragma ton-solidity >= 0.35.5 < 0.35.7; // Check if the compiler version is equa
 
 Used to restrict source file compilation to the particular compiler versions.
 
-#### pragma-copyleft
+### pragma-copyleft
 
 ```TVMSolidity
 pragma copyleft <type>, <wallet_address>; 
@@ -2161,7 +2159,7 @@ For example:
 pragma copyleft 0, 0x2cfbdc31c9c4478b61472c72615182e9567595b857b1bba9e0c31cd9942f6ca41;
 ```
 
-#### pragma ignoreIntOverflow
+### pragma ignoreIntOverflow
 
 ```TVMSolidity
 pragma ignoreIntOverflow;
@@ -2169,7 +2167,7 @@ pragma ignoreIntOverflow;
 
 Turns off binary operation result overflow check.
 
-#### pragma AbiHeader
+### pragma AbiHeader
 
 ```TVMSolidity
 pragma AbiHeader notime;
@@ -2192,7 +2190,7 @@ See also: [Contract execution](#contract-execution), [afterSignatureCheck](#afte
 To read more about these fields and ABI follow this [link](https://docs.ton.dev/86757ecb2/p/40ba94-abi-specification-v2).
 Here is example of [message expiration time](https://docs.ton.dev/86757ecb2/p/88321a-message-expiration-time) usage.
 
-#### pragma msgValue
+### pragma msgValue
 
 ```TVMSolidity
 pragma msgValue <value>;
@@ -2211,7 +2209,7 @@ pragma msgValue 10 ton;
 pragma msgValue 10_000_000_123;
 ```
 
-#### pragma upgrade func/oldsol
+### pragma upgrade func/oldsol
 
 ```TVMSolidity
 pragma upgrade func;
@@ -2220,15 +2218,15 @@ pragma upgrade oldsol;
 
 Defines that code is compiled with special selector that is needed to upgrade func/solidity contracts.
 
-### State variables
+## State variables
 
-#### Decoding state variables
+### Decoding state variables
 
 You can decode state variables using tonos-cli. See `tonos-cli decode account --help`.
 
 See also: [\<TvmSlice\>.loadStateVars()](#tvmsliceloadstatevars).
 
-#### Keyword `constant`
+### Keyword `constant`
 
 For `constant` variables, the value has to be a compile time constant and this value is
 substituted where the variable is used. The value has to be assigned where the variable is declared.
@@ -2242,7 +2240,7 @@ contract MyContract {
 }
 ```
 
-#### Keyword `static`
+### Keyword `static`
 
 Static state variables are used in the contract initial state generation.
 Such variables can be set while deploying contract from contract
@@ -2260,7 +2258,7 @@ See also:
 * [`code` option usage](#code-option-usage)
 * [New contract address problem](#new-contract-address-problem)
 
-#### Keyword `public`
+### Keyword `public`
 
 For each public state variable, a getter function is generated. Generated
 function has the same name and return type as the public variable. This
@@ -2276,9 +2274,9 @@ contract C {
 }
 ```
 
-### Special contract functions
+## Special contract functions
 
-#### receive
+### receive
 
 `receive` function is called in two cases:
 
@@ -2322,7 +2320,7 @@ contract Bomber {
 }
 ```
 
-##### fallback
+### fallback
 
 `fallback` function is called on receiving an inbound internal/external message in such cases:
 
@@ -2388,7 +2386,7 @@ contract ContractB {
 }
 ```
 
-#### onBounce
+### onBounce
 
 ```TVMSolidity
 onBounce(TvmSlice body) external {
@@ -2415,7 +2413,7 @@ Example of how to use `onBounce` function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
 
-#### onTickTock
+### onTickTock
 
 `onTickTock` function is executed on tick/tock transaction.
 These transactions are automatically generated for certain special accounts.
@@ -2430,7 +2428,7 @@ onTickTock(bool isTock) external {
 }
 ```
 
-#### onCodeUpgrade
+### onCodeUpgrade
 
 `onCodeUpgrade` function can have an arbitrary set of arguments and should be
 executed after [tvm.setcode()](#tvmsetcode) function call. In this function
@@ -2478,7 +2476,7 @@ function onCodeUpgrade(TvmCell cell) private pure {
 }
 ```
 
-#### afterSignatureCheck
+### afterSignatureCheck
 
 ```TVMSolidity
 function afterSignatureCheck(TvmSlice body, TvmCell message) private inline returns (TvmSlice) {
@@ -2496,9 +2494,9 @@ See an example of how to define this function:
 
 * [Custom replay protection](https://github.com/tonlabs/samples/blob/master/solidity/14_CustomReplayProtection.sol)
 
-### Function specifiers
+## Function specifiers
 
-#### Function mutability: pure, view and default
+### Function mutability: pure, view and default
 
 Function mutability shows how this function treats state variables.
 Possible values of the function mutability:
@@ -2533,7 +2531,7 @@ contract Test {
 }
 ```
 
-#### Keyword inline
+### Keyword inline
 
 `inline` specifier instructs the compiler to insert a copy of the private function
 body into each place where the function is called.
@@ -2553,7 +2551,7 @@ function sum(uint a, uint b) private inline returns (uint) {
 }
 ```
 
-#### Assembly
+### Assembly
 
 To make inline assembler you should mark free function as `assembly`. Function body must contain lines of assembler code separated by commas.
 
@@ -2584,7 +2582,7 @@ function incomingValue() assembly pure returns (uint) {
 }
 ```
 
-#### functionID()
+### functionID()
 
 `functionID` keyword allows assigning function identifier explicitly.
 Each public function has a unique 32-bit identifier (id). id 0 is reserved for [receive](#receive) function.
@@ -2599,7 +2597,7 @@ function f() public pure functionID(123) {
 }
  ```
 
-#### externalMsg and internalMsg
+### externalMsg and internalMsg
 
 Keywords `externalMsg` and `internalMsg` specify which messages the function can handle.
 If the function marked by keyword `externalMsg` is called by internal message, the function throws an
@@ -2627,9 +2625,9 @@ function g() public internalMsg { // this function receives only internal messag
 function fun() public { /*...*/ }
 ```
 
-### Events and return
+## Events and return
 
-#### emit
+### emit
 
 `emit` statement sends an external outbound message. Use `{dest: ...}`to set destination address.
 The address must be of **addr_extern** type.
@@ -2649,7 +2647,7 @@ emit SomethingIsReceived{dest: addr}(2, 8, 10); // dest address is set
 emit SomethingIsReceived(10, 15, 25); // dest address == addr_none
 ```
 
-#### return
+### return
 
 `return` statement has different effects depending on:
 
@@ -2688,7 +2686,7 @@ function f(uint n) public responsible pure {
 }
 ```
 
-### External function calls
+## External function calls
 
 T-Sol Compiler allows specifying different parameters of the outbound internal message that
 is sent via external function call. Note, all external function calls are asynchronous, so
@@ -2772,7 +2770,7 @@ See also:
 and [4.1_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/solidity/4.1_CurrencyExchange.sol)
 * [return](#return)
 
-#### Synchronous calls
+### Synchronous calls
 
 T-Sol Compiler allows user to perform synchronous calls. To do it user should call a remote contract
 function with `.await` suffix. Example:
@@ -2808,7 +2806,7 @@ or be sure that remote contract attaches enough currency for further execution.
 
 **Note**: This feature was designed to be used in debots, in usual contracts use it at your own risk.
 
-### Delete variables
+## Delete variables
 
 As in classic Solidity `delete` operation assigns the initial value for the type to a variable.
 Delete operation can be applied not only to variables itself, but to its fields or index values.
@@ -2871,9 +2869,9 @@ uint16 bits = b.bits(); // bits == 256
 uint8 refs = b.refs(); // refs == 1
 ```
 
-### API functions and members
+## API functions and members
 
-#### Type information
+### Type information
 
 The expression `type(T)` can be used to retrieve information about the type T. 
 
@@ -2882,9 +2880,9 @@ The following properties are available for an integer, variable integer and enum
 
  * `type(T).max` - the largest value representable by type `T`.
 
-#### **msg** namespace
+### **msg** namespace
 
-##### msg.sender
+### msg.sender
 
 ```TVMSolidity
 msg.sender (address)
@@ -2896,7 +2894,7 @@ Returns:
 * address(0) for external message.
 * address(0) for tick/tock transaction.
 
-##### msg.value
+### msg.value
 
 ```TVMSolidity
 msg.value (uint128)
@@ -2908,7 +2906,7 @@ Returns:
 * 0 for external message.
 * Undefined value for tick/tock transaction.
 
-##### msg.currencies
+### msg.currencies
 
 ```TVMSolidity
 msg.currencies (ExtraCurrencyCollection)
@@ -2917,7 +2915,7 @@ msg.currencies (ExtraCurrencyCollection)
 Collections of arbitrary currencies contained in the balance of
 the inbound message.
 
-##### msg.pubkey()
+### msg.pubkey()
 
 ```TVMSolidity
 msg.pubkey() returns (uint256);
@@ -2926,11 +2924,11 @@ msg.pubkey() returns (uint256);
 Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`.
 See also: [Contract execution](#contract-execution), [pragma AbiHeader](#pragma-abiheader).
 
-##### msg.isInternal, msg.isExternal and msg.isTickTock
+### msg.isInternal, msg.isExternal and msg.isTickTock
 
 Returns flag whether the contract is called by internal message, external message or by tick/tock transactions.
 
-##### msg.createdAt
+### msg.createdAt
 
 ```TVMSolidity
 msg.createdAt (uint32)
@@ -2938,7 +2936,7 @@ msg.createdAt (uint32)
 
 Returns the field **created_at** of the external inbound message.
 
-##### msg.data
+### msg.data
 
 ```TVMSolidity
 msg.data (TvmSlice)
@@ -2946,7 +2944,7 @@ msg.data (TvmSlice)
 
 Returns the payload of an inbound message.
 
-##### msg.hasStateInit
+### msg.hasStateInit
 
 ```TVMSolidity
 msg.hasStateInit (bool)
@@ -2955,11 +2953,11 @@ msg.hasStateInit (bool)
 Whether the internal/external inbound message contains field `stateInit`.
 Returns undefined value for tick/tock transaction. See [TL-B scheme][3] of `Message X`.
 
-#### **tvm** namespace
+### **tvm** namespace
 
-##### TVM instructions
+### TVM instructions
 
-##### tvm.accept()
+### tvm.accept()
 
 ```TVMSolidity
 tvm.accept();
@@ -2973,7 +2971,7 @@ See example of how to use this function:
 
 * [accumulator](https://github.com/tonlabs/samples/blob/master/solidity/1_Accumulator.sol)
 
-##### tvm.setGasLimit()
+### tvm.setGasLimit()
 
 ```TVMSolidity
 tvm.setGasLimit(uint g);
@@ -3003,7 +3001,7 @@ So if some user's public key will be stolen, then a hacker can spam with externa
 burn at most `5 * 75_000` units of gas instead of `5 * 1_000_000`, because we use `tvm.setGasLimit()` instead
 of `tvm.accept()`.
 
-##### tvm.buyGas()
+### tvm.buyGas()
 
 ```TVMSolidity
 tvm.buyGas(uint value);
@@ -3012,7 +3010,7 @@ tvm.buyGas(uint value);
 Computes the amount of gas that can be bought for `value` nanotons, and sets **g<sub>l</sub>**  
 accordingly in the same way as [tvm.setGasLimit()](#tvmsetgaslimit).
 
-##### tvm.commit()
+### tvm.commit()
 
 ```TVMSolidity
 tvm.commit();
@@ -3023,7 +3021,7 @@ If the contract throws an exception at the computing phase then the state variab
 will roll back to the "check point", and the computing phase will be considered "successful".
 If contract doesn't throw an exception, it has no effect.
 
-##### tvm.rawCommit()
+### tvm.rawCommit()
 
 ```TVMSolidity
 tvm.rawCommit();
@@ -3035,7 +3033,7 @@ for opcode `COMMIT`. See [TVM][1].
 **Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because
 you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
 
-##### tvm.getData()
+### tvm.getData()
 
 ```TVMSolidity
 tvm.getData() returns (TvmCell);
@@ -3052,7 +3050,7 @@ Refer to the description of `tvm.setData()` below to get more details.
 **Note:** state variables and replay protection timestamp stored in the data cell have the same values
 that were before the transaction. See [tvm.commit()](#tvmcommit) to learn about register `c4` update.
 
-##### tvm.setData()
+### tvm.setData()
 
 ```TVMSolidity
 tvm.setData(TvmCell data);
@@ -3073,7 +3071,7 @@ revert(200);       // throw the exception to terminate the transaction
 Be careful with the hidden state variable `timestamp` and think about possibility of external
 messages replaying.
 
-##### tvm.log()
+### tvm.log()
 
 ```TVMSolidity
 tvm.log(string log);
@@ -3094,7 +3092,7 @@ tvm.log(s);
 
 **Note:** For long strings dumps only the first 127 symbols.
 
-##### tvm.hexdump() and tvm.bindump()
+### tvm.hexdump() and tvm.bindump()
 
 ```TVMSolidity
 tvm.hexdump(T a);
@@ -3131,7 +3129,7 @@ CS<10011000011101100101010000110010000100001>(0..40)
 -101001101
 ```
 
-##### tvm.setcode()
+### tvm.setcode()
 
 ```TVMSolidity
 tvm.setcode(TvmCell newCode);
@@ -3146,7 +3144,7 @@ See example of how to use this function:
 * [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
 * [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
 
-##### tvm.configParam()
+### tvm.configParam()
 
 ```TVMSolidity
 tvm.configParam(uint8 paramNumber) returns (TypeA a, TypeB b, ...);
@@ -3157,7 +3155,7 @@ This command returns the value of the global configuration parameter with
 integer index **paramNumber**. Argument should be an integer literal.
 Supported **paramNumbers**: 1, 15, 17, 34.
 
-##### tvm.rawConfigParam()
+### tvm.rawConfigParam()
 
 ```TVMSolidity
 tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
@@ -3167,7 +3165,7 @@ Executes TVM instruction "CONFIGPARAM" ([TVM][1] - A.11.4. - F832).
 Returns the value of the global configuration parameter with
 integer index **paramNumber** as a `TvmCell` and a boolean status.
 
-##### tvm.rawReserve()
+### tvm.rawReserve()
 
 ```TVMSolidity
 tvm.rawReserve(uint value, uint8 flag);
@@ -3224,7 +3222,7 @@ tvm.rawReserve(1 ton, 4 + 8);
 
 See also: [23_rawReserve.sol](https://github.com/tonlabs/samples/blob/master/solidity/23_rawReserve.sol)
 
-##### tvm.initCodeHash()
+### tvm.initCodeHash()
 
 ```TVMSolidity
 tvm.initCodeHash() returns (uint256 hash)
@@ -3232,9 +3230,9 @@ tvm.initCodeHash() returns (uint256 hash)
 
 Returns the initial code hash that contract had when it was deployed.
 
-##### Hashing and cryptography
+### Hashing and cryptography
 
-##### tvm.hash()
+### tvm.hash()
 
 ```TVMSolidity
 tvm.hash(TvmCell cellTree) returns (uint256);
@@ -3257,7 +3255,7 @@ uint256 hash = tvm.hash(string);
 uint256 hash = tvm.hash(bytes);
 ```
 
-##### tvm.checkSign()
+### tvm.checkSign()
 
 ```TVMSolidity
 tvm.checkSign(uint256 hash, uint256 SignHighPart, uint256 SignLowPart, uint256 pubkey) returns (bool);
@@ -3293,9 +3291,9 @@ uint256 pubkey;
 bool signatureIsValid = tvm.checkSign(hash, signature, pubkey);  // 3 variant
 ```
 
-##### Deploy contract from contract
+### Deploy contract from contract
 
-##### tvm.insertPubkey()
+### tvm.insertPubkey()
 
 ```TVMSolidity
 tvm.insertPubkey(TvmCell stateInit, uint256 pubkey) returns (TvmCell);
@@ -3303,7 +3301,7 @@ tvm.insertPubkey(TvmCell stateInit, uint256 pubkey) returns (TvmCell);
 
 Inserts a public key into the `stateInit` data field. If the `stateInit` has wrong format then throws an exception.
 
-##### tvm.buildStateInit()
+### tvm.buildStateInit()
 
 ```TVMSolidity
 // 1)
@@ -3374,7 +3372,7 @@ contract C {
 }
 ```
 
-##### tvm.buildDataInit()
+### tvm.buildDataInit()
 
 ```TVMSolidity
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
@@ -3408,7 +3406,7 @@ TvmCell stateInit = tvm.buildStateInit({
 });
 ```
 
-##### tvm.stateInitHash()
+### tvm.stateInitHash()
 
 ```TVMSolidity
 tvm.stateInitHash(uint256 codeHash, uint256 dataHash, uint16 codeDepth, uint16 dataDepth) returns (uint256);
@@ -3431,7 +3429,7 @@ uint256 hash = tvm.stateInitHash(codeHash, dataHash, codeDepth, dataDepth);
 See also [internal doc](https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/docs/internal/stateInit_hash.md) to read more about this
 function mechanics.
 
-##### Deploy via new
+### Deploy via new
 
 Either `code` or `stateInit` option must be set when you deploy a contract
 from contract via keyword `new`. `stateInit` is a tree of cells that contains
@@ -3452,7 +3450,7 @@ Examples:
 * [WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.sol).
 * [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
 
-##### `stateInit` option usage
+### `stateInit` option usage
 
 `stateInit` defines the origin state of the new account.
 
@@ -3461,7 +3459,7 @@ TvmCell stateInit = ...;
 address newWallet = new SimpleWallet{value: 1 ton, stateInit: stateInit}(arg0, arg1, ...);
 ```
 
-##### `code` option usage
+### `code` option usage
 
 `code` option defines the code of the new contract.
 
@@ -3498,7 +3496,7 @@ address newWallet = new SimpleWallet{
 }(arg0, arg1, ...);
 ```
 
-##### Other deploy options
+### Other deploy options
 
 The following options can be used with both `stateInit` and `code`:
 
@@ -3523,7 +3521,7 @@ address newWallet = new SimpleWallet{
 }(arg0, arg1, ...);
 ```
 
-##### Deploy via \<address\>.transfer()
+### Deploy via \<address\>.transfer()
 
 You can also deploy the contract via [\<address\>.transfer()](#addresstransfer).
 Just set the option `stateInit`.
@@ -3531,7 +3529,7 @@ Just set the option `stateInit`.
 * [Example of usage](https://github.com/tonlabs/samples/blob/master/solidity/11_ContractDeployer.sol)
 * [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.md).
 
-##### New contract address problem
+### New contract address problem
 
 Address of the new account is calculated as a hash of the `stateInit`.
 Parameters of the constructor don't influence the address. The problem
@@ -3558,9 +3556,9 @@ each new contact to have unique `stateInit`.
 See [SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17_SimpleWallet.sol).  
 **Note**: contract's public key (`tvm.pubkey()`) is a part of `stateInit`.
 
-##### Misc functions from `tvm`
+### Misc functions from `tvm`
 
-##### tvm.code()
+### tvm.code()
 
 ```TVMSolidity
 tvm.code() returns (TvmCell);
@@ -3570,7 +3568,7 @@ Returns contract's code.
 
 See [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
 
-##### tvm.codeSalt()
+### tvm.codeSalt()
 
 ```TVMSolidity
 tvm.codeSalt(TvmCell code) returns (optional(TvmCell) optSalt);
@@ -3578,7 +3576,7 @@ tvm.codeSalt(TvmCell code) returns (optional(TvmCell) optSalt);
 
 If **code** contains salt then **optSalt** contains one. Otherwise, **optSalt** doesn't contain any value.
 
-##### tvm.setCodeSalt()
+### tvm.setCodeSalt()
 
 ```TVMSolidity
 tvm.setCodeSalt(TvmCell code, TvmCell salt) returns (TvmCell newCode);
@@ -3586,7 +3584,7 @@ tvm.setCodeSalt(TvmCell code, TvmCell salt) returns (TvmCell newCode);
 
 Inserts **salt** into **code** and returns new code **newCode**.
 
-##### tvm.pubkey()
+### tvm.pubkey()
 
 ```TVMSolidity
 tvm.pubkey() returns (uint256);
@@ -3594,7 +3592,7 @@ tvm.pubkey() returns (uint256);
 
 Returns contract's public key, stored in contract data. If key is not set, function returns 0.
 
-##### tvm.setPubkey()
+### tvm.setPubkey()
 
 ```TVMSolidity
 tvm.setPubkey(uint256 newPubkey);
@@ -3602,7 +3600,7 @@ tvm.setPubkey(uint256 newPubkey);
 
 Set new contract's public key. Contract's public key can be obtained from `tvm.pubkey`.
 
-##### tvm.setCurrentCode()
+### tvm.setCurrentCode()
 
 ```TVMSolidity
 tvm.setCurrentCode(TvmCell newCode);
@@ -3617,7 +3615,7 @@ See example of how to use this function:
 * [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
 * [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
 
-##### tvm.resetStorage()
+### tvm.resetStorage()
 
 ```TVMSolidity
 tvm.resetStorage();
@@ -3625,7 +3623,7 @@ tvm.resetStorage();
 
 Resets all state variables to their default values.
 
-##### tvm.functionId()
+### tvm.functionId()
 
 ```TVMSolidity
 // id of public function
@@ -3666,7 +3664,7 @@ See example of how to use this function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
 
-##### tvm.encodeBody()
+### tvm.encodeBody()
 
 ```TVMSolidity
 tvm.encodeBody(function, arg0, arg1, arg2, ...) returns (TvmCell);
@@ -3705,7 +3703,7 @@ See also:
 * [\<TvmSlice\>.loadFunctionParams()](#tvmsliceloadfunctionparams)
 * [tvm.buildIntMsg()](#tvmbuildintmsg)
 
-##### tvm.exit() and tvm.exit1()
+### tvm.exit() and tvm.exit1()
 
 ```TVMSolidity
 tvm.exit();
@@ -3733,7 +3731,7 @@ function g1(uint a) private {
 }
 ```
 
-##### tvm.buildExtMsg()
+### tvm.buildExtMsg()
 
 ```TVMSolidity
 tvm.buildExtMsg({
@@ -3859,7 +3857,7 @@ contract Test {
 }
 ```
 
-##### tvm.buildIntMsg()
+### tvm.buildIntMsg()
 
 ```TVMSolidity
 tvm.buildIntMsg({
@@ -3886,7 +3884,7 @@ See also:
 * sample [22_sender.sol](https://github.com/tonlabs/samples/blob/master/solidity/22_sender.sol)
 * [tvm.encodeBody()](#tvmencodebody)
 
-#### tvm.sendrawmsg()
+### tvm.sendrawmsg()
 
 ```TVMSolidity
 tvm.sendrawmsg(TvmCell msg, uint8 flag);
@@ -3909,12 +3907,12 @@ If the function is called by external message and `msg` has a wrong format (for 
 `init` of `Message X` is not valid) then the transaction will be replayed despite the usage of flag 2.
 It will happen because the transaction will fail at the action phase.
 
-#### **math** namespace
+### **math** namespace
 
 `T` is an integer, [variable integer](#varint-and-varuint) or fixed point type in the `math.*` functions where applicable.
 Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
 
-##### math.min() math.max()
+### math.min() math.max()
 
 ```TVMSolidity
 math.min(T a, T b, ...) returns (T);
@@ -3923,7 +3921,7 @@ math.max(T a, T b, ...) returns (T);
 
 Returns the minimal (maximal) value of the passed arguments. 
 
-##### math.minmax()
+### math.minmax()
 
 ```TVMSolidity
 math.minmax(T a, T b) returns (T /*min*/, T /*max*/);
@@ -3937,7 +3935,7 @@ Example:
 (uint a, uint b) = math.minmax(20, 10); // (a, b) == (10, 20)
 ```
 
-##### math.abs()
+### math.abs()
 
 ```TVMSolidity
 math.abs(T val) returns (T);
@@ -3953,7 +3951,7 @@ int b = -100;
 int c = math.abs(b); // c == 100
 ```
 
-##### math.modpow2()
+### math.modpow2()
 
 ```TVMSolidity
 math.modpow2(T value, uint power) returns (T);
@@ -3970,7 +3968,7 @@ uint a = math.modpow2(21, 4); // a == 5
 uint b = math.modpow2(val, pow); // b == 2
 ```
 
-##### math.divr() math.divc()
+### math.divr() math.divc()
 
 ```TVMSolidity
 math.divc(T a, T b) returns (T);
@@ -3990,7 +3988,7 @@ fixed32x2 a = 0.25;
 fixed32x2 res = math.divc(a, 2); // res == 0.13
 ```
 
-##### math.muldiv() math.muldivr() math.muldivc()
+### math.muldiv() math.muldivr() math.muldivc()
 
 ```TVMSolidity
 math.muldiv(T a, T b, T c) returns (T);
@@ -4009,7 +4007,7 @@ uint res = math.muldivr(3, 7, 2); // res == 11
 uint res = math.muldivc(3, 7, 2); // res == 11
 ```
 
-##### math.muldivmod()
+### math.muldivmod()
 
 ```TVMSolidity
 math.muldivmod(T a, T b, T c) returns (T /*result*/, T /*remainder*/);
@@ -4032,7 +4030,7 @@ int g = 2;
 (int h, int p) = math.muldivmod(e, f, g); // (h, p) == (-2, 1)
 ```
 
-##### math.divmod()
+### math.divmod()
 
 ```TVMSolidity
 math.divmod(T a, T b) returns (T /*result*/, T /*remainder*/);
@@ -4053,7 +4051,7 @@ int f = 3;
 (int h, int p) = math.divmod(e, f); // (h, p) == (-3, 2)
 ```
 
-##### math.sign()
+### math.sign()
 
 ```TVMSolidity
 math.sign(T val) returns (int2);
@@ -4072,9 +4070,9 @@ int8 sign = math.sign(100); // sign == 1
 int8 sign = math.sign(0); // sign == 0
 ```
 
-##### **tx** namespace
+### **tx** namespace
 
-##### tx.logicaltime
+### tx.logicaltime
 
 ```TVMSolidity
 tx.logicaltime returns (uint64);
@@ -4082,7 +4080,7 @@ tx.logicaltime returns (uint64);
 
 Returns the logical time of the current transaction.
 
-##### tx.storageFee
+### tx.storageFee
 
 It's an experimental feature and is available only in certain blockchain networks.
 
@@ -4092,9 +4090,9 @@ tx.storageFee returns (uint120);
 
 Returns the storage fee paid in the current transaction.
 
-##### **block** namespace
+### **block** namespace
 
-##### block.timestamp
+### block.timestamp
 
 ```TVMSolidity
 block.timestamp returns (uint32);
@@ -4102,7 +4100,7 @@ block.timestamp returns (uint32);
 
 Returns the current Unix time. Unix time is the same for the all transactions from one block. 
 
-##### block.logicaltime
+### block.logicaltime
 
 ```TVMSolidity
 block.logicaltime returns (uint64);
@@ -4110,7 +4108,7 @@ block.logicaltime returns (uint64);
 
 Returns the starting logical time of the current block.
 
-##### **rnd** namespace
+### **rnd** namespace
 
 The pseudorandom number generator uses the random seed. The
 initial value of the random seed before a smart contract execution in
@@ -4120,7 +4118,7 @@ inside a block, then all of these runs will have the same random seed.
 This can be fixed, for example, by running `rnd.shuffle()` (without
 parameters) each time before using the pseudorandom number generator.
 
-##### rnd.next
+### rnd.next
 
 ```TVMSolidity
 rnd.next([Type limit]) returns (Type);
@@ -4144,7 +4142,7 @@ int8 r2 = rnd.next(int8(100));  // 0..99
 int8 r3 = rnd.next(int8(-100)); // -100..-1
 ```
 
-##### rnd.getSeed
+### rnd.getSeed
 
 ```TVMSolidity
 rnd.getSeed() returns (uint256);
@@ -4152,7 +4150,7 @@ rnd.getSeed() returns (uint256);
 
 Returns the current random seed.
 
-##### rnd.setSeed
+### rnd.setSeed
 
 ```TVMSolidity
 rnd.setSeed(uint256 x);
@@ -4160,7 +4158,7 @@ rnd.setSeed(uint256 x);
 
 Sets the random seed to `x`.
 
-##### rnd.shuffle
+### rnd.shuffle
 
 ```TVMSolidity
 (1)
@@ -4184,9 +4182,9 @@ rnd.shuffle(someNumber);
 rnd.shuffle();
 ```
 
-#### abi namespace
+### abi namespace
 
-##### abi.encode(), abi.decode()
+### abi.encode(), abi.decode()
 
 ```TVMSolidity
 (1)
@@ -4212,12 +4210,12 @@ TvmCell cell = abi.encode(uint(1), uint(2), uint(3), uint(4));
 // d == 4
 ```
 
-### **gosh** namespace
+## **gosh** namespace
 
 All `gosh.*` functions are experimental features and are available only in certain blockchain
 networks.
 
-#### gosh.diff and gosh.zipDiff
+### gosh.diff and gosh.zipDiff
 
 
 ```TVMSolidity
@@ -4236,7 +4234,7 @@ string newText = ...;
 string patch = gosh.diff(oldText, newText);
 ```
 
-#### gosh.applyPatch, gosh.applyPatchQ, gosh.applyZipPatch, gosh.applyZipPatchQ, gosh.applyZipBinPatch and gosh.applyZipBinPatchQ
+### gosh.applyPatch, gosh.applyPatchQ, gosh.applyZipPatch, gosh.applyZipPatchQ, gosh.applyZipBinPatch and gosh.applyZipBinPatchQ
 
 ```TVMSolidity
 (1)
@@ -4269,7 +4267,7 @@ string patch = ...;
 string newText = gosh.applyPatch(oldText, patch);
 ```
 
-#### gosh.zip and gosh.unzip
+### gosh.zip and gosh.unzip
 
 ```TVMSolidity
 gosh.zip(string text) returns (bytes zip)
@@ -4278,7 +4276,7 @@ gosh.unzip(bytes zip) returns (optional(string) text)
 
 `gosh.zip` converts the `text` to compressed `bytes`. `gosh.unzip` reverts such compression.
 
-#### Exponentiation
+### Exponentiation
 
 Exponentiation `**` is only available for unsigned types in the exponent. The resulting type of an
 exponentiation is always equal to the type of the base. Please take care that it is large enough to
@@ -4294,7 +4292,7 @@ uint32 p = 4;
 uint res = b ** p; // res == 81
 ```
 
-#### selfdestruct
+### selfdestruct
 
 ```TVMSolidity
 selfdestruct(address dest_addr);
@@ -4307,7 +4305,7 @@ See example of how to use the `selfdestruct` function:
 
 * [Kamikaze](https://github.com/tonlabs/samples/blob/master/solidity/8_Kamikaze.sol)
 
-#### sha256
+### sha256
 
 ```TVMSolidity
 // (1)
@@ -4327,7 +4325,7 @@ b[129], b[130] ...` elements are ignored.
 
 See also [tvm.hash()](#tvmhash) to compute representation hash of the whole tree of cells.
 
-#### gasToValue
+### gasToValue
 
 ```TVMSolidity
 gasToValue(uint128 gas) returns (uint128 value)
@@ -4338,7 +4336,7 @@ Returns worth of **gas** in workchain **wid**.
 Throws an exception if **wid** is not equal to `0` or `-1`.
 If `wid` is omitted than used the contract's `wid`.
 
-#### valueToGas
+### valueToGas
 
 ```TVMSolidity
 valueToGas(uint128 value) returns (uint128 gas)
@@ -4349,7 +4347,7 @@ Counts how much **gas** could be bought on **value** nanotons in workchain **wid
 Throws an exception if **wid** is not equal to `0` or `-1`.
 If `wid` is omitted than used the contract's `wid`.
 
-### TVM exception codes
+## TVM exception codes
 
 | Name              | Code | Definition                                                                                                                                         |
 |-------------------|:----:|----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -4368,7 +4366,7 @@ If `wid` is omitted than used the contract's `wid`.
 
 See also: [TVM][1] - 4.5.7
 
-### Solidity runtime errors
+## Solidity runtime errors
 
 Smart-contract written on solidity can throw runtime errors while execution.
 
@@ -4403,7 +4401,7 @@ Solidity runtime error codes:
   * **79** - You are deploying contract that uses [pragma upgrade func/oldsol](#pragma-upgrade-funcoldsol). Use the 
 contract only for updating another contracts.
 
-### Division and rounding
+## Division and rounding
 
 Let consider we have `x` and `y` and we want to divide `x` by `y`. Compute the quotient `q` and the
 remainder `r` of the division of `x` by `y`: `x = y*q + r` where `|r| < |y|`.
@@ -4441,7 +4439,7 @@ int res = math.divr(5, 10); // res == 1
 int res = math.divr(15, 10); // res == 2
 ```
 
-### Contract execution
+## Contract execution
 
 Before executing any contract function special code is executed. In `*.code` file there are two special
 functions: `main_internal` and `main_external` that run on internal and external messages
@@ -4472,7 +4470,7 @@ Before calling contract's function `main_external` does:
 
 See also: [pragma AbiHeader](#pragma-abiheader), [afterSignatureCheck](#aftersignaturecheck).
 
-### Gas optimization hints
+## Gas optimization hints
 
 Try to reduce count of `[]` operations for mappings and arrays. For example:
 

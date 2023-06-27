@@ -47,7 +47,7 @@ operators and functions to work with this type:
 Comparison operators:
 `==`, `!=` (evaluate to `bool`)
 
-## \<TvmCell\>.depth()
+### \<TvmCell\>.depth()
 
 ```TVMSolidity
 <TvmCell>.depth() returns(uint16);
@@ -57,7 +57,7 @@ Returns the depth **d** of the `TvmCell` **c**. If **c** has no references, then
 otherwise **d** is equal to one plus the maximum of depths of cells referred to from **c**.
 If **c** is a Null instead of a Cell, returns zero.
 
-## \<TvmCell\>.dataSize()
+### \<TvmCell\>.dataSize()
 
 ```TVMSolidity
 <TvmCell>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -68,7 +68,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then a cell overflow [exception](#tvm-exception-codes) is thrown.
 This function is a wrapper for the `CDATASIZE` opcode ([TVM][1] - A.11.7).
 
-## \<TvmCell\>.dataSizeQ()
+### \<TvmCell\>.dataSizeQ()
 
 ```TVMSolidity
 <TvmCell>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -79,7 +79,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then this function returns an `optional` that has no value.
 This function is a wrapper for the `CDATASIZEQ` opcode ([TVM][1] - A.11.7).
 
-## \<TvmCell\>.toSlice()
+### \<TvmCell\>.toSlice()
 
 ```TVMSolidity
 <TvmCell>.toSlice() returns (TvmSlice);
@@ -99,7 +99,7 @@ Note: only data bits from the root cells are compared. References are ignored.
 
 `TvmSlice` can be converted to `bytes`. It costs at least 500 gas units.
 
-## \<TvmSlice\>.empty()
+### \<TvmSlice\>.empty()
 
 ```TVMSolidity
 <TvmSlice>.empty() returns (bool);
@@ -107,7 +107,7 @@ Note: only data bits from the root cells are compared. References are ignored.
 
 Checks whether the `TvmSlice` is empty (i.e., contains no data bits and no cell references).
 
-## \<TvmSlice\>.size()
+### \<TvmSlice\>.size()
 
 ```TVMSolidity
 <TvmSlice>.size() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -115,7 +115,7 @@ Checks whether the `TvmSlice` is empty (i.e., contains no data bits and no cell 
 
 Returns the number of data bits and references in the `TvmSlice`.
 
-## \<TvmSlice\>.bits()
+### \<TvmSlice\>.bits()
 
 ```TVMSolidity
 <TvmSlice>.bits() returns (uint16);
@@ -123,7 +123,7 @@ Returns the number of data bits and references in the `TvmSlice`.
 
 Returns the number of data bits in the `TvmSlice`.
 
-## \<TvmSlice\>.refs()
+### \<TvmSlice\>.refs()
 
 ```TVMSolidity
 <TvmSlice>.refs() returns (uint8);
@@ -131,7 +131,7 @@ Returns the number of data bits in the `TvmSlice`.
 
 Returns the number of references in the `TvmSlice`.
 
-## \<TvmSlice\>.dataSize()
+### \<TvmSlice\>.dataSize()
 
 ```TVMSolidity
 <TvmSlice>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -144,7 +144,7 @@ Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
 This function is a wrapper for `SDATASIZE` opcode ([TVM][1] - A.11.7).
 
-## \<TvmSlice\>.dataSizeQ()
+### \<TvmSlice\>.dataSizeQ()
 
 ```TVMSolidity
 <TvmSlice>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -157,7 +157,7 @@ Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
 This function is a wrapper for `SDATASIZEQ` opcode ([TVM][1] - A.11.7).
 
-## \<TvmSlice\>.depth()
+### \<TvmSlice\>.depth()
 
 ```TVMSolidity
 <TvmSlice>.depth() returns (uint16);
@@ -166,7 +166,7 @@ This function is a wrapper for `SDATASIZEQ` opcode ([TVM][1] - A.11.7).
 Returns the depth of `TvmSlice`. If the `TvmSlice` has no references, then 0 is returned,
 otherwise function result is one plus the maximum of depths of the cells referred to from the slice.
 
-## \<TvmSlice\>.hasNBits(), \<TvmSlice\>.hasNRefs() and \<TvmSlice\>.hasNBitsAndRefs()
+### \<TvmSlice\>.hasNBits(), \<TvmSlice\>.hasNRefs() and \<TvmSlice\>.hasNBitsAndRefs()
 
 ```TVMSolidity
 <TvmSlice>.hasNBits(uint10 bits) returns (bool);
@@ -176,7 +176,7 @@ otherwise function result is one plus the maximum of depths of the cells referre
 
 Checks whether the `TvmSlice` contains the specified amount of data bits and references.
 
-## \<TvmSlice\>.compare()
+### \<TvmSlice\>.compare()
 
 ```TVMSolidity
 <TvmSlice>.compare(TvmSlice other) returns (int2);
@@ -188,11 +188,11 @@ Lexicographically compares the `slice` and `other` data bits of the root slices 
 * 0 - `slice` == `other`
 * -1 - `slice` < `other`
 
-## TvmSlice load primitives
+### TvmSlice load primitives
 
 All `load*` functions below modify the `TvmSlice` object. If you wants to load second reference from the `TvmSlice`, you should load the first one with [\<TvmSlice\>.loadRef()](#tvmsliceloadref) and then load the reference you need. The same rule is applied to data bits. To load bits from 2 to 10 positions, you should load or skip first two bits.
 
-### \<TvmSlice\>.load()
+#### \<TvmSlice\>.load()
 
 ```TVMSolidity
 <TvmSlice>.load(TypeA, TypeB, ...) returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -212,7 +212,7 @@ TvmSlice slice = ...;
 See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 **Note**: if all the argument types can't be loaded from the slice a cell underflow [exception](#tvm-exception-codes) is thrown.
 
-### \<TvmSlice\>.loadQ()
+#### \<TvmSlice\>.loadQ()
 
 ```TVMSolidity
 <TvmSlice>.loadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
@@ -229,7 +229,7 @@ optional(uint8, uint16) b = slice.loadQ(uint8, uint16);
 
 See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 
-### \<TvmSlice\>.loadRef()
+#### \<TvmSlice\>.loadRef()
 
 ```TVMSolidity
 <TvmSlice>.loadRef() returns (TvmCell);
@@ -237,7 +237,7 @@ See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 
 Loads a cell from the `TvmSlice` reference.
 
-### \<TvmSlice\>.loadRefAsSlice()
+#### \<TvmSlice\>.loadRefAsSlice()
 
 ```TVMSolidity
 <TvmSlice>.loadRefAsSlice() returns (TvmSlice);
@@ -245,7 +245,7 @@ Loads a cell from the `TvmSlice` reference.
 
 Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
-### \<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()
+#### \<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()
 
 ```TVMSolidity
 (1)
@@ -258,7 +258,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Loads a signed integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
 
-### \<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()
+#### \<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()
 
 ```TVMSolidity
 (1)
@@ -271,7 +271,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Loads an unsigned integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
 
-### Load little-endian integers
+#### Load little-endian integers
 
 ```TVMSolidity
 (1)
@@ -292,7 +292,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Same as (1) but returns `null` if it's impossible to load the integer.
 
-### \<TvmSlice\>.loadTons()
+#### \<TvmSlice\>.loadTons()
 
 ```TVMSolidity
 <TvmSlice>.loadTons() returns (uint128);
@@ -300,7 +300,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 Loads (deserializes) **VarUInteger 16** and returns an unsigned 128-bit integer. See [TL-B scheme][3].
 
-### \<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()
+#### \<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()
 
 ```TVMSolidity
 (1)
@@ -317,7 +317,7 @@ Loads (deserializes) **VarUInteger 16** and returns an unsigned 128-bit integer.
 (2) Loads the first `bits` bits and `refs` references from `TvmSlice`.
 (3) and (4) are same as (1) and (2) but return `optional` type.
 
-### \<TvmSlice\>.loadFunctionParams()
+#### \<TvmSlice\>.loadFunctionParams()
 
 ```TVMSolidity
 // Loads parameters of the public/external function without "responsible" attribute
@@ -337,7 +337,7 @@ See example of how to use **onBounce** function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
 
-### \<TvmSlice\>.loadStateVars()
+#### \<TvmSlice\>.loadStateVars()
 
 ```TVMSolidity
 <TvmSlice>.loadStateVars(ContractName) returns (uint256 /*pubkey*/, uint64 /*timestamp*/, bool /*constructorFlag*/, Type1 /*var1*/, Type2 /*var2*/, ...);
@@ -377,7 +377,7 @@ contract B {
 }
 ```
 
-### \<TvmSlice\>.skip()
+#### \<TvmSlice\>.skip()
 
 ```TVMSolidity
 <TvmSlice>.skip(uint10 bits);
@@ -386,7 +386,7 @@ contract B {
 
 Skips the first `bits` bits and `refs` references from the `TvmSlice`.
 
-### \<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()
+#### \<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()
 
 ```TVMSolidity
 (1)
@@ -405,11 +405,11 @@ Skips the first `bits` bits and `refs` references from the `TvmSlice`.
 
 See also: [\<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()](#tvmbuilderstorezeroes-tvmbuilderstoreones-and-tvmbuilderstoresame).
 
-## TvmSlice preload primitives
+### TvmSlice preload primitives
 
 All `preload*` functions below don't modify the `TvmSlice` object.
 
-### \<TvmSlice\>.preload()
+#### \<TvmSlice\>.preload()
 
 ```TVMSolidity
 <TvmSlice>.preload(TypeA, TypeB, ...) returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -417,7 +417,7 @@ All `preload*` functions below don't modify the `TvmSlice` object.
 
 Same as [\<TvmSlice\>.load()](#tvmsliceload) but doesn't modify `TvmSlice`.
 
-### \<TvmSlice\>.preloadQ()
+#### \<TvmSlice\>.preloadQ()
 
 ```TVMSolidity
 <TvmSlice>.preloadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
@@ -425,7 +425,7 @@ Same as [\<TvmSlice\>.load()](#tvmsliceload) but doesn't modify `TvmSlice`.
 
 Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
-### \<TvmSlice\>.preloadRef()
+#### \<TvmSlice\>.preloadRef()
 
 ```TVMSolidity
 (1)
@@ -438,7 +438,7 @@ Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
 (2) Returns the `index` cell reference of `TvmSlice`, where `0 ≤ index ≤ 3`.
 
-### \<TvmSlice\>.preloadInt() and \<TvmSlice\>.preloadIntQ()
+#### \<TvmSlice\>.preloadInt() and \<TvmSlice\>.preloadIntQ()
 
 ```TVMSolidity
 (1)
@@ -449,7 +449,7 @@ Same as [\<TvmSlice\>.loadQ()](#tvmsliceloadq) but doesn't modify `TvmSlice`.
 
 Same as [\<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()](#tvmsliceloadint-and-tvmsliceloadintq) but doesn't modify `TvmSlice`.
 
-### \<TvmSlice\>.preloadUint() and \<TvmSlice\>.preloadUintQ()
+#### \<TvmSlice\>.preloadUint() and \<TvmSlice\>.preloadUintQ()
 
 ```TVMSolidity
 (1)
@@ -460,7 +460,7 @@ Same as [\<TvmSlice\>.loadInt() and \<TvmSlice\>.loadIntQ()](#tvmsliceloadint-an
 
 Same as [\<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()](#tvmsliceloaduint-and-tvmsliceloaduintq) but doesn't modify `TvmSlice`.
 
-### Preload little-endian integers
+#### Preload little-endian integers
 
 ```TVMSolidity
 <TvmSlice>.preloadIntLE4() returns (int32)
@@ -476,7 +476,7 @@ Same as [\<TvmSlice\>.loadUint() and \<TvmSlice\>.loadUintQ()](#tvmsliceloaduint
 
 Same as [Load little-endian integers](#load-little-endian-integers) but doesn't modify `TvmSlice`.
 
-### \<TvmSlice\>.preloadSlice() and \<TvmSlice\>.preloadSliceQ()
+#### \<TvmSlice\>.preloadSlice() and \<TvmSlice\>.preloadSliceQ()
 
 ```TVMSolidity
 (1)
@@ -496,7 +496,7 @@ Same as [\<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()](#tvmsliceloadsl
 `TvmBuilder` represents *TVM cell builder* ([TVM][1] - 1.1.3). T-Sol Compiler defines the following
 functions to work with this type:
 
-## \<TvmBuilder\>.toSlice()
+### \<TvmBuilder\>.toSlice()
 
 ```TVMSolidity
 <TvmBuilder>.toSlice() returns (TvmSlice);
@@ -504,7 +504,7 @@ functions to work with this type:
 
 Converts a `TvmBuilder` into `TvmSlice`.
 
-## \<TvmBuilder\>.toCell()
+### \<TvmBuilder\>.toCell()
 
 ```TVMSolidity
 <TvmBuilder>.toCell() returns (TvmCell);
@@ -512,7 +512,7 @@ Converts a `TvmBuilder` into `TvmSlice`.
 
 Converts a `TvmBuilder` into `TvmCell`.
 
-## \<TvmBuilder\>.size()
+### \<TvmBuilder\>.size()
 
 ```TVMSolidity
 <TvmBuilder>.size() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -520,7 +520,7 @@ Converts a `TvmBuilder` into `TvmCell`.
 
 Returns the number of data bits and references already stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.bits()
+### \<TvmBuilder\>.bits()
 
 ```TVMSolidity
 <TvmBuilder>.bits() returns (uint16);
@@ -528,7 +528,7 @@ Returns the number of data bits and references already stored in the `TvmBuilder
 
 Returns the number of data bits already stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.refs()
+### \<TvmBuilder\>.refs()
 
 ```TVMSolidity
 <TvmBuilder>.refs() returns (uint8);
@@ -536,7 +536,7 @@ Returns the number of data bits already stored in the `TvmBuilder`.
 
 Returns the number of references already stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.remBits()
+### \<TvmBuilder\>.remBits()
 
 ```TVMSolidity
 <TvmBuilder>.remBits() returns (uint16);
@@ -544,7 +544,7 @@ Returns the number of references already stored in the `TvmBuilder`.
 
 Returns the number of data bits that can still be stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.remRefs()
+### \<TvmBuilder\>.remRefs()
 
 ```TVMSolidity
 <TvmBuilder>.remRefs() returns (uint8);
@@ -552,7 +552,7 @@ Returns the number of data bits that can still be stored in the `TvmBuilder`.
 
 Returns the number of references that can still be stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.remBitsAndRefs()
+### \<TvmBuilder\>.remBitsAndRefs()
 
 ```TVMSolidity
 <TvmBuilder>.remBitsAndRefs() returns (uint16 /*bits*/, uint8 /*refs*/);
@@ -560,7 +560,7 @@ Returns the number of references that can still be stored in the `TvmBuilder`.
 
 Returns the number of data bits and references that can still be stored in the `TvmBuilder`.
 
-## \<TvmBuilder\>.depth()
+### \<TvmBuilder\>.depth()
 
 ```TVMSolidity
 <TvmBuilder>.depth() returns (uint16);
@@ -570,7 +570,7 @@ Returns the depth of `TvmBuilder`. If no cell references are stored
 in the builder, then 0 is returned; otherwise function result is one plus the maximum of
 depths of cells referred to from the builder.
 
-## \<TvmBuilder\>.store()
+### \<TvmBuilder\>.store()
 
 ```TVMSolidity
 <TvmBuilder>.store(/*list_of_values*/);
@@ -614,7 +614,7 @@ builder.store(a, b, uint(33));
 
 See also: [\<TvmSlice\>.load()](#tvmsliceload).
 
-## \<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()
+### \<TvmBuilder\>.storeZeroes(), \<TvmBuilder\>.storeOnes() and \<TvmBuilder\>.storeSame()
 
 ```TVMSolidity
 (1)
@@ -633,7 +633,7 @@ See also: [\<TvmSlice\>.load()](#tvmsliceload).
 
 See also: [\<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.loadSame()](#tvmsliceloadzeroes-tvmsliceloadones-and-tvmsliceloadsame).
 
-## \<TvmBuilder\>.storeInt()
+### \<TvmBuilder\>.storeInt()
 
 ```TVMSolidity
 <TvmBuilder>.storeInt(int256 value, uint9 bitSize);
@@ -641,7 +641,7 @@ See also: [\<TvmSlice\>.loadZeroes(), \<TvmSlice\>.loadOnes() and \<TvmSlice\>.l
 
 Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
-## \<TvmBuilder\>.storeUint()
+### \<TvmBuilder\>.storeUint()
 
 ```TVMSolidity
 <TvmBuilder>.storeUint(uint256 value, uint9 bitSize);
@@ -662,7 +662,7 @@ Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores the little-endian integer.
 
-## \<TvmBuilder\>.storeRef()
+### \<TvmBuilder\>.storeRef()
 
 ```TVMSolidity
 <TvmBuilder>.storeRef(TvmBuilder b);
@@ -672,7 +672,7 @@ Stores the little-endian integer.
 
 Stores `TvmBuilder b`/`TvmCell c`/`TvmSlice s` in the reference of the `TvmBuilder`.
 
-## \<TvmBuilder\>.storeTons()
+### \<TvmBuilder\>.storeTons()
 
 ```TVMSolidity
 <TvmBuilder>.storeTons(uint128 value);
@@ -716,7 +716,7 @@ uint256 uintValue = curCol[index];
 
 The template optional type manages an optional contained value, i.e. a value that may or may not be present.
 
-## constructing an optional
+### constructing an optional
 
 There are many ways to set a value:
 
@@ -730,7 +730,7 @@ optional(uint) another = ...;
 opt = another;
 ```
 
-## \<optional(Type)\>.hasValue()
+### \<optional(Type)\>.hasValue()
 
 ```TVMSolidity
 <optional(Type)>.hasValue() returns (bool);
@@ -738,7 +738,7 @@ opt = another;
 
 Checks whether the `optional` contains a value.
 
-## \<optional(Type)\>.get()
+### \<optional(Type)\>.get()
 
 ```TVMSolidity
 <optional(Type)>.get() returns (Type);
@@ -746,7 +746,7 @@ Checks whether the `optional` contains a value.
 
 Returns the contained value, if the `optional` contains one. Otherwise, throws an exception.
 
-## \<optional(Type)\>.set()
+### \<optional(Type)\>.set()
 
 ```TVMSolidity
 <optional(Type)>.set(Type value);
@@ -754,7 +754,7 @@ Returns the contained value, if the `optional` contains one. Otherwise, throws a
 
 Replaces content of the `optional` with **value**.
 
-## \<optional(Type)\>.reset()
+### \<optional(Type)\>.reset()
 
 ```TVMSolidity
 <optional(Type)>.reset();
@@ -762,7 +762,7 @@ Replaces content of the `optional` with **value**.
 
 Deletes content of the `optional`.
 
-## Keyword `null`
+### Keyword `null`
 
 Keyword `null` is a constant that is used to indicate an optional type with uninitialized state.
 Example:
@@ -776,7 +776,7 @@ x = null; // reset value
 
 The `variant` type acts like a union for the most common solidity data types. Supported only `uint` so far.
 
-## variant.isUint()
+### variant.isUint()
 
 ```TVMSolidity
 <variant>.isUint() returns (bool)
@@ -784,7 +784,7 @@ The `variant` type acts like a union for the most common solidity data types. Su
 
 Checks whether `<variant>` holds `uint` type. 
 
-## variant.toUint()
+### variant.toUint()
 
 Converts `<variant>` to `uint` type if it's possible. Otherwise, throws an exception with code `77`.
 
@@ -801,7 +801,7 @@ external function call parameter, nor stored in a state variable.
 **Note:** `vector` implementation based on `TVM Tuple` type, and it has a limited
 length of 255 * 255 = 65025 values.
 
-## \<vector(Type)\>.push(Type)
+### \<vector(Type)\>.push(Type)
 
 ```TVMSolidity
 <vector(Type)>.push(Type obj);
@@ -816,7 +816,7 @@ vect.push(a);
 vect.push(111);
 ```
 
-## \<vector(Type)\>.pop()
+### \<vector(Type)\>.pop()
 
 ```TVMSolidity
 <vector(Type)>.pop() returns (Type);
@@ -830,7 +830,7 @@ vector(uint) vect;
 uint a = vect.pop();
 ```
 
-## \<vector(Type)\>.length()
+### \<vector(Type)\>.length()
 
 ```TVMSolidity
 <vector(Type)>.length() returns (uint8);
@@ -844,7 +844,7 @@ vector(uint) vect;
 uint8 len = vect.length();
 ```
 
-## \<vector(Type)\>.empty()
+### \<vector(Type)\>.empty()
 
 ```TVMSolidity
 <vector(Type)>.empty() returns (bool);
@@ -856,121 +856,4 @@ Checks whether the `vector` is empty.
 vector(uint) vect;
 ...
 bool is_empty = vect.empty();
-```
-
-## TON specific control structures
-
-## Range-based for loop
-
-Executes a `for` loop over a range. Used as a more readable equivalent to the traditional `for` loop
-operating over a range of values, such as all elements in an array or mapping.
-
-```TVMSolidity
-for ( range_declaration : range_expression ) loop_statement
-```
-
-`range_expression` is calculated only once, and the result is copied. Then iteration goes over the copy of
-the array or mapping.
-
-```TVMSolidity
-uint[] arr = ...;
-uint sum = 0;
-for (uint val : arr) { // iteration over the array
-    sum += val;
-}
-
-
-bytes byteArray = "Hello!";
-for (byte b : byteArray) { // iteration over the byte array
-
-}
-
-mapping(uint32 => uint) map = ...;
-uint keySum = 0;
-uint valueSum = 0;
-for ((uint32 key, uint value) : map) { // iteration over the mapping
-    keySum += key;
-    valueSum += value;
-}
-```
-
-Key or value can be omitted if you iterate over a mapping:
-
-```TVMSolidity
-mapping(uint32 => uint) map = ...;
-
-uint keySum = 0;
-for ((uint32 key, ) : map) { // value is omitted
-    keySum += key;
-}
-
-uint valueSum = 0;
-for ((, uint value) : map) { // key is omitted
-    valueSum += value;
-}
-```
-
-## repeat
-
-Allows repeating block of code several times.
-A `repeat` loop evaluates the expression only one time.
-This expression must have an unsigned integer type.
-
-```TVMSolidity
-uint a = 0;
-repeat(10) {
-    a ++;
-}
-// a == 10
-
-// Despite a is changed in the cycle, code block will be repeated 10 times (10 is the initial value of a)
-repeat(a) {
-    a += 2;
-}
-// a == 30
-
-a = 11;
-repeat(a - 1) {
-    a -= 1;
-}
-// a == 1
-```
-
-## try-catch
-
-It is an experimental feature available only in certain blockchain networks.
-
-The `try` statement allows you to define a block of code to be tested for errors while it is executed. The 
-`catch` statement allows you to define a block of code to be executed, if an error occurs in the try block.
-`catch` block gets two parameters of type variant and uint16, which contain exception argument and code respectively.
-Example:
-
-```TVMSolidity
-TvmBuilder builder;
-uint c = 0;
-try {
-    c = a + b;
-    require(c != 42, 100, 22);
-    require(c != 43, 100, 33);
-    builder.store(c);
-} catch (variant value, uint16 errorCode) {
-    uint errorValue;
-    if (value.isUint()) {
-        errorValue = value.toUint();
-    }
-
-    if (errorCode == 100) {
-        if (errorValue == 22) {
-            // it was line: `require(c != 42, 100, 22);`
-        } else if (errorValue == 33) {
-            // it was line: `require(c != 43, 100, 33);`
-        }
-    } else if (errorCode == 8) {
-        // Cell overflow
-        // It was line: `builder.store(c);`
-    } else if (errorCode == 4) {
-        // Integer overflow
-        // It was line: `c = a + b;`
-    }
-}
 ```

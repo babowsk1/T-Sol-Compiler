@@ -13,7 +13,7 @@ Operators:
 * Shift operators: ``<<`` (left shift), ``>>`` (right shift)
 * Arithmetic operators: ``+``, ``-``, unary ``-``, ``*``, ``/``, ``%`` (modulo), ``**`` (exponentiation)
 
-## bitSize() and uBitSize()
+### bitSize() and uBitSize()
 
 ```TVMSolidity
 bitSize(int x) returns (uint16)
@@ -58,7 +58,7 @@ m_map[10] = 15;
 
 Structs are custom defined types that can group several variables.
 
-## struct constructor
+### struct constructor
 
 ```TVMSolidity
 struct Stakes {
@@ -78,7 +78,7 @@ Stakes stakes = Stakes(200, values);
 Stakes stakes = Stakes({stakes: values, total: 200});
 ```
 
-## \<struct\>.unpack()
+### \<struct\>.unpack()
 
 ```TVMSolidity
 <struct>.unpack() returns (TypeA /*a*/, TypeB /*b*/, ...);
@@ -104,7 +104,7 @@ function f() pure public {
 ## Arrays
 
 
-## Array literals
+### Array literals
 
 An array literal is a comma-separated list of one or more expressions, enclosed in square brackets.
 For example: `[100, 200, 300]`.
@@ -112,7 +112,7 @@ For example: `[100, 200, 300]`.
 Initializing constant state variable:
 `uint[] constant fib = [uint(2), 3, 5, 8, 12, 20, 32];`
 
-## Creating new arrays
+### Creating new arrays
 
 ```TVMSolidity
 uint[] arr; // create 0-length array
@@ -128,7 +128,7 @@ uint[] arr = new uint[](10); // create 10-length array
 Note: If `N` is constant expression or integer literal then the complexity of array creation -
 `O(1)`. Otherwise, `O(N)`.
 
-## \<array\>.empty()
+### \<array\>.empty()
 
 ```TVMSolidity
 <array>.empty() returns (bool);
@@ -169,7 +169,7 @@ bytes b = hex"01239abf";
 
 `bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice\>.loadRef()](#tvmsliceloadref) to load that extra bytes.
 
-## \<bytes\>.empty()
+### \<bytes\>.empty()
 
 ```TVMSolidity
 <bytes>.empty() returns (bool);
@@ -177,7 +177,7 @@ bytes b = hex"01239abf";
 
 Returns status flag whether the `bytes` is empty (its length is 0).
 
-## \<bytes\>.operator[]
+### \<bytes\>.operator[]
 
 ```TVMSolidity
 <bytes>.operator[](uint index) returns (byte);
@@ -193,7 +193,7 @@ int index = 0;
 byte a0 = byteArray[index]; // a0 = 0x61
 ```
 
-## \<bytes\> slice
+### \<bytes\> slice
 
 ```TVMSolidity
 <bytes>.operator[](uint from, uint to) returns (bytes);
@@ -211,7 +211,7 @@ slice = byteArray[:10]; // slice == "0123456789"
 slice = byteArray[:];  // slice == "01234567890123456789"
 ```
 
-## \<bytes\>.length
+### \<bytes\>.length
 
 ```TVMSolidity
 <bytes>.length returns (uint)
@@ -219,7 +219,7 @@ slice = byteArray[:];  // slice == "01234567890123456789"
 
 Returns length of the `bytes` array.
 
-## \<bytes\>.dataSize()
+### \<bytes\>.dataSize()
 
 ```TVMSolidity
 <bytes>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -227,7 +227,7 @@ Returns length of the `bytes` array.
 
 Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
-## \<bytes\>.dataSizeQ()
+### \<bytes\>.dataSizeQ()
 
 ```TVMSolidity
 <bytes>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -235,7 +235,7 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
 Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
-## \<bytes\>.append()
+### \<bytes\>.append()
 
 ```TVMSolidity
 <bytes>.append(bytes tail);
@@ -243,7 +243,7 @@ Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
 Modifies the `bytes` by concatenating **tail** data to the end of the `bytes`.
 
-## bytes conversion
+### bytes conversion
 
 ```TVMSolidity
 bytes byteArray = "1234";
@@ -261,7 +261,7 @@ T-Sol Compiler expands `string` type with the following functions:
 
 `string` can be converted to `TvmSlice`.
 
-## \<string\>.empty()
+### \<string\>.empty()
 
 ```TVMSolidity
 <string>.empty() returns (bool);
@@ -269,7 +269,7 @@ T-Sol Compiler expands `string` type with the following functions:
 
 Returns status flag whether the `string` is empty (its length is 0).
 
-## \<string\>.byteLength()
+### \<string\>.byteLength()
 
 ```TVMSolidity
 <string>.byteLength() returns (uint32);
@@ -277,7 +277,7 @@ Returns status flag whether the `string` is empty (its length is 0).
 
 Returns byte length of the `string` data.
 
-## \<string\>.substr()
+### \<string\>.substr()
 
 ```TVMSolidity
 <string>.substr(uint from[, uint count]) returns (string);
@@ -293,7 +293,7 @@ string a = long.substr(1, 2); // a = "12"
 string b = long.substr(6); // b = "6789"
 ```
 
-## \<string\>.append()
+### \<string\>.append()
 
 ```TVMSolidity
 <string>.append(string tail);
@@ -301,7 +301,7 @@ string b = long.substr(6); // b = "6789"
 
 Appends the tail `string` to the `string`.
 
-## \<string\>.operator+
+### \<string\>.operator+
 
 ```TVMSolidity
 <string>.operator+(string) returns (string);
@@ -316,7 +316,7 @@ bytes2 b = "12";
 string c = a + b; // "abc12"
 ```
 
-## \<string\>.find() and \<string\>.findLast()
+### \<string\>.find() and \<string\>.findLast()
 
 ```TVMSolidity
 <string>.find(bytes1 symbol) returns (optional(uint32));
@@ -344,7 +344,7 @@ optional(uint32) c = str.find(sub);
 bool s = c.hasValue(); // s == false
 ```
 
-## \<string\>.dataSize()
+### \<string\>.dataSize()
 
 ```TVMSolidity
 <string>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -352,7 +352,7 @@ bool s = c.hasValue(); // s == false
 
 Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
-## \<string\>.dataSizeQ()
+### \<string\>.dataSizeQ()
 
 ```TVMSolidity
 <string>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -360,7 +360,7 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 
 Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
-## \<string\>.toUpperCase()` and \<string\>.toLowerCase()
+### \<string\>.toUpperCase()` and \<string\>.toLowerCase()
 
 ```TVMSolidity
 <string>.toUpperCase() returns (string)
@@ -418,7 +418,7 @@ fixed256x10 vv = -987123.4567890321;
 str = format("{}", vv); // str == "-987123.4567890321"
 ```
 
-## stoi()
+### stoi()
 
 ```TvmSolidity
 stoi(string inputStr) returns (optional(int) /*result*/);
@@ -439,7 +439,7 @@ res = stoi(hexstr); // res == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 res = stoi("0xag"); // res == null
 ```
 
-## string conversion
+### string conversion
 
 ```TVMSolidity
 string s = "1";
@@ -458,9 +458,9 @@ If `string` object has less than **N** bytes, extra bytes are padded with zero b
 **addr_std** and **addr_var**. T-Sol Compiler expands `address` type with the following
 members and functions:
 
-## Object creating
+### Object creating
 
-## constructor()
+#### constructor()
 
 ```TVMSolidity
 uint address_value;
@@ -469,7 +469,7 @@ address addrStd = address(address_value);
 
 Constructs an `address` of type **addr_std** with zero workchain id and given address value.
 
-## address.makeAddrStd()
+#### address.makeAddrStd()
 
 ```TVMSolidity
 int8 wid;
@@ -479,7 +479,7 @@ address addrStd = address.makeAddrStd(wid, address);
 
 Constructs an `address` of type **addr_std** with given workchain id **wid** and value **address_value**.
 
-## address.makeAddrNone()
+#### address.makeAddrNone()
 
 ```TVMSolidity
 address addrNone = address.makeAddrNone();
@@ -487,7 +487,7 @@ address addrNone = address.makeAddrNone();
 
 Constructs an `address` of type **addr_none**.
 
-## address.makeAddrExtern()
+#### address.makeAddrExtern()
 
 ```TVMSolidity
 uint addrNumber;
@@ -499,7 +499,7 @@ Constructs an `address` of type **addr_extern** with given **value** with **bitC
 
 ## Members
 
-## \<address\>.wid
+### \<address\>.wid
 
 ```TVMSolidity
 <address>.wid returns (int8);
@@ -507,7 +507,7 @@ Constructs an `address` of type **addr_extern** with given **value** with **bitC
 
 Returns the workchain id of **addr_std** or **addr_var**. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
 
-## \<address\>.value
+### \<address\>.value
 
 ```TVMSolidity
 <address>.value returns (uint);
@@ -515,7 +515,7 @@ Returns the workchain id of **addr_std** or **addr_var**. Throws "range check er
 
 Returns the `address` value of **addr_std** or **addr_var** if **addr_var** has 256-bit `address` value. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
 
-## \<address\>.balance
+### \<address\>.balance
 
 ```TVMSolidity
 address(this).balance returns (uint128);
@@ -523,7 +523,7 @@ address(this).balance returns (uint128);
 
 Returns balance of the current contract account in nanotons.
 
-## \<address\>.currencies
+### \<address\>.currencies
 
 ```TVMSolidity
 address(this).currencies returns (ExtraCurrencyCollection);
@@ -533,7 +533,7 @@ Returns currencies on the balance of the current contract account.
 
 ## Functions
 
-## \<address\>.getType()
+### \<address\>.getType()
 
 ```TVMSolidity
 <address>.getType() returns (uint8);
@@ -544,7 +544,7 @@ Returns type of the `address`:
 1 - **addr_extern**
 2 - **addr_std**
 
-## \<address\>.isStdZero()
+### \<address\>.isStdZero()
 
 ```TVMSolidity
 <address>.isStdZero() returns (bool);
@@ -552,7 +552,7 @@ Returns type of the `address`:
 
 Returns the result of comparison between this `address` with zero `address` of type **addr_std**.
 
-## \<address\>.isStdAddrWithoutAnyCast()
+### \<address\>.isStdAddrWithoutAnyCast()
 
 ```TVMSolidity
 <address>.isStdAddrWithoutAnyCast() returns (bool);
@@ -560,7 +560,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 Checks whether this `address` is of type **addr_std** without any cast.
 
-## \<address\>.isExternZero()
+### \<address\>.isExternZero()
 
 ```TVMSolidity
 <address>.isExternZero() returns (bool);
@@ -568,7 +568,7 @@ Checks whether this `address` is of type **addr_std** without any cast.
 
 Returns the result of comparison between this `address` with zero `address` of type **addr_extern**.
 
-## \<address\>.isNone()
+### \<address\>.isNone()
 
 ```TVMSolidity
 <address>.isNone() returns (bool);
@@ -576,7 +576,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 Checks whether this `address` is of type **addr_none**.
 
-## \<address\>.unpack()
+### \<address\>.unpack()
 
 ```TVMSolidity
 <address>.unpack() returns (int8 /*wid*/, uint256 /*value*/);
@@ -596,7 +596,7 @@ Example:
 (int8 wid, uint addr) = address(this).unpack();
 ```
 
-## \<address\>.transfer()
+### \<address\>.transfer()
 
 ```TVMSolidity
 <address>.transfer(uint128 value, bool bounce, uint16 flag, TvmCell body, ExtraCurrencyCollection currencies, TvmCell stateInit);
@@ -710,7 +710,7 @@ See example of how to work with mappings:
 * [database](https://github.com/tonlabs/samples/blob/master/solidity/13_BankCollector.sol)
 * [client](https://github.com/tonlabs/samples/blob/master/solidity/13_BankCollectorClient.sol)
 
-## Keyword `emptyMap`
+### Keyword `emptyMap`
 
 Keyword `emptyMap` is a constant that is used to indicate a mapping of arbitrary type without values.
 
@@ -726,7 +726,7 @@ struct Stakes {
 Stakes stakes = Stakes({stakes: emptyMap, total: 200});
 ```
 
-## \<mapping\>.operator[]
+### \<mapping\>.operator[]
 
 ```TVMSolidity
 <map>.operator[](KeyType index) returns (ValueType);
@@ -735,7 +735,7 @@ Stakes stakes = Stakes({stakes: emptyMap, total: 200});
 Returns the item of `ValueType` with **index** key or returns the default value
 if key is not in the mapping.
 
-## \<mapping\>.at()
+### \<mapping\>.at()
 
 ```TVMSolidity
 <map>.operator[](KeyType index) returns (ValueType);
@@ -744,7 +744,7 @@ if key is not in the mapping.
 Returns the item of `ValueType` with **index** key. Throws an [exception](#tvm-exception-codes) if key
 is not in the mapping.
 
-## \<mapping\>.min() and \<mapping\>.max()
+### \<mapping\>.min() and \<mapping\>.max()
 
 ```TVMSolidity
 <map>.min() returns (optional(KeyType, ValueType));
@@ -755,7 +755,7 @@ Computes the minimal (maximal) key in the `mapping` and returns an `optional`
 value containing that key and the associated value. If `mapping` is empty,
 this function returns an empty `optional`.
 
-## \<mapping\>.next() and \<mapping\>.prev()
+### \<mapping\>.next() and \<mapping\>.prev()
 
 ```TVMSolidity
 <map>.next(KeyType key) returns (optional(KeyType, ValueType));
@@ -785,7 +785,7 @@ optional(uint8, uint) = m.next(-1); // ok, param for next/prev can be negative
 optional(uint8, uint) = m.prev(65537); // ok, param for next/prev can not possibly fit to KeyType (uint8 in this case)
 ```
 
-## \<mapping\>.nextOrEq() and \<mapping\>.prevOrEq()
+### \<mapping\>.nextOrEq() and \<mapping\>.prevOrEq()
 
 ```TVMSolidity
 <map>.nextOrEq(KeyType key) returns (optional(KeyType, ValueType));
@@ -797,7 +797,7 @@ or equal to (less than or equal to) **key** and returns an `optional` value cont
 key and the associated value. Returns an empty `optional` if there is no such key.
 If KeyType is an integer type, argument for this functions can not possibly fit `KeyType`.
 
-## \<mapping\>.delMin() and \<mapping\>.delMax()
+### \<mapping\>.delMin() and \<mapping\>.delMax()
 
 ```TVMSolidity
 <map>.delMin() returns (optional(KeyType, ValueType));
@@ -808,7 +808,7 @@ If mapping is not empty then this function computes the minimal (maximum) key of
 deletes that key and the associated value from the `mapping` and returns an `optional` value
 containing that key and the associated value. Returns an empty `optional` if there is no such key.
 
-## \<mapping\>.fetch()
+### \<mapping\>.fetch()
 
 ```TVMSolidity
 <map>.fetch(KeyType key) returns (optional(ValueType));
@@ -817,7 +817,7 @@ containing that key and the associated value. Returns an empty `optional` if the
 Checks whether **key** is present in the `mapping` and returns an `optional` with the associated value.
 Returns an empty `optional` if there is no such key.
 
-## \<mapping\>.exists()
+### \<mapping\>.exists()
 
 ```TVMSolidity
 <map>.exists(KeyType key) returns (bool);
@@ -825,7 +825,7 @@ Returns an empty `optional` if there is no such key.
 
 Returns whether **key** is present in the `mapping`.
 
-## \<mapping\>.empty()
+### \<mapping\>.empty()
 
 ```TVMSolidity
 <map>.empty() returns (bool);
@@ -833,7 +833,7 @@ Returns whether **key** is present in the `mapping`.
 
 Returns whether the `mapping` is empty.
 
-## \<mapping\>.replace()
+### \<mapping\>.replace()
 
 ```TVMSolidity
 <map>.replace(KeyType key, ValueType value) returns (bool);
@@ -842,7 +842,7 @@ Returns whether the `mapping` is empty.
 Sets the value associated with **key** only if **key** is present in the `mapping` and
 returns the success flag.
 
-## \<mapping\>.add()
+### \<mapping\>.add()
 
 ```TVMSolidity
 <map>.add(KeyType key, ValueType value) returns (bool);
@@ -850,7 +850,7 @@ returns the success flag.
 
 Sets the value associated with **key** only if **key** is not present in the `mapping`.
 
-## \<mapping\>.getSet()
+### \<mapping\>.getSet()
 
 ```TVMSolidity
 <map>.getSet(KeyType key, ValueType value) returns (optional(ValueType));
@@ -859,7 +859,7 @@ Sets the value associated with **key** only if **key** is not present in the `ma
 Sets the value associated with **key**, but also returns an `optional` with the
 previous value associated with the **key**, if any. Otherwise, returns an empty `optional`.
 
-## \<mapping\>.getAdd()
+### \<mapping\>.getAdd()
 
 ```TVMSolidity
 <map>.getAdd(KeyType key, ValueType value) returns (optional(ValueType));
@@ -869,7 +869,7 @@ Sets the value associated with **key**, but only if **key** is not present in th
 Returns an `optional` with the old value without changing the dictionary if that value is present
 in the `mapping`, otherwise returns an empty `optional`.
 
-## \<mapping\>.getReplace()
+### \<mapping\>.getReplace()
 
 ```TVMSolidity
 <map>.getReplace(KeyType key, ValueType value) returns (optional(ValueType));
@@ -893,29 +893,6 @@ Operators:
 * Arithmetic operators: `+`, `-`, unary `-`, `*`, `/`, `%` (modulo)
 * Math operations: [math.min(), math.max()](#mathmin-mathmax), [math.minmax()](#mathminmax),
 [math.abs()](#mathabs), [math.divr(), math.divc()](#mathdivr-mathdivc)
-
-## \<mapping\>.keys() \<mapping\>.values()
-
-```TVMSolidity
-(1)
-<map>.keys() returns (KeyType[]);
-(2)
-<map>.values() returns (ValueType[]);
-```
-
-(1) Returns all mapping's keys/values.
-(2) Returns all values of the mapping as an array.
-Note: these functions iterate over the whole mapping, thus the cost is proportional to the 
-mapping's size.
-
-```TVMSolidity
-mapping(uint16 => uint8) map;
-map[11] = 10;
-map[22] = 20;
-map[33] = 30;
-uint16[] keys = map.keys(); // keys == [11, 22, 33] 
-uint8[] values = map.values(); // values == [10, 20, 30] 
-```
 
 ## Function type
 
@@ -954,7 +931,7 @@ Use error codes that are greater than 100 because other error codes can be
 **Note**: if a nonconstant error code is passed as the function argument and the error code
 is less than 2 then the error code will be set to 100.
 
-## require
+### require
 
 ```TVMSolidity
 require(bool condition, [uint errorCode = 100, [Type exceptionArgument]]);
@@ -976,7 +953,7 @@ require(a == 6, 101, "a is not equal to six"); // throws an exception with code 
 require(a == 6, 101, a); // throws an exception with code 101 and number a
 ```
 
-## revert
+### revert
 
 ```TVMSolidity
 revert(uint errorCode = 100, [Type exceptionArgument]);
@@ -1007,7 +984,7 @@ another way to call library function: `obj.func(b, c)`.
 For now libraries are stored as a part of the code of the contact that
 uses libraries. In the future, it can be changed.
 
-## Function call via library name
+### Function call via library name
 
 Example of using library in the manner `LibName.func(a, b, c)`:
 
@@ -1044,7 +1021,7 @@ contract MyContract {
 }
 ```
 
-## Function call via object
+### Function call via object
 
 In TON solidity **arguments of a function call passed by value not by
 reference**. It's effective for numbers and even for huge arrays.
@@ -1097,5 +1074,29 @@ contract MyContract {
         // array is passed by reference and index is passed by value
         array.del(index);
     }
+}
+```
+
+#### Import
+
+T-Sol Compiler allows user to import remote files using link starting with `http`.
+If import file name starts with `http`, then compiler tries to download the file using this
+link and saves it to the folder `.solc_imports`. If compiler fails to create this folder or
+to download the file, then an error is emitted.
+
+**Note**: to import file from GitHub, one should use link to the raw version of the file.
+
+Example:
+
+```TVMSolidity
+pragma ton-solidity >= 0.35.0;
+pragma AbiHeader expire;
+pragma AbiHeader pubkey;
+
+import "https://github.com/tonlabs/debots/raw/9c6ca72b648fa51962224ec0d7ce91df2a0068c1/Debot.sol";
+import "https://github.com/tonlabs/debots/raw/9c6ca72b648fa51962224ec0d7ce91df2a0068c1/Terminal.sol";
+
+contract HelloDebot is Debot {
+  ...
 }
 ```

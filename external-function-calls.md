@@ -1,6 +1,6 @@
 # External function calls
 
-T-Sol Compiler allows specifying different parameters of the outbound internal message that
+TON Solidity compiler allows specifying different parameters of the outbound internal message that
 is sent via external function call. Note, all external function calls are asynchronous, so
 callee function will be called after termination of the current transaction.
 `value`, `currencies`, `bounce` or `flag` options can be set. See [\<address\>.transfer()](#addresstransfer)
@@ -82,9 +82,9 @@ See also:
 and [4.1_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/solidity/4.1_CurrencyExchange.sol)
 * [return](#return)
 
- Synchronous calls
+## Synchronous calls
 
-T-Sol Compiler allows user to perform synchronous calls. To do it user should call a remote contract
+TON Solidity compiler allows user to perform synchronous calls. To do it user should call a remote contract
 function with `.await` suffix. Example:
 
 ```TVMSolidity

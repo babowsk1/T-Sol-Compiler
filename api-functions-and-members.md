@@ -1,6 +1,7 @@
+
 # API functions and members
 
- Type information
+## Type information
 
 The expression `type(T)` can be used to retrieve information about the type T. 
 
@@ -9,9 +10,9 @@ The following properties are available for an integer, variable integer and enum
 
  * `type(T).max` - the largest value representable by type `T`.
 
- **msg** namespace
+## **msg** namespace
 
- msg.sender
+### msg.sender
 
 ```TVMSolidity
 msg.sender (address)
@@ -23,7 +24,7 @@ Returns:
 * address(0) for external message.
 * address(0) for tick/tock transaction.
 
- msg.value
+### msg.value
 
 ```TVMSolidity
 msg.value (uint128)
@@ -35,7 +36,7 @@ Returns:
 * 0 for external message.
 * Undefined value for tick/tock transaction.
 
- msg.currencies
+### msg.currencies
 
 ```TVMSolidity
 msg.currencies (ExtraCurrencyCollection)
@@ -44,7 +45,7 @@ msg.currencies (ExtraCurrencyCollection)
 Collections of arbitrary currencies contained in the balance of
 the inbound message.
 
- msg.pubkey()
+### msg.pubkey()
 
 ```TVMSolidity
 msg.pubkey() returns (uint256);
@@ -53,11 +54,11 @@ msg.pubkey() returns (uint256);
 Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`.
 See also: [Contract execution](#contract-execution), [pragma AbiHeader](#pragma-abiheader).
 
- msg.isInternal, msg.isExternal and msg.isTickTock
+### msg.isInternal, msg.isExternal and msg.isTickTock
 
 Returns flag whether the contract is called by internal message, external message or by tick/tock transactions.
 
- msg.createdAt
+### msg.createdAt
 
 ```TVMSolidity
 msg.createdAt (uint32)
@@ -65,7 +66,7 @@ msg.createdAt (uint32)
 
 Returns the field **created_at** of the external inbound message.
 
- msg.data
+### msg.data
 
 ```TVMSolidity
 msg.data (TvmSlice)
@@ -73,7 +74,7 @@ msg.data (TvmSlice)
 
 Returns the payload of an inbound message.
 
- msg.hasStateInit
+### msg.hasStateInit
 
 ```TVMSolidity
 msg.hasStateInit (bool)
@@ -82,11 +83,11 @@ msg.hasStateInit (bool)
 Whether the internal/external inbound message contains field `stateInit`.
 Returns undefined value for tick/tock transaction. See [TL-B scheme][3] of `Message X`.
 
- **tvm** namespace
+## **tvm** namespace
 
- TVM instructions
+### TVM instructions
 
- tvm.accept()
+### tvm.accept()
 
 ```TVMSolidity
 tvm.accept();
@@ -100,7 +101,7 @@ See example of how to use this function:
 
 * [accumulator](https://github.com/tonlabs/samples/blob/master/solidity/1_Accumulator.sol)
 
- tvm.setGasLimit()
+### tvm.setGasLimit()
 
 ```TVMSolidity
 tvm.setGasLimit(uint g);
@@ -130,7 +131,7 @@ So if some user's public key will be stolen, then a hacker can spam with externa
 burn at most `5 * 75_000` units of gas instead of `5 * 1_000_000`, because we use `tvm.setGasLimit()` instead
 of `tvm.accept()`.
 
- tvm.buyGas()
+### tvm.buyGas()
 
 ```TVMSolidity
 tvm.buyGas(uint value);
@@ -139,7 +140,7 @@ tvm.buyGas(uint value);
 Computes the amount of gas that can be bought for `value` nanotons, and sets **g<sub>l</sub>**  
 accordingly in the same way as [tvm.setGasLimit()](#tvmsetgaslimit).
 
- tvm.commit()
+### tvm.commit()
 
 ```TVMSolidity
 tvm.commit();
@@ -150,7 +151,7 @@ If the contract throws an exception at the computing phase then the state variab
 will roll back to the "check point", and the computing phase will be considered "successful".
 If contract doesn't throw an exception, it has no effect.
 
- tvm.rawCommit()
+### tvm.rawCommit()
 
 ```TVMSolidity
 tvm.rawCommit();
@@ -162,7 +163,7 @@ for opcode `COMMIT`. See [TVM][1].
 **Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because
 you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
 
- tvm.getData()
+### tvm.getData()
 
 ```TVMSolidity
 tvm.getData() returns (TvmCell);
@@ -179,7 +180,7 @@ Refer to the description of `tvm.setData()` below to get more details.
 **Note:** state variables and replay protection timestamp stored in the data cell have the same values
 that were before the transaction. See [tvm.commit()](#tvmcommit) to learn about register `c4` update.
 
- tvm.setData()
+### tvm.setData()
 
 ```TVMSolidity
 tvm.setData(TvmCell data);
@@ -195,13 +196,12 @@ TvmCell data = ...;
 tvm.setData(data); // set register c4
 tvm.rawCommit();   // save register c4 and c5
 revert(200);       // throw the exception to terminate the transaction
-
 ```
 
 Be careful with the hidden state variable `timestamp` and think about possibility of external
 messages replaying.
 
- tvm.log()
+### tvm.log()
 
 ```TVMSolidity
 tvm.log(string log);
@@ -222,7 +222,7 @@ tvm.log(s);
 
 **Note:** For long strings dumps only the first 127 symbols.
 
- tvm.hexdump() and tvm.bindump()
+### tvm.hexdump() and tvm.bindump()
 
 ```TVMSolidity
 tvm.hexdump(T a);
@@ -259,7 +259,7 @@ CS<10011000011101100101010000110010000100001>(0..40)
 -101001101
 ```
 
- tvm.setcode()
+### tvm.setcode()
 
 ```TVMSolidity
 tvm.setcode(TvmCell newCode);
@@ -274,7 +274,7 @@ See example of how to use this function:
 * [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
 * [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
 
- tvm.configParam()
+### tvm.configParam()
 
 ```TVMSolidity
 tvm.configParam(uint8 paramNumber) returns (TypeA a, TypeB b, ...);
@@ -285,7 +285,7 @@ This command returns the value of the global configuration parameter with
 integer index **paramNumber**. Argument should be an integer literal.
 Supported **paramNumbers**: 1, 15, 17, 34.
 
- tvm.rawConfigParam()
+### tvm.rawConfigParam()
 
 ```TVMSolidity
 tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
@@ -295,7 +295,7 @@ Executes TVM instruction "CONFIGPARAM" ([TVM][1] - A.11.4. - F832).
 Returns the value of the global configuration parameter with
 integer index **paramNumber** as a `TvmCell` and a boolean status.
 
- tvm.rawReserve()
+### tvm.rawReserve()
 
 ```TVMSolidity
 tvm.rawReserve(uint value, uint8 flag);
@@ -352,7 +352,7 @@ tvm.rawReserve(1 ton, 4 + 8);
 
 See also: [23_rawReserve.sol](https://github.com/tonlabs/samples/blob/master/solidity/23_rawReserve.sol)
 
- tvm.initCodeHash()
+### tvm.initCodeHash()
 
 ```TVMSolidity
 tvm.initCodeHash() returns (uint256 hash)
@@ -360,9 +360,9 @@ tvm.initCodeHash() returns (uint256 hash)
 
 Returns the initial code hash that contract had when it was deployed.
 
- Hashing and cryptography
+### Hashing and cryptography
 
- tvm.hash()
+### tvm.hash()
 
 ```TVMSolidity
 tvm.hash(TvmCell cellTree) returns (uint256);
@@ -385,7 +385,7 @@ uint256 hash = tvm.hash(string);
 uint256 hash = tvm.hash(bytes);
 ```
 
- tvm.checkSign()
+### tvm.checkSign()
 
 ```TVMSolidity
 tvm.checkSign(uint256 hash, uint256 SignHighPart, uint256 SignLowPart, uint256 pubkey) returns (bool);
@@ -421,9 +421,9 @@ uint256 pubkey;
 bool signatureIsValid = tvm.checkSign(hash, signature, pubkey);  // 3 variant
 ```
 
- Deploy contract from contract
+### Deploy contract from contract
 
- tvm.insertPubkey()
+### tvm.insertPubkey()
 
 ```TVMSolidity
 tvm.insertPubkey(TvmCell stateInit, uint256 pubkey) returns (TvmCell);
@@ -431,7 +431,7 @@ tvm.insertPubkey(TvmCell stateInit, uint256 pubkey) returns (TvmCell);
 
 Inserts a public key into the `stateInit` data field. If the `stateInit` has wrong format then throws an exception.
 
- tvm.buildStateInit()
+### tvm.buildStateInit()
 
 ```TVMSolidity
 // 1)
@@ -502,7 +502,7 @@ contract C {
 }
 ```
 
- tvm.buildDataInit()
+### tvm.buildDataInit()
 
 ```TVMSolidity
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
@@ -536,7 +536,7 @@ TvmCell stateInit = tvm.buildStateInit({
 });
 ```
 
- tvm.stateInitHash()
+### tvm.stateInitHash()
 
 ```TVMSolidity
 tvm.stateInitHash(uint256 codeHash, uint256 dataHash, uint16 codeDepth, uint16 dataDepth) returns (uint256);
@@ -559,7 +559,7 @@ uint256 hash = tvm.stateInitHash(codeHash, dataHash, codeDepth, dataDepth);
 See also [internal doc](https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/docs/internal/stateInit_hash.md) to read more about this
 function mechanics.
 
- Deploy via new
+### Deploy via new
 
 Either `code` or `stateInit` option must be set when you deploy a contract
 from contract via keyword `new`. `stateInit` is a tree of cells that contains
@@ -580,7 +580,7 @@ Examples:
 * [WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.sol).
 * [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
 
- `stateInit` option usage
+### `stateInit` option usage
 
 `stateInit` defines the origin state of the new account.
 
@@ -589,7 +589,7 @@ TvmCell stateInit = ...;
 address newWallet = new SimpleWallet{value: 1 ton, stateInit: stateInit}(arg0, arg1, ...);
 ```
 
- `code` option usage
+### `code` option usage
 
 `code` option defines the code of the new contract.
 
@@ -626,7 +626,7 @@ address newWallet = new SimpleWallet{
 }(arg0, arg1, ...);
 ```
 
- Other deploy options
+### Other deploy options
 
 The following options can be used with both `stateInit` and `code`:
 
@@ -651,7 +651,7 @@ address newWallet = new SimpleWallet{
 }(arg0, arg1, ...);
 ```
 
- Deploy via \<address\>.transfer()
+### Deploy via \<address\>.transfer()
 
 You can also deploy the contract via [\<address\>.transfer()](#addresstransfer).
 Just set the option `stateInit`.
@@ -659,7 +659,7 @@ Just set the option `stateInit`.
 * [Example of usage](https://github.com/tonlabs/samples/blob/master/solidity/11_ContractDeployer.sol)
 * [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.md).
 
- New contract address problem
+### New contract address problem
 
 Address of the new account is calculated as a hash of the `stateInit`.
 Parameters of the constructor don't influence the address. The problem
@@ -686,9 +686,9 @@ each new contact to have unique `stateInit`.
 See [SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17_SimpleWallet.sol).  
 **Note**: contract's public key (`tvm.pubkey()`) is a part of `stateInit`.
 
- Misc functions from `tvm`
+### Misc functions from `tvm`
 
- tvm.code()
+### tvm.code()
 
 ```TVMSolidity
 tvm.code() returns (TvmCell);
@@ -698,7 +698,7 @@ Returns contract's code.
 
 See [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
 
- tvm.codeSalt()
+### tvm.codeSalt()
 
 ```TVMSolidity
 tvm.codeSalt(TvmCell code) returns (optional(TvmCell) optSalt);
@@ -706,7 +706,7 @@ tvm.codeSalt(TvmCell code) returns (optional(TvmCell) optSalt);
 
 If **code** contains salt then **optSalt** contains one. Otherwise, **optSalt** doesn't contain any value.
 
- tvm.setCodeSalt()
+### tvm.setCodeSalt()
 
 ```TVMSolidity
 tvm.setCodeSalt(TvmCell code, TvmCell salt) returns (TvmCell newCode);
@@ -714,7 +714,7 @@ tvm.setCodeSalt(TvmCell code, TvmCell salt) returns (TvmCell newCode);
 
 Inserts **salt** into **code** and returns new code **newCode**.
 
- tvm.pubkey()
+### tvm.pubkey()
 
 ```TVMSolidity
 tvm.pubkey() returns (uint256);
@@ -722,7 +722,7 @@ tvm.pubkey() returns (uint256);
 
 Returns contract's public key, stored in contract data. If key is not set, function returns 0.
 
- tvm.setPubkey()
+### tvm.setPubkey()
 
 ```TVMSolidity
 tvm.setPubkey(uint256 newPubkey);
@@ -730,7 +730,7 @@ tvm.setPubkey(uint256 newPubkey);
 
 Set new contract's public key. Contract's public key can be obtained from `tvm.pubkey`.
 
- tvm.setCurrentCode()
+### tvm.setCurrentCode()
 
 ```TVMSolidity
 tvm.setCurrentCode(TvmCell newCode);
@@ -745,7 +745,7 @@ See example of how to use this function:
 * [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
 * [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
 
- tvm.resetStorage()
+### tvm.resetStorage()
 
 ```TVMSolidity
 tvm.resetStorage();
@@ -753,7 +753,7 @@ tvm.resetStorage();
 
 Resets all state variables to their default values.
 
- tvm.functionId()
+### tvm.functionId()
 
 ```TVMSolidity
 // id of public function
@@ -794,7 +794,7 @@ See example of how to use this function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
 
- tvm.encodeBody()
+### tvm.encodeBody()
 
 ```TVMSolidity
 tvm.encodeBody(function, arg0, arg1, arg2, ...) returns (TvmCell);
@@ -833,7 +833,7 @@ See also:
 * [\<TvmSlice\>.loadFunctionParams()](#tvmsliceloadfunctionparams)
 * [tvm.buildIntMsg()](#tvmbuildintmsg)
 
- tvm.exit() and tvm.exit1()
+### tvm.exit() and tvm.exit1()
 
 ```TVMSolidity
 tvm.exit();
@@ -861,7 +861,7 @@ function g1(uint a) private {
 }
 ```
 
- tvm.buildExtMsg()
+### tvm.buildExtMsg()
 
 ```TVMSolidity
 tvm.buildExtMsg({
@@ -987,7 +987,7 @@ contract Test {
 }
 ```
 
- tvm.buildIntMsg()
+### tvm.buildIntMsg()
 
 ```TVMSolidity
 tvm.buildIntMsg({
@@ -1014,7 +1014,7 @@ See also:
 * sample [22_sender.sol](https://github.com/tonlabs/samples/blob/master/solidity/22_sender.sol)
 * [tvm.encodeBody()](#tvmencodebody)
 
- tvm.sendrawmsg()
+## tvm.sendrawmsg()
 
 ```TVMSolidity
 tvm.sendrawmsg(TvmCell msg, uint8 flag);
@@ -1037,12 +1037,12 @@ If the function is called by external message and `msg` has a wrong format (for 
 `init` of `Message X` is not valid) then the transaction will be replayed despite the usage of flag 2.
 It will happen because the transaction will fail at the action phase.
 
- **math** namespace
+## **math** namespace
 
 `T` is an integer, [variable integer](#varint-and-varuint) or fixed point type in the `math.*` functions where applicable.
 Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
 
- math.min() math.max()
+### math.min() math.max()
 
 ```TVMSolidity
 math.min(T a, T b, ...) returns (T);
@@ -1051,7 +1051,7 @@ math.max(T a, T b, ...) returns (T);
 
 Returns the minimal (maximal) value of the passed arguments. 
 
- math.minmax()
+### math.minmax()
 
 ```TVMSolidity
 math.minmax(T a, T b) returns (T /*min*/, T /*max*/);
@@ -1065,7 +1065,7 @@ Example:
 (uint a, uint b) = math.minmax(20, 10); // (a, b) == (10, 20)
 ```
 
- math.abs()
+### math.abs()
 
 ```TVMSolidity
 math.abs(T val) returns (T);
@@ -1081,7 +1081,7 @@ int b = -100;
 int c = math.abs(b); // c == 100
 ```
 
- math.modpow2()
+### math.modpow2()
 
 ```TVMSolidity
 math.modpow2(T value, uint power) returns (T);
@@ -1098,7 +1098,7 @@ uint a = math.modpow2(21, 4); // a == 5
 uint b = math.modpow2(val, pow); // b == 2
 ```
 
- math.divr() math.divc()
+### math.divr() math.divc()
 
 ```TVMSolidity
 math.divc(T a, T b) returns (T);
@@ -1118,7 +1118,7 @@ fixed32x2 a = 0.25;
 fixed32x2 res = math.divc(a, 2); // res == 0.13
 ```
 
- math.muldiv() math.muldivr() math.muldivc()
+### math.muldiv() math.muldivr() math.muldivc()
 
 ```TVMSolidity
 math.muldiv(T a, T b, T c) returns (T);
@@ -1137,7 +1137,7 @@ uint res = math.muldivr(3, 7, 2); // res == 11
 uint res = math.muldivc(3, 7, 2); // res == 11
 ```
 
- math.muldivmod()
+### math.muldivmod()
 
 ```TVMSolidity
 math.muldivmod(T a, T b, T c) returns (T /*result*/, T /*remainder*/);
@@ -1160,7 +1160,7 @@ int g = 2;
 (int h, int p) = math.muldivmod(e, f, g); // (h, p) == (-2, 1)
 ```
 
- math.divmod()
+### math.divmod()
 
 ```TVMSolidity
 math.divmod(T a, T b) returns (T /*result*/, T /*remainder*/);
@@ -1181,7 +1181,7 @@ int f = 3;
 (int h, int p) = math.divmod(e, f); // (h, p) == (-3, 2)
 ```
 
- math.sign()
+### math.sign()
 
 ```TVMSolidity
 math.sign(T val) returns (int2);
@@ -1200,9 +1200,9 @@ int8 sign = math.sign(100); // sign == 1
 int8 sign = math.sign(0); // sign == 0
 ```
 
- **tx** namespace
+### **tx** namespace
 
- tx.logicaltime
+### tx.logicaltime
 
 ```TVMSolidity
 tx.logicaltime returns (uint64);
@@ -1210,7 +1210,7 @@ tx.logicaltime returns (uint64);
 
 Returns the logical time of the current transaction.
 
- tx.storageFee
+### tx.storageFee
 
 It's an experimental feature and is available only in certain blockchain networks.
 
@@ -1220,9 +1220,9 @@ tx.storageFee returns (uint120);
 
 Returns the storage fee paid in the current transaction.
 
- **block** namespace
+### **block** namespace
 
- block.timestamp
+### block.timestamp
 
 ```TVMSolidity
 block.timestamp returns (uint32);
@@ -1230,7 +1230,7 @@ block.timestamp returns (uint32);
 
 Returns the current Unix time. Unix time is the same for the all transactions from one block. 
 
- block.logicaltime
+### block.logicaltime
 
 ```TVMSolidity
 block.logicaltime returns (uint64);
@@ -1238,17 +1238,17 @@ block.logicaltime returns (uint64);
 
 Returns the starting logical time of the current block.
 
- **rnd** namespace
+### **rnd** namespace
 
 The pseudorandom number generator uses the random seed. The
 initial value of the random seed before a smart contract execution in
-Everscale Blockchain is a hash of the smart contract address and the global
+TON Blockchain is a hash of the smart contract address and the global
 block random seed. If there are several runs of the same smart contract
 inside a block, then all of these runs will have the same random seed.
 This can be fixed, for example, by running `rnd.shuffle()` (without
 parameters) each time before using the pseudorandom number generator.
 
- rnd.next
+### rnd.next
 
 ```TVMSolidity
 rnd.next([Type limit]) returns (Type);
@@ -1272,7 +1272,7 @@ int8 r2 = rnd.next(int8(100));  // 0..99
 int8 r3 = rnd.next(int8(-100)); // -100..-1
 ```
 
- rnd.getSeed
+### rnd.getSeed
 
 ```TVMSolidity
 rnd.getSeed() returns (uint256);
@@ -1280,7 +1280,7 @@ rnd.getSeed() returns (uint256);
 
 Returns the current random seed.
 
- rnd.setSeed
+### rnd.setSeed
 
 ```TVMSolidity
 rnd.setSeed(uint256 x);
@@ -1288,7 +1288,7 @@ rnd.setSeed(uint256 x);
 
 Sets the random seed to `x`.
 
- rnd.shuffle
+### rnd.shuffle
 
 ```TVMSolidity
 (1)
@@ -1312,9 +1312,9 @@ rnd.shuffle(someNumber);
 rnd.shuffle();
 ```
 
- abi namespace
+## abi namespace
 
- abi.encode(), abi.decode()
+### abi.encode(), abi.decode()
 
 ```TVMSolidity
 (1)
@@ -1339,3 +1339,140 @@ TvmCell cell = abi.encode(uint(1), uint(2), uint(3), uint(4));
 // c == 3
 // d == 4
 ```
+
+## **gosh** namespace
+
+All `gosh.*` functions are experimental features and are available only in certain blockchain
+networks.
+
+## gosh.diff and gosh.zipDiff
+
+
+```TVMSolidity
+(1)
+gosh.diff(string oldText, string newText) returns (string patch)
+(2)
+gosh.zipDiff(bytes oldText, bytes newText) returns (bytes patch)
+```
+(1) Calculates [patch](https://en.wikipedia.org/wiki/Diff) between `oldText` and `newText`. Example:
+(2) It's the same as `gosh.diff` but it calculates `patch` between compressed strings.
+
+
+```TVMSolidity
+string oldText = ...;
+string newText = ...;
+string patch = gosh.diff(oldText, newText);
+```
+
+## gosh.applyPatch, gosh.applyPatchQ, gosh.applyZipPatch, gosh.applyZipPatchQ, gosh.applyZipBinPatch and gosh.applyZipBinPatchQ
+
+```TVMSolidity
+(1)
+gosh.applyPatch(string oldText, string patch) returns (string newText)
+gosh.applyPatchQ(string oldText, string patch) returns (optional(string) newText)
+(2)
+gosh.applyBinPatch(bytes oldText, bytes patch) returns (bytes newText)
+gosh.applyBinPatchQ(bytes oldText, bytes patch) returns (optional(bytes) newText)
+(3)
+gosh.applyZipPatch(bytes oldText, bytes patch) returns (bytes newText)
+gosh.applyZipPatchQ(bytes oldText, bytes patch) returns (optional(bytes) newText)
+(4)
+gosh.applyZipBinPatch(bytes oldText, bytes patch) returns (bytes newText)
+gosh.applyZipBinPatchQ(bytes oldText, bytes patch) returns (optional(bytes) newText)
+```
+
+(1)
+Applies `patch` to the `oldText`. If it's impossible (bad patch), `gosh.applyPatch` throws an exception with type check
+error code (-8) but`gosh.applyPatchQ` returns `null`. Example:
+(2)
+These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to binary arrays.
+(3)
+These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed strings.
+(4)
+These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed binary arrays.
+
+```TVMSolidity
+string oldText = ...;
+string patch = ...;
+string newText = gosh.applyPatch(oldText, patch);
+```
+
+## gosh.zip and gosh.unzip
+
+```TVMSolidity
+gosh.zip(string text) returns (bytes zip)
+gosh.unzip(bytes zip) returns (optional(string) text)
+```
+
+`gosh.zip` converts the `text` to compressed `bytes`. `gosh.unzip` reverts such compression.
+
+## Exponentiation
+
+Exponentiation `**` is only available for unsigned types in the exponent. The resulting type of an
+exponentiation is always equal to the type of the base. Please take care that it is large enough to
+hold the result and prepare for potential assertion failures or wrapping behaviour.
+
+Note that `0**0` throws an exception.
+
+Example:
+
+```TVMSolidity
+uint b = 3;
+uint32 p = 4;
+uint res = b ** p; // res == 81
+```
+
+## selfdestruct
+
+```TVMSolidity
+selfdestruct(address dest_addr);
+```
+
+Creates and sends the message that carries all the remaining balance
+of the current smart contract and destroys the current account.
+
+See example of how to use the `selfdestruct` function:
+
+* [Kamikaze](https://github.com/tonlabs/samples/blob/master/solidity/8_Kamikaze.sol)
+
+## sha256
+
+```TVMSolidity
+// (1)
+sha256(TvmSlice slice) returns (uint256)
+// (2)
+sha256(bytes b) returns (uint256)
+// (3)
+sha256(string str) returns (uint256)
+```
+
+1. Computes the SHA-256 hash. If the bit-length of `slice` is not divisible by eight, throws a cell
+underflow [exception](#tvm-exception-codes). References of `slice` are not used to compute the hash. Only data bits located
+in the root cell of `slice` are used.
+2. Computes the SHA-256 hash only for the first 127 bytes. If `bytes.length > 127` then `b[128],
+b[129], b[130] ...` elements are ignored.
+3. Same as for `bytes`: only the first 127 bytes are taken into account.
+
+See also [tvm.hash()](#tvmhash) to compute representation hash of the whole tree of cells.
+
+## gasToValue
+
+```TVMSolidity
+gasToValue(uint128 gas) returns (uint128 value)
+gasToValue(uint128 gas, int8 wid) returns (uint128 value)
+```
+
+Returns worth of **gas** in workchain **wid**.
+Throws an exception if **wid** is not equal to `0` or `-1`.
+If `wid` is omitted than used the contract's `wid`.
+
+## valueToGas
+
+```TVMSolidity
+valueToGas(uint128 value) returns (uint128 gas)
+valueToGas(uint128 value, int8 wid) returns (uint128 gas)
+```
+
+Counts how much **gas** could be bought on **value** nanotons in workchain **wid**.
+Throws an exception if **wid** is not equal to `0` or `-1`.
+If `wid` is omitted than used the contract's `wid`.

@@ -93,7 +93,7 @@ Returns undefined value for tick/tock transaction. See [TL-B scheme][3] of `Mess
 tvm.accept();
 ```
 
-Executes TVM instruction "ACCEPT" ([TVM][1] - A.11.2).
+Executes TVM instruction "ACCEPT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2).
 This instruction sets current gas limit to its maximal allowed value.
 This action is required to process external messages that bring no value.
 
@@ -107,7 +107,7 @@ See example of how to use this function:
 tvm.setGasLimit(uint g);
 ```
 
-Executes TVM instruction "SETGASLIMIT" ([TVM][1] - A.11.2).
+Executes TVM instruction "SETGASLIMIT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2).
 Sets current gas limit **g<sub>l</sub>** to the minimum of **g** and **g<sub>m</sub>**, and resets the gas
 credit **g<sub>c</sub>** to zero. If the gas consumed so far (including the present instruction) exceeds
 the resulting value of **g<sub>l</sub>**, an (unhandled) out of gas exception is thrown before setting
@@ -158,7 +158,7 @@ tvm.rawCommit();
 ```
 
 Same as [tvm.commit()](#tvmcommit) but doesn't copy the state variables from c7 to c4. It's a wrapper
-for opcode `COMMIT`. See [TVM][1].
+for opcode `COMMIT`. See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
 
 **Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because
 you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
@@ -280,7 +280,7 @@ See example of how to use this function:
 tvm.configParam(uint8 paramNumber) returns (TypeA a, TypeB b, ...);
 ```
 
-Executes TVM instruction "CONFIGPARAM" ([TVM][1] - A.11.4. - F832).
+Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832).
 This command returns the value of the global configuration parameter with
 integer index **paramNumber**. Argument should be an integer literal.
 Supported **paramNumbers**: 1, 15, 17, 34.
@@ -291,7 +291,7 @@ Supported **paramNumbers**: 1, 15, 17, 34.
 tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
 ```
 
-Executes TVM instruction "CONFIGPARAM" ([TVM][1] - A.11.4. - F832).
+Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832).
 Returns the value of the global configuration parameter with
 integer index **paramNumber** as a `TvmCell` and a boolean status.
 
@@ -305,7 +305,7 @@ tvm.rawReserve(uint value, ExtraCurrencyCollection currency, uint8 flag);
 Creates an output action that reserves **reserve** nanotons. It is roughly equivalent to
 create an outbound message carrying **reserve** nanotons to oneself, so that the subsequent output
 actions would not be able to spend more money than the remainder. It's a wrapper for opcodes
-"RAWRESERVE" and "RAWRESERVEX". See [TVM][1].
+"RAWRESERVE" and "RAWRESERVEX". See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
 
 Let's denote:
 
@@ -371,7 +371,7 @@ tvm.hash(bytes data) returns (uint256);
 tvm.hash(TvmSlice data) returns (uint256);
 ```
 
-Executes TVM instruction "HASHCU" or "HASHSU" ([TVM][1] - A.11.6. - F900).
+Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F900).
 It computes the representation hash of a given argument and returns
 it as a 256-bit unsigned integer. For `string` and `bytes` it computes
 hash of the tree of cells that contains data but not data itself.
@@ -393,11 +393,11 @@ tvm.checkSign(uint256 hash, TvmSlice signature, uint256 pubkey) returns (bool);
 tvm.checkSign(TvmSlice data, TvmSlice signature, uint256 pubkey) returns (bool);
 ```
 
-Executes TVM instruction "CHKSIGNU" ([TVM][1] - A.11.6. - F910) for variants 1 and 2.
+Executes TVM instruction "CHKSIGNU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F910) for variants 1 and 2.
 This command checks the Ed25519-signature of the **hash** using public key **pubkey**.
 Signature is represented by two uint256 **SignHighPart** and **SignLowPart** in the
 first variant and by the slice **signature** in the second variant.
-In the third variant executes TVM instruction "CHKSIGNS" ([TVM][1] - A.11.6. - F911).
+In the third variant executes TVM instruction "CHKSIGNS" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F911).
 This command checks Ed25519-signature of the **data** using public key **pubkey**.
 Signature is represented by the slice **signature**.
 
@@ -443,7 +443,7 @@ tvm.buildStateInit({code: TvmCell code, data: TvmCell data, splitDepth: uint8 sp
     pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
-Generates a `StateInit` ([TBLKCH][2] - 3.1.7.) from `code` and `data` `TvmCell`s.
+Generates a `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)) from `code` and `data` `TvmCell`s.
 Member `splitDepth` of the tree of cell `StateInit`:
 
 1) is not set. Has no value.
@@ -508,7 +508,7 @@ contract C {
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
-Generates `data` field of the `StateInit` ([TBLKCH][2] - 3.1.7.). Parameters are the same as in
+Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in
 [tvm.buildStateInit()](#tvmbuildstateinit).
 
 ```TVMSolidity
@@ -564,7 +564,8 @@ function mechanics.
 Either `code` or `stateInit` option must be set when you deploy a contract
 from contract via keyword `new`. `stateInit` is a tree of cells that contains
 original state of the contract. `stateInit` contains `data`, `code` and another members.
-See also ([TBLKCH][2] - A.2.3.2) to read about `stateInit`.
+
+See also [Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit) to read about `stateInit`.
 
 Use `stateInit` option if you have the created account state (maybe offchain or
 onchain) and use `code` if you want to create account state in the `new` expression.
@@ -1021,7 +1022,7 @@ tvm.sendrawmsg(TvmCell msg, uint8 flag);
 ```
 
 Send the internal/external message `msg` with `flag`. It's a wrapper for opcode
-`SENDRAWMSG` ([TVM][1] - A.11.10).
+`SENDRAWMSG` ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.10).
 Internal message `msg` can be generated by [tvm.buildIntMsg()](#tvmbuildintmsg).
 Possible values of `flag` are described here: [\<address\>.transfer()](#addresstransfer).
 
@@ -1242,7 +1243,7 @@ Returns the starting logical time of the current block.
 
 The pseudorandom number generator uses the random seed. The
 initial value of the random seed before a smart contract execution in
-TON Blockchain is a hash of the smart contract address and the global
+Everscale Blockchain is a hash of the smart contract address and the global
 block random seed. If there are several runs of the same smart contract
 inside a block, then all of these runs will have the same random seed.
 This can be fixed, for example, by running `rnd.shuffle()` (without

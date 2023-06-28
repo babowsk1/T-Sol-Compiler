@@ -3,7 +3,7 @@
 * [T-Sol Compiler](README.md)
 * [Compiler version](compiler-version.md)
 * [TVM specific types](tvm-specific-types.md)
-* [TVM specific control structures](ton-specific-control-structures.md)
+* [TVM specific control structures](tvm-specific-control-structures.md)
 * [Changes and extensions in Solidity types](changes-and-extensions-in-solidity-types.md)
 * [Pragmas](pragmas.md)
 * [State variables](state-variables.md)

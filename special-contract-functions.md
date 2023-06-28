@@ -141,7 +141,6 @@ Example of how to use `onBounce` function:
 
 `onTickTock` function is executed on tick/tock transaction.
 These transactions are automatically generated for certain special accounts.
-See ([TBLKCH][2] - 4.2.4.)
 For tick transactions **isTock** is false, for tock transactions - true.
 
 Prototype:

@@ -14,18 +14,18 @@ arr.push(11);
 arr.push(22);
 arr.push(33);
 
-delete arr[1];
+delete arr(https://broxus.gitbook.io/threaded-virtual-machine/);
 // arr[0] == 11
-// arr[1] == 0
+// arr(https://broxus.gitbook.io/threaded-virtual-machine/) == 0
 // arr[2] == 33
 
 delete arr; // arr.length == 0
 
 mapping(uint => uint) l_map;
-l_map[1] = 2;
-delete l_map[1];
+l_map(https://broxus.gitbook.io/threaded-virtual-machine/) = 2;
+delete l_map(https://broxus.gitbook.io/threaded-virtual-machine/);
 bool e = l_map.exists(1); // e == false
-l_map[1] = 2;
+l_map(https://broxus.gitbook.io/threaded-virtual-machine/) = 2;
 delete l_map;
 bool e = l_map.exists(1); // e == false
 

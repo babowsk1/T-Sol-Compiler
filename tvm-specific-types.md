@@ -649,7 +649,7 @@ Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
-## Store little-endian integers
+### Store little-endian integers
 
 ```TVMSolidity
 <TvmBuilder>.storeIntLE2(int16)

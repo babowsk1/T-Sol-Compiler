@@ -376,7 +376,7 @@ string a = s.toUpperCase(); // a == "HELLO"
 string b = s.toLowerCase(); // b == "hello" 
 ```
 
-## format()
+###  format()
 
 ```TvmSolidity
 format(string template, TypeA a, TypeB b, ...) returns (string);

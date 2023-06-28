@@ -44,7 +44,7 @@ contract Bomber {
 }
 ```
 
-### fallback
+## fallback
 
 `fallback` function is called on receiving an inbound internal/external message in such cases:
 

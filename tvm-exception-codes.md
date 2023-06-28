@@ -15,4 +15,4 @@
 | Fatal error       |  12  | Thrown by TVM in situations deemed impossible                                                                                                      |
 | Out of gas        |  13  | Thrown by TVM when the remaining gas (g r ) becomes negative. This exception usually cannot be caught and leads to an immediate termination of TVM |
 
-See also: [TVM][1] - 4.5.7
+See also: [TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - 4.5.7

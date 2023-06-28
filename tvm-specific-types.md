@@ -1,6 +1,6 @@
 # TVM specific types
 
-T-Sol Compiler expands functionality of some existing types and adds several new TVM specific types: TvmCell, TvmSlice, TvmBuilder and ExtraCurrencyCollection. Full description of these types can be found in [TVM][1] and [TON Blockchain][2] specifications.
+T-Sol Compiler expands functionality of some existing types and adds several new TVM specific types: TvmCell, TvmSlice, TvmBuilder and ExtraCurrencyCollection. Full description of these types can be found in [TVM](https://broxus.gitbook.io/threaded-virtual-machine/) and [Everscale documentation](https://docs.everscale.network/).
 
 ## TON units
 
@@ -41,7 +41,7 @@ uint a14 = 1 GEver; // a14 == 1 000 000 000 000 000 000 (1e18) == 1e9 ever
 
 ## TvmCell
 
-`TvmCell` represents *TVM cell* ([TVM][1] - 1.1.3). The compiler defines the following
+`TvmCell` represents *TVM cell* ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - 1.1.3). The compiler defines the following
 operators and functions to work with this type:
 
 Comparison operators:
@@ -66,7 +66,7 @@ If **c** is a Null instead of a Cell, returns zero.
 Returns the number of distinct cells, data bits in the distinct cells and
 cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then a cell overflow [exception](#tvm-exception-codes) is thrown.
-This function is a wrapper for the `CDATASIZE` opcode ([TVM][1] - A.11.7).
+This function is a wrapper for the `CDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ### \<TvmCell\>.dataSizeQ()
 
@@ -77,7 +77,7 @@ This function is a wrapper for the `CDATASIZE` opcode ([TVM][1] - A.11.7).
 Returns the number of distinct cells, data bits in the distinct cells and
 cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then this function returns an `optional` that has no value.
-This function is a wrapper for the `CDATASIZEQ` opcode ([TVM][1] - A.11.7).
+This function is a wrapper for the `CDATASIZEQ` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ### \<TvmCell\>.toSlice()
 
@@ -89,7 +89,7 @@ Converts a `TvmCell` to `TvmSlice`.
 
 ## TvmSlice
 
-`TvmSlice` represents *TVM cell slice* ([TVM][1] - 1.1.3). The compiler defines the following
+`TvmSlice` represents *TVM cell slice* ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - 1.1.3). The compiler defines the following
 operators and functions to work with this type:
 
 Comparison operators:
@@ -142,7 +142,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then a cell overflow [exception](#tvm-exception-codes) is thrown.
 Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
-This function is a wrapper for `SDATASIZE` opcode ([TVM][1] - A.11.7).
+This function is a wrapper for `SDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ### \<TvmSlice\>.dataSizeQ()
 
@@ -155,7 +155,7 @@ cell references in the distinct cells. If number of the distinct cells
 exceeds `n+1` then this function returns an `optional` that has no value.
 Note that the returned `count of distinct cells` does not take into
 account the cell that contains the slice itself.
-This function is a wrapper for `SDATASIZEQ` opcode ([TVM][1] - A.11.7).
+This function is a wrapper for `SDATASIZEQ` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ### \<TvmSlice\>.depth()
 
@@ -493,7 +493,7 @@ Same as [\<TvmSlice\>.loadSlice() and \<TvmSlice\>.loadSliceQ()](#tvmsliceloadsl
 
 ## TvmBuilder
 
-`TvmBuilder` represents *TVM cell builder* ([TVM][1] - 1.1.3). T-Sol Compiler defines the following
+`TvmBuilder` represents *TVM cell builder* ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - 1.1.3). T-Sol Compiler defines the following
 functions to work with this type:
 
 ### \<TvmBuilder\>.toSlice()
@@ -601,7 +601,7 @@ builder.
 
 **Note:** there is no gap or offset between two consecutive data assets stored in the `TvmBuilder`.
 
-See [TVM][1] to read about notation for bit strings.
+See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/) to read about notation for bit strings.
 
 Example:
 
@@ -649,7 +649,7 @@ Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
-## Store little-endian integers
+### Store little-endian integers
 
 ```TVMSolidity
 <TvmBuilder>.storeIntLE2(int16)

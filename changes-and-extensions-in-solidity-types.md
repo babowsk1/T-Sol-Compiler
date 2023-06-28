@@ -376,7 +376,7 @@ string a = s.toUpperCase(); // a == "HELLO"
 string b = s.toLowerCase(); // b == "hello" 
 ```
 
-## format()
+###  format()
 
 ```TvmSolidity
 format(string template, TypeA a, TypeB b, ...) returns (string);
@@ -1025,7 +1025,7 @@ contract MyContract {
 
 In TON solidity **arguments of a function call passed by value not by
 reference**. It's effective for numbers and even for huge arrays.
-See ([TVM][1] - A.2.3.2).
+See ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.2.3.2).
 **But if a library function is called like `obj.func(b, c)` then the
 first argument `obj` is passed by reference.**  It's similar to
 the `self` variable in Python.

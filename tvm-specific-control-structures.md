@@ -1,4 +1,4 @@
-# TON specific control structures
+# TVM specific control structures
 
 ## Range-based for loop
 

@@ -1,6 +1,6 @@
 # Events and return
 
- emit
+## emit
 
 `emit` statement sends an external outbound message. Use `{dest: ...}`to set destination address.
 The address must be of **addr_extern** type.
@@ -20,7 +20,7 @@ emit SomethingIsReceived{dest: addr}(2, 8, 10); // dest address is set
 emit SomethingIsReceived(10, 15, 25); // dest address == addr_none
 ```
 
- return
+## return
 
 `return` statement has different effects depending on:
 
@@ -58,3 +58,4 @@ function f(uint n) public responsible pure {
     return{value: 0, bounce: false, flag: 64} n <= 1 ? 1 : n * f(n - 1);
 }
 ```
+

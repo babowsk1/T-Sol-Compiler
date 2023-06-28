@@ -1,6 +1,6 @@
 # Function specifiers
 
- Function mutability: pure, view and default
+## Function mutability: pure, view and default
 
 Function mutability shows how this function treats state variables.
 Possible values of the function mutability:
@@ -35,7 +35,7 @@ contract Test {
 }
 ```
 
- Keyword inline
+## Keyword inline
 
 `inline` specifier instructs the compiler to insert a copy of the private function
 body into each place where the function is called.
@@ -55,7 +55,7 @@ function sum(uint a, uint b) private inline returns (uint) {
 }
 ```
 
- Assembly
+## Assembly
 
 To make inline assembler you should mark free function as `assembly`. Function body must contain lines of assembler code separated by commas.
 
@@ -86,7 +86,7 @@ function incomingValue() assembly pure returns (uint) {
 }
 ```
 
- functionID()
+## functionID()
 
 `functionID` keyword allows assigning function identifier explicitly.
 Each public function has a unique 32-bit identifier (id). id 0 is reserved for [receive](#receive) function.
@@ -101,7 +101,7 @@ function f() public pure functionID(123) {
 }
  ```
 
- externalMsg and internalMsg
+## externalMsg and internalMsg
 
 Keywords `externalMsg` and `internalMsg` specify which messages the function can handle.
 If the function marked by keyword `externalMsg` is called by internal message, the function throws an

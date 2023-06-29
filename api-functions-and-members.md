@@ -1,14 +1,13 @@
-
-# API functions and members
+# API functions and memebers
 
 ## Type information
 
-The expression `type(T)` can be used to retrieve information about the type T. 
+The expression `type(T)` can be used to retrieve information about the type T.
 
 The following properties are available for an integer, variable integer and enum type `T`:
- * `type(T).min` - the smallest value representable by type `T`.
 
- * `type(T).max` - the largest value representable by type `T`.
+* `type(T).min` - the smallest value representable by type `T`.
+* `type(T).max` - the largest value representable by type `T`.
 
 ## **msg** namespace
 
@@ -42,8 +41,7 @@ Returns:
 msg.currencies (ExtraCurrencyCollection)
 ```
 
-Collections of arbitrary currencies contained in the balance of
-the inbound message.
+Collections of arbitrary currencies contained in the balance of the inbound message.
 
 ### msg.pubkey()
 
@@ -51,8 +49,7 @@ the inbound message.
 msg.pubkey() returns (uint256);
 ```
 
-Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`.
-See also: [Contract execution](#contract-execution), [pragma AbiHeader](#pragma-abiheader).
+Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`. See also: [Contract execution](api-functions-and-members.md#contract-execution), [pragma AbiHeader](api-functions-and-members.md#pragma-abiheader).
 
 ### msg.isInternal, msg.isExternal and msg.isTickTock
 
@@ -64,7 +61,7 @@ Returns flag whether the contract is called by internal message, external messag
 msg.createdAt (uint32)
 ```
 
-Returns the field **created_at** of the external inbound message.
+Returns the field **created\_at** of the external inbound message.
 
 ### msg.data
 
@@ -80,8 +77,7 @@ Returns the payload of an inbound message.
 msg.hasStateInit (bool)
 ```
 
-Whether the internal/external inbound message contains field `stateInit`.
-Returns undefined value for tick/tock transaction. See [TL-B scheme][3] of `Message X`.
+Whether the internal/external inbound message contains field `stateInit`. Returns undefined value for tick/tock transaction. See \[TL-B scheme]\[3] of `Message X`.
 
 ## **tvm** namespace
 
@@ -93,13 +89,11 @@ Returns undefined value for tick/tock transaction. See [TL-B scheme][3] of `Mess
 tvm.accept();
 ```
 
-Executes TVM instruction "ACCEPT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2).
-This instruction sets current gas limit to its maximal allowed value.
-This action is required to process external messages that bring no value.
+Executes TVM instruction "ACCEPT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2). This instruction sets current gas limit to its maximal allowed value. This action is required to process external messages that bring no value.
 
 See example of how to use this function:
 
-* [accumulator](https://github.com/tonlabs/samples/blob/master/solidity/1_Accumulator.sol)
+* [accumulator](https://github.com/tonlabs/samples/blob/master/solidity/1\_Accumulator.sol)
 
 ### tvm.setGasLimit()
 
@@ -107,29 +101,16 @@ See example of how to use this function:
 tvm.setGasLimit(uint g);
 ```
 
-Executes TVM instruction "SETGASLIMIT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2).
-Sets current gas limit **g<sub>l</sub>** to the minimum of **g** and **g<sub>m</sub>**, and resets the gas
-credit **g<sub>c</sub>** to zero. If the gas consumed so far (including the present instruction) exceeds
-the resulting value of **g<sub>l</sub>**, an (unhandled) out of gas exception is thrown before setting
-new gas limits. Notice that `tvm.setGasLimit(...)` with an argument **g** ≥ 2<sup>63</sup> - 1 is
-equivalent to `tvm.accept()`.
-`tvm.setGasLimit()` is similar to `tvm.accept()`. `tvm.accept()` sets gas limit **g<sub>l</sub>** to
-the maximum possible value (depends on the network configuration parameters, usually is equal to
-1_000_000 units of gas). `tvm.setGasLimit()` is generally used for accepting external messages and restricting
-max possible gas consumption. It may be used to protect from flood by "bad" owner
-in a contract that is used by multiple users. Let's consider some scenario:
+Executes TVM instruction "SETGASLIMIT" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.2). Sets current gas limit **gl** to the minimum of **g** and **gm**, and resets the gas credit **gc** to zero. If the gas consumed so far (including the present instruction) exceeds the resulting value of **gl**, an (unhandled) out of gas exception is thrown before setting new gas limits. Notice that `tvm.setGasLimit(...)` with an argument **g** ≥ 263 - 1 is equivalent to `tvm.accept()`. `tvm.setGasLimit()` is similar to `tvm.accept()`. `tvm.accept()` sets gas limit **gl** to the maximum possible value (depends on the network configuration parameters, usually is equal to 1\_000\_000 units of gas). `tvm.setGasLimit()` is generally used for accepting external messages and restricting max possible gas consumption. It may be used to protect from flood by "bad" owner in a contract that is used by multiple users. Let's consider some scenario:
 
 1. Check whether msg.pubkey() != 0 and msg.pubkey() belongs to the list of trusted public keys;
-2. Check whether `m_floodCounter[msg.pubkey()] < 5` where **m_floodCounter** is count of pending
-operations of `msg.pubkey()` user.
-3. `tvm.setGasLimit(75_000);` accept external message and set gas limit to 75_000.
+2. Check whether `m_floodCounter[msg.pubkey()] < 5` where **m\_floodCounter** is count of pending operations of `msg.pubkey()` user.
+3. `tvm.setGasLimit(75_000);` accept external message and set gas limit to 75\_000.
 4. `++m_floodCounter[msg.pubkey()];` increase count of pending operations for current users.
 5. `tvm.commit();` save current state if it needs
 6. Do other things.
 
-So if some user's public key will be stolen, then a hacker can spam with external messages and
-burn at most `5 * 75_000` units of gas instead of `5 * 1_000_000`, because we use `tvm.setGasLimit()` instead
-of `tvm.accept()`.
+So if some user's public key will be stolen, then a hacker can spam with external messages and burn at most `5 * 75_000` units of gas instead of `5 * 1_000_000`, because we use `tvm.setGasLimit()` instead of `tvm.accept()`.
 
 ### tvm.buyGas()
 
@@ -137,8 +118,8 @@ of `tvm.accept()`.
 tvm.buyGas(uint value);
 ```
 
-Computes the amount of gas that can be bought for `value` nanotons, and sets **g<sub>l</sub>**  
-accordingly in the same way as [tvm.setGasLimit()](#tvmsetgaslimit).
+Computes the amount of gas that can be bought for `value` nanotons, and sets **gl**\
+accordingly in the same way as [tvm.setGasLimit()](api-functions-and-members.md#tvmsetgaslimit).
 
 ### tvm.commit()
 
@@ -146,10 +127,7 @@ accordingly in the same way as [tvm.setGasLimit()](#tvmsetgaslimit).
 tvm.commit();
 ```
 
-Creates a "check point" of the state variables (by copying them from c7 to c4) and register c5.
-If the contract throws an exception at the computing phase then the state variables and register c5
-will roll back to the "check point", and the computing phase will be considered "successful".
-If contract doesn't throw an exception, it has no effect.
+Creates a "check point" of the state variables (by copying them from c7 to c4) and register c5. If the contract throws an exception at the computing phase then the state variables and register c5 will roll back to the "check point", and the computing phase will be considered "successful". If contract doesn't throw an exception, it has no effect.
 
 ### tvm.rawCommit()
 
@@ -157,11 +135,9 @@ If contract doesn't throw an exception, it has no effect.
 tvm.rawCommit();
 ```
 
-Same as [tvm.commit()](#tvmcommit) but doesn't copy the state variables from c7 to c4. It's a wrapper
-for opcode `COMMIT`. See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
+Same as [tvm.commit()](api-functions-and-members.md#tvmcommit) but doesn't copy the state variables from c7 to c4. It's a wrapper for opcode `COMMIT`. See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
 
-**Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because
-you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
+**Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
 
 ### tvm.getData()
 
@@ -171,14 +147,11 @@ tvm.getData() returns (TvmCell);
 
 **Note:** Function is experimental.
 
-A dual of the `tvm.setData()`function. It returns value of the `c4` register. Obtaining a raw storage 
-cell can be useful when upgrading a new version of the contract that introduces an altered data layout.
+A dual of the `tvm.setData()`function. It returns value of the `c4` register. Obtaining a raw storage cell can be useful when upgrading a new version of the contract that introduces an altered data layout.
 
-Manipulation with a raw storage cell requires understanding of the way the compiler stores the data.
-Refer to the description of `tvm.setData()` below to get more details.
+Manipulation with a raw storage cell requires understanding of the way the compiler stores the data. Refer to the description of `tvm.setData()` below to get more details.
 
-**Note:** state variables and replay protection timestamp stored in the data cell have the same values
-that were before the transaction. See [tvm.commit()](#tvmcommit) to learn about register `c4` update.
+**Note:** state variables and replay protection timestamp stored in the data cell have the same values that were before the transaction. See [tvm.commit()](api-functions-and-members.md#tvmcommit) to learn about register `c4` update.
 
 ### tvm.setData()
 
@@ -188,8 +161,7 @@ tvm.setData(TvmCell data);
 
 **Note:** Function is experimental.
 
-Stores cell `data` in the register `c4`. Mind that after returning from a public function all state variables
-from `c7` are copied to `c4` and `tvm.setData` will have no effect. Example hint, how to set `c4`:
+Stores cell `data` in the register `c4`. Mind that after returning from a public function all state variables from `c7` are copied to `c4` and `tvm.setData` will have no effect. Example hint, how to set `c4`:
 
 ```TVMSolidity
 TvmCell data = ...;
@@ -198,8 +170,7 @@ tvm.rawCommit();   // save register c4 and c5
 revert(200);       // throw the exception to terminate the transaction
 ```
 
-Be careful with the hidden state variable `timestamp` and think about possibility of external
-messages replaying.
+Be careful with the hidden state variable `timestamp` and think about possibility of external messages replaying.
 
 ### tvm.log()
 
@@ -208,9 +179,7 @@ tvm.log(string log);
 logtvm(string log);
 ```
 
-Dumps `log` string. This function is a wrapper for TVM instructions
-`PRINTSTR` (for constant literal strings shorter than 16 symbols) and
-`STRDUMP` (for other strings). `logtvm` is an alias for `tvm.log(string)`. Example:
+Dumps `log` string. This function is a wrapper for TVM instructions `PRINTSTR` (for constant literal strings shorter than 16 symbols) and `STRDUMP` (for other strings). `logtvm` is an alias for `tvm.log(string)`. Example:
 
 ```TVMSolidity
 tvm.log("Hello, world!");
@@ -229,8 +198,7 @@ tvm.hexdump(T a);
 tvm.bindump(T a);
 ```
 
-Dumps cell data or integer. Note that for cells this function dumps data only
-from the first cell. `T` must be an integer type or TvmCell.
+Dumps cell data or integer. Note that for cells this function dumps data only from the first cell. `T` must be an integer type or TvmCell.
 
 Example:
 
@@ -265,14 +233,12 @@ CS<10011000011101100101010000110010000100001>(0..40)
 tvm.setcode(TvmCell newCode);
 ```
 
-This command creates an output action that would change this smart contract
-code to that given by the `TvmCell` **newCode** (this change will take effect only
-after the successful termination of the current run of the smart contract).
+This command creates an output action that would change this smart contract code to that given by the `TvmCell` **newCode** (this change will take effect only after the successful termination of the current run of the smart contract).
 
 See example of how to use this function:
 
-* [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
-* [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
+* [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12\_BadContract.sol)
+* [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12\_NewVersion.sol)
 
 ### tvm.configParam()
 
@@ -280,10 +246,7 @@ See example of how to use this function:
 tvm.configParam(uint8 paramNumber) returns (TypeA a, TypeB b, ...);
 ```
 
-Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832).
-This command returns the value of the global configuration parameter with
-integer index **paramNumber**. Argument should be an integer literal.
-Supported **paramNumbers**: 1, 15, 17, 34.
+Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832). This command returns the value of the global configuration parameter with integer index **paramNumber**. Argument should be an integer literal. Supported **paramNumbers**: 1, 15, 17, 34.
 
 ### tvm.rawConfigParam()
 
@@ -291,9 +254,7 @@ Supported **paramNumbers**: 1, 15, 17, 34.
 tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
 ```
 
-Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832).
-Returns the value of the global configuration parameter with
-integer index **paramNumber** as a `TvmCell` and a boolean status.
+Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832). Returns the value of the global configuration parameter with integer index **paramNumber** as a `TvmCell` and a boolean status.
 
 ### tvm.rawReserve()
 
@@ -302,18 +263,12 @@ tvm.rawReserve(uint value, uint8 flag);
 tvm.rawReserve(uint value, ExtraCurrencyCollection currency, uint8 flag);
 ```
 
-Creates an output action that reserves **reserve** nanotons. It is roughly equivalent to
-create an outbound message carrying **reserve** nanotons to oneself, so that the subsequent output
-actions would not be able to spend more money than the remainder. It's a wrapper for opcodes
-"RAWRESERVE" and "RAWRESERVEX". See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
+Creates an output action that reserves **reserve** nanotons. It is roughly equivalent to create an outbound message carrying **reserve** nanotons to oneself, so that the subsequent output actions would not be able to spend more money than the remainder. It's a wrapper for opcodes "RAWRESERVE" and "RAWRESERVEX". See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
 
 Let's denote:
 
-* `original_balance` is balance of the contract before the computing phase that is equal to balance
-of the contract before the transaction minus storage fee. Note: `original_balance` doesn't include
-`msg.value` and `original_balance` is not equal to `address(this).balance`.
-* `remaining_balance` is contract's current remaining balance at the action phase after some handled
-actions and before handing the "rawReserve" action.
+* `original_balance` is balance of the contract before the computing phase that is equal to balance of the contract before the transaction minus storage fee. Note: `original_balance` doesn't include `msg.value` and `original_balance` is not equal to `address(this).balance`.
+* `remaining_balance` is contract's current remaining balance at the action phase after some handled actions and before handing the "rawReserve" action.
 
 Let's consider how much nanotons (**reserve**) are reserved in all cases of **flag**:
 
@@ -321,12 +276,10 @@ Let's consider how much nanotons (**reserve**) are reserved in all cases of **fl
 * 1 -> `reserve = remaining_balance - value` nanotons.
 * 2 -> `reserve = min(value, remaining_balance)` nanotons.
 * 3 = 2 + 1 -> `reserve = remaining_balance - min(value, remaining_balance)` nanotons.
-
 * 4 -> `reserve = original_balance + value` nanotons.
 * 5 = 4 + 1 -> `reserve = remaining_balance - (original_balance + value)` nanotons.
 * 6 = 4 + 2 -> `reserve = min(original_balance + value, remaining_balance) = remaining_balance` nanotons.
 * 7 = 4 + 2 + 1 -> `reserve = remaining_balance - min(original_balance + value, remaining_balance)` nanotons.
-
 * 12 = 8 + 4 -> `reserve = original_balance - value` nanotons.
 * 13 = 8 + 4 + 1 -> `reserve = remaining_balance - (original_balance - value)` nanotons.
 * 14 = 8 + 4 + 2 -> `reserve = min(original_balance - value, remaining_balance)` nanotons.
@@ -350,7 +303,7 @@ Example:
 tvm.rawReserve(1 ton, 4 + 8);
 ```
 
-See also: [23_rawReserve.sol](https://github.com/tonlabs/samples/blob/master/solidity/23_rawReserve.sol)
+See also: [23\_rawReserve.sol](https://github.com/tonlabs/samples/blob/master/solidity/23\_rawReserve.sol)
 
 ### tvm.initCodeHash()
 
@@ -371,11 +324,7 @@ tvm.hash(bytes data) returns (uint256);
 tvm.hash(TvmSlice data) returns (uint256);
 ```
 
-Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F900).
-It computes the representation hash of a given argument and returns
-it as a 256-bit unsigned integer. For `string` and `bytes` it computes
-hash of the tree of cells that contains data but not data itself.
-See [sha256](#sha256) to count hash of data.
+Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F900). It computes the representation hash of a given argument and returns it as a 256-bit unsigned integer. For `string` and `bytes` it computes hash of the tree of cells that contains data but not data itself. See [sha256](api-functions-and-members.md#sha256) to count hash of data.
 
 Example:
 
@@ -393,13 +342,7 @@ tvm.checkSign(uint256 hash, TvmSlice signature, uint256 pubkey) returns (bool);
 tvm.checkSign(TvmSlice data, TvmSlice signature, uint256 pubkey) returns (bool);
 ```
 
-Executes TVM instruction "CHKSIGNU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F910) for variants 1 and 2.
-This command checks the Ed25519-signature of the **hash** using public key **pubkey**.
-Signature is represented by two uint256 **SignHighPart** and **SignLowPart** in the
-first variant and by the slice **signature** in the second variant.
-In the third variant executes TVM instruction "CHKSIGNS" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F911).
-This command checks Ed25519-signature of the **data** using public key **pubkey**.
-Signature is represented by the slice **signature**.
+Executes TVM instruction "CHKSIGNU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F910) for variants 1 and 2. This command checks the Ed25519-signature of the **hash** using public key **pubkey**. Signature is represented by two uint256 **SignHighPart** and **SignLowPart** in the first variant and by the slice **signature** in the second variant. In the third variant executes TVM instruction "CHKSIGNS" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F911). This command checks Ed25519-signature of the **data** using public key **pubkey**. Signature is represented by the slice **signature**.
 
 Example:
 
@@ -443,25 +386,18 @@ tvm.buildStateInit({code: TvmCell code, data: TvmCell data, splitDepth: uint8 sp
     pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
-Generates a `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)) from `code` and `data` `TvmCell`s.
-Member `splitDepth` of the tree of cell `StateInit`:
+Generates a `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)) from `code` and `data` `TvmCell`s. Member `splitDepth` of the tree of cell `StateInit`:
 
-1) is not set. Has no value.
-2) is set. `0 <= splitDepth <= 31`
-3) Arguments can also be set with names.
-List of possible names:
+1. is not set. Has no value.
+2. is set. `0 <= splitDepth <= 31`
+3. Arguments can also be set with names. List of possible names:
 
 * `code` (`TvmCell`) - defines the code field of the `StateInit`. Must be specified.
-* `data` (`TvmCell`) - defines the data field of the `StateInit`. Conflicts with `pubkey` and
-`varInit`. Can be omitted, in this case data field would be built from `pubkey` and `varInit`.
-* `splitDepth` (`uint8`) - splitting depth. `0 <= splitDepth <= 31`. Can be omitted. By default,
-it has no value.
-* `pubkey` (`uint256`) - defines the public key of the new contract. Conflicts with `data`.
-Can be omitted, default value is 0.
-* `varInit` (`initializer list`) - used to set [static](#keyword-static) variables of the contract.
-Conflicts with `data` and requires `contr` to be set. Can be omitted.
-* `contr` (`contract`) - defines the contract whose `StateInit` is being built. Mandatory to be set if the
-option `varInit` is specified.
+* `data` (`TvmCell`) - defines the data field of the `StateInit`. Conflicts with `pubkey` and `varInit`. Can be omitted, in this case data field would be built from `pubkey` and `varInit`.
+* `splitDepth` (`uint8`) - splitting depth. `0 <= splitDepth <= 31`. Can be omitted. By default, it has no value.
+* `pubkey` (`uint256`) - defines the public key of the new contract. Conflicts with `data`. Can be omitted, default value is 0.
+* `varInit` (`initializer list`) - used to set [static](api-functions-and-members.md#keyword-static) variables of the contract. Conflicts with `data` and requires `contr` to be set. Can be omitted.
+* `contr` (`contract`) - defines the contract whose `StateInit` is being built. Mandatory to be set if the option `varInit` is specified.
 
 Examples of this function usage:
 
@@ -508,8 +444,7 @@ contract C {
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
-Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in
-[tvm.buildStateInit()](#tvmbuildstateinit).
+Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in [tvm.buildStateInit()](api-functions-and-members.md#tvmbuildstateinit).
 
 ```TVMSolidity
 // SimpleWallet.sol
@@ -556,30 +491,24 @@ uint16 dataDepth = data.depth();
 uint256 hash = tvm.stateInitHash(codeHash, dataHash, codeDepth, dataDepth);
 ```
 
-See also [internal doc](https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/docs/internal/stateInit_hash.md) to read more about this
-function mechanics.
+See also [internal doc](https://github.com/tonlabs/TON-Solidity-Compiler/blob/master/docs/internal/stateInit\_hash.md) to read more about this function mechanics.
 
 ### Deploy via new
 
-Either `code` or `stateInit` option must be set when you deploy a contract
-from contract via keyword `new`. `stateInit` is a tree of cells that contains
-original state of the contract. `stateInit` contains `data`, `code` and another members.
+Either `code` or `stateInit` option must be set when you deploy a contract from contract via keyword `new`. `stateInit` is a tree of cells that contains original state of the contract. `stateInit` contains `data`, `code` and another members.
 
 See also [Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit) to read about `stateInit`.
 
-Use `stateInit` option if you have the created account state (maybe offchain or
-onchain) and use `code` if you want to create account state in the `new` expression.
+Use `stateInit` option if you have the created account state (maybe offchain or onchain) and use `code` if you want to create account state in the `new` expression.
 
-**Note**: Address of the new account is calculated as a hash of the `stateInit`.
-Constructor function parameters don't influence the address. See
-[New contract address problem](#new-contract-address-problem).
+**Note**: Address of the new account is calculated as a hash of the `stateInit`. Constructor function parameters don't influence the address. See [New contract address problem](api-functions-and-members.md#new-contract-address-problem).
 
-[Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.md).  
+[Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.md).
 
 Examples:
 
-* [WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.sol).
-* [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
+* [WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.sol).
+* [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21\_self\_deploy.sol).
 
 ### `stateInit` option usage
 
@@ -602,7 +531,7 @@ address newWallet = new SimpleWallet{value: 1 ton, code: code}(arg0, arg1, ...);
 The following options can only be used with the `code` option:
 
 * `pubkey` (`uint256`) - defines the public key of the new contract.
-* `varInit` (`initializer list`) - used to set [static](#keyword-static) variables of the new contract.
+* `varInit` (`initializer list`) - used to set [static](api-functions-and-members.md#keyword-static) variables of the new contract.
 * `splitDepth` (`uint8`) - splitting depth. `0 <= splitDepth <= 31`. By default, it has no value.
 
 Example of these options usage:
@@ -631,16 +560,11 @@ address newWallet = new SimpleWallet{
 
 The following options can be used with both `stateInit` and `code`:
 
-* `value` (`uint128`) - funds attached to the outbound internal message, that creates new account.
-This value must be set.
-* `currencies` (`ExtraCurrencyCollection`) - currencies attached to the outbound internal message.
-Defaults to an empty set.
-* `bounce` (`bool`) - if it's set and deploy falls (only at the computing phase, not at the action
-phase!) then funds will be returned. Otherwise, (flag isn't set or deploying terminated successfully)
-the address accepts the funds. Defaults to `true`.
+* `value` (`uint128`) - funds attached to the outbound internal message, that creates new account. This value must be set.
+* `currencies` (`ExtraCurrencyCollection`) - currencies attached to the outbound internal message. Defaults to an empty set.
+* `bounce` (`bool`) - if it's set and deploy falls (only at the computing phase, not at the action phase!) then funds will be returned. Otherwise, (flag isn't set or deploying terminated successfully) the address accepts the funds. Defaults to `true`.
 * `wid` (`uint8`) - workchain id of the new account address. Defaults to `0`.
-* `flag` (`uint16`) - flag used to send the outbound internal message. Defaults to `0`.
-Possible values of the `flag` are described here: [\<address\>.transfer()](#addresstransfer).
+* `flag` (`uint16`) - flag used to send the outbound internal message. Defaults to `0`. Possible values of the `flag` are described here: [\<address>.transfer()](api-functions-and-members.md#addresstransfer).
 
 ```TVMSolidity
 TvmCell stateInit = ...;
@@ -652,40 +576,24 @@ address newWallet = new SimpleWallet{
 }(arg0, arg1, ...);
 ```
 
-### Deploy via \<address\>.transfer()
+### Deploy via \<address>.transfer()
 
-You can also deploy the contract via [\<address\>.transfer()](#addresstransfer).
-Just set the option `stateInit`.
+You can also deploy the contract via [\<address>.transfer()](api-functions-and-members.md#addresstransfer). Just set the option `stateInit`.
 
-* [Example of usage](https://github.com/tonlabs/samples/blob/master/solidity/11_ContractDeployer.sol)
-* [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.md).
+* [Example of usage](https://github.com/tonlabs/samples/blob/master/solidity/11\_ContractDeployer.sol)
+* [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.md).
 
 ### New contract address problem
 
-Address of the new account is calculated as a hash of the `stateInit`.
-Parameters of the constructor don't influence the address. The problem
-is that hacker can deploy the contract with your `stateInit` before you
-with malicious constructor parameters.
+Address of the new account is calculated as a hash of the `stateInit`. Parameters of the constructor don't influence the address. The problem is that hacker can deploy the contract with your `stateInit` before you with malicious constructor parameters.
 
 Let's consider how to protect against this problem:
 
-1. Constructor is called by external message.
-We must Check if we didn't forget to set the public key in the contract and the
-inbound message is signed by that key. If hacker doesn't have your private
-key then he can't sign message to call the constructor.
-See [constructor of WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.sol).
-2. Constructor is called by internal message.
-We should define static variable in the new contract that will contain
-address of the creator. Address of the creator will be a part of the `stateInit`.
-And in the constructor we must check address of the message sender.
-See [function `deployWallet` how to deploy contract](https://github.com/tonlabs/samples/blob/master/solidity/17_ContractProducer.sol).  
-See [constructor of SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17_SimpleWallet.sol).  
-If some contract should deploy plenty of contracts (with some contract's
-public key) then it's a good idea to declare static variable in the deployed
-contract. This variable can contain some sequence number. It will allow
-each new contact to have unique `stateInit`.
-See [SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17_SimpleWallet.sol).  
-**Note**: contract's public key (`tvm.pubkey()`) is a part of `stateInit`.
+1. Constructor is called by external message. We must Check if we didn't forget to set the public key in the contract and the inbound message is signed by that key. If hacker doesn't have your private key then he can't sign message to call the constructor. See [constructor of WalletProducer](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.sol).
+2. Constructor is called by internal message. We should define static variable in the new contract that will contain address of the creator. Address of the creator will be a part of the `stateInit`. And in the constructor we must check address of the message sender. See [function `deployWallet` how to deploy contract](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.sol).\
+   See [constructor of SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17\_SimpleWallet.sol).\
+   If some contract should deploy plenty of contracts (with some contract's public key) then it's a good idea to declare static variable in the deployed contract. This variable can contain some sequence number. It will allow each new contact to have unique `stateInit`. See [SimpleWallet](https://github.com/tonlabs/samples/blob/master/solidity/17\_SimpleWallet.sol).\
+   **Note**: contract's public key (`tvm.pubkey()`) is a part of `stateInit`.
 
 ### Misc functions from `tvm`
 
@@ -697,7 +605,7 @@ tvm.code() returns (TvmCell);
 
 Returns contract's code.
 
-See [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21_self_deploy.sol).
+See [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21\_self\_deploy.sol).
 
 ### tvm.codeSalt()
 
@@ -737,14 +645,12 @@ Set new contract's public key. Contract's public key can be obtained from `tvm.p
 tvm.setCurrentCode(TvmCell newCode);
 ```
 
-Changes this smart contract current code to that given by Cell **newCode**. Unlike [tvm.setcode()](#tvmsetcode)
-this function changes code of the smart contract only for current TVM execution, but has no effect
-after termination of the current run of the smart contract.
+Changes this smart contract current code to that given by Cell **newCode**. Unlike [tvm.setcode()](api-functions-and-members.md#tvmsetcode) this function changes code of the smart contract only for current TVM execution, but has no effect after termination of the current run of the smart contract.
 
 See example of how to use this function:
 
-* [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12_BadContract.sol)
-* [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12_NewVersion.sol)
+* [old contract](https://github.com/tonlabs/samples/blob/master/solidity/12\_BadContract.sol)
+* [new contract](https://github.com/tonlabs/samples/blob/master/solidity/12\_NewVersion.sol)
 
 ### tvm.resetStorage()
 
@@ -793,7 +699,7 @@ contract MyContract {
 
 See example of how to use this function:
 
-* [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16_onBounceHandler.sol)
+* [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16\_onBounceHandler.sol)
 
 ### tvm.encodeBody()
 
@@ -803,8 +709,7 @@ tvm.encodeBody(function, callbackFunction, arg0, arg1, arg2, ...) returns (TvmCe
 tvm.encodeBody(contract, arg0, arg1, arg2, ...) returns (TvmCell);
 ```
 
-Constructs a message body for the function call. Body can be used as a payload for  [\<address\>.transfer()](#addresstransfer).
-If the **function** is `responsible`, **callbackFunction** must be set.
+Constructs a message body for the function call. Body can be used as a payload for [\<address>.transfer()](api-functions-and-members.md#addresstransfer). If the **function** is `responsible`, **callbackFunction** must be set.
 
 Example:
 
@@ -830,9 +735,9 @@ addr.transfer({value: 10 ton, body: body});
 
 See also:
 
-* [External function calls](#external-function-calls)
-* [\<TvmSlice\>.loadFunctionParams()](#tvmsliceloadfunctionparams)
-* [tvm.buildIntMsg()](#tvmbuildintmsg)
+* [External function calls](api-functions-and-members.md#external-function-calls)
+* [\<TvmSlice>.loadFunctionParams()](api-functions-and-members.md#tvmsliceloadfunctionparams)
+* [tvm.buildIntMsg()](api-functions-and-members.md#tvmbuildintmsg)
 
 ### tvm.exit() and tvm.exit1()
 
@@ -841,8 +746,7 @@ tvm.exit();
 tvm.exit1();
 ```
 
-Functions are used to save state variables and quickly terminate execution of the smart contract.
-Exit codes are equal to zero and one for `tvm.exit` and `tvm.exit1` respectively.
+Functions are used to save state variables and quickly terminate execution of the smart contract. Exit codes are equal to zero and one for `tvm.exit` and `tvm.exit1` respectively.
 
 Example:
 
@@ -882,9 +786,7 @@ tvm.buildExtMsg({
 returns (TvmCell);
 ```
 
-Function should be used only offchain and intended to be used only in debot contracts.
-Allows creating an external inbound message, that calls the **func** function of the
-contract on address **destination** with specified function arguments.
+Function should be used only offchain and intended to be used only in debot contracts. Allows creating an external inbound message, that calls the **func** function of the contract on address **destination** with specified function arguments.
 
 Mandatory parameters that are used to form a src field that is used for debots:
 
@@ -892,37 +794,25 @@ Mandatory parameters that are used to form a src field that is used for debots:
 * `onErrorId` - identifier of the function that is called in case of an error.
 * `signBoxHandle` - handle of the sign box entity, that engine will use to sign the message.
 
-These parameters are stored in addr_extern and placed to the src field of the message.
-Message is of type [ext_in_msg_info](https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L127)
-and src address is of type [addr_extern](https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L101)
-but stores special data:
+These parameters are stored in addr\_extern and placed to the src field of the message. Message is of type [ext\_in\_msg\_info](https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L127) and src address is of type [addr\_extern](https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L101) but stores special data:
 
 * callback id - 32 bits;
 * on error id - 32 bits;
 * abi version - 8 bits; Can be specified manually and contain full abi version in little endian half bytes (e.g. version = "2.3" -> abiVer: 0x32)
 * header mask - 3 bits in such order: time, expire, pubkey;
-* optional value signBoxHandle - 1 bit (whether value is present) + \[32 bits\];
-* control flags byte - 8 bits. 
-  Currently used bits:
-    1 - override time (dengine will replace time value with current time)
-    2 - override exp (dengine will replace time value with actual expire value)
-    4 - async call (dengine must send message and don't wait for the result)
+* optional value signBoxHandle - 1 bit (whether value is present) + \[32 bits];
+* control flags byte - 8 bits. Currently used bits: 1 - override time (dengine will replace time value with current time) 2 - override exp (dengine will replace time value with actual expire value) 4 - async call (dengine must send message and don't wait for the result)
 
 Other function parameters define fields of the message:
 
-* `time` - message creation timestamp. Used for replay attack protection, encoded as 64 bit Unix
-time in milliseconds.
+* `time` - message creation timestamp. Used for replay attack protection, encoded as 64 bit Unix time in milliseconds.
 * `expire` - Unix time (in seconds, 32 bit) after that message should not be processed by contract.
-* `pubkey` - public key from key pair used for signing the message body. This parameter is optional
-and can be omitted.
-* `sign` - constant bool flag that shows whether message should contain signature. If set to
-**true**, message is generated with signature field filled with zeroes. This parameter is optional
-and can be omitted (in this case is equal to **false**).
+* `pubkey` - public key from key pair used for signing the message body. This parameter is optional and can be omitted.
+* `sign` - constant bool flag that shows whether message should contain signature. If set to **true**, message is generated with signature field filled with zeroes. This parameter is optional and can be omitted (in this case is equal to **false**).
 
 User can also attach stateInit to the message using `stateInit` parameter.
 
-Function throws an exception with code 64 if function is called with wrong parameters (pubkey is set
-and has value, but sign is false or omitted).
+Function throws an exception with code 64 if function is called with wrong parameters (pubkey is set and has value, but sign is false or omitted).
 
 Example:
 
@@ -962,9 +852,7 @@ contract Test {
 }
 ```
 
-External inbound message can also be built and sent with construction similar to remote contract
-call. It requires suffix ".extMsg" and call options similar to `buildExtMsg` function call.
-**Note**: this type of call should be used only offchain in debot contracts.
+External inbound message can also be built and sent with construction similar to remote contract call. It requires suffix ".extMsg" and call options similar to `buildExtMsg` function call. **Note**: this type of call should be used only offchain in debot contracts.
 
 ```TVMSolidity
 interface Foo {
@@ -1002,18 +890,14 @@ tvm.buildIntMsg({
 returns (TvmCell);
 ```
 
-Generates an internal outbound message that contains a function call. The result `TvmCell` can be used to send a
-message using [tvm.sendrawmsg()](#tvmsendrawmsg). If the `function` is `responsible` then
-`callbackFunction` parameter must be set.
+Generates an internal outbound message that contains a function call. The result `TvmCell` can be used to send a message using [tvm.sendrawmsg()](api-functions-and-members.md#tvmsendrawmsg). If the `function` is `responsible` then `callbackFunction` parameter must be set.
 
-`dest`, `value` and `call` parameters are mandatory. Another parameters can be omitted. See
-[\<address\>.transfer()](#addresstransfer) where these options and their default values are
-described.
+`dest`, `value` and `call` parameters are mandatory. Another parameters can be omitted. See [\<address>.transfer()](api-functions-and-members.md#addresstransfer) where these options and their default values are described.
 
 See also:
 
-* sample [22_sender.sol](https://github.com/tonlabs/samples/blob/master/solidity/22_sender.sol)
-* [tvm.encodeBody()](#tvmencodebody)
+* sample [22\_sender.sol](https://github.com/tonlabs/samples/blob/master/solidity/22\_sender.sol)
+* [tvm.encodeBody()](api-functions-and-members.md#tvmencodebody)
 
 ## tvm.sendrawmsg()
 
@@ -1021,27 +905,20 @@ See also:
 tvm.sendrawmsg(TvmCell msg, uint8 flag);
 ```
 
-Send the internal/external message `msg` with `flag`. It's a wrapper for opcode
-`SENDRAWMSG` ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.10).
-Internal message `msg` can be generated by [tvm.buildIntMsg()](#tvmbuildintmsg).
-Possible values of `flag` are described here: [\<address\>.transfer()](#addresstransfer).
+Send the internal/external message `msg` with `flag`. It's a wrapper for opcode `SENDRAWMSG` ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.10). Internal message `msg` can be generated by [tvm.buildIntMsg()](api-functions-and-members.md#tvmbuildintmsg). Possible values of `flag` are described here: [\<address>.transfer()](api-functions-and-members.md#addresstransfer).
 
-**Note:** make sure that `msg` has a correct format and follows the [TL-B scheme][3] of `Message X`.
-For example:
+**Note:** make sure that `msg` has a correct format and follows the \[TL-B scheme]\[3] of `Message X`. For example:
 
-``` TVMSolidity
+```TVMSolidity
 TvmCell msg = ...
 tvm.sendrawmsg(msg, 2);
 ```
 
-If the function is called by external message and `msg` has a wrong format (for example, the field
-`init` of `Message X` is not valid) then the transaction will be replayed despite the usage of flag 2.
-It will happen because the transaction will fail at the action phase.
+If the function is called by external message and `msg` has a wrong format (for example, the field `init` of `Message X` is not valid) then the transaction will be replayed despite the usage of flag 2. It will happen because the transaction will fail at the action phase.
 
 ## **math** namespace
 
-`T` is an integer, [variable integer](#varint-and-varuint) or fixed point type in the `math.*` functions where applicable.
-Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
+`T` is an integer, [variable integer](api-functions-and-members.md#varint-and-varuint) or fixed point type in the `math.*` functions where applicable. Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
 
 ### math.min() math.max()
 
@@ -1050,7 +927,7 @@ math.min(T a, T b, ...) returns (T);
 math.max(T a, T b, ...) returns (T);
 ```
 
-Returns the minimal (maximal) value of the passed arguments. 
+Returns the minimal (maximal) value of the passed arguments.
 
 ### math.minmax()
 
@@ -1106,8 +983,7 @@ math.divc(T a, T b) returns (T);
 math.divr(T a, T b) returns (T);
 ```
 
-Returns result of the division of two integers. The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr`
-respectively. See also: [Division and rounding](#division-and-rounding).
+Returns result of the division of two integers. The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr` respectively. See also: [Division and rounding](api-functions-and-members.md#division-and-rounding).
 
 Example:
 
@@ -1127,8 +1003,7 @@ math.muldivr(T a, T b, T c) returns (T);
 math.muldivc(T a, T b, T c) returns (T);
 ```
 
-Multiplies two values and then divides the result by a third value. The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`,
-`muldivc` and `muldivr` respectively. See also: [Division and rounding](#division-and-rounding).
+Multiplies two values and then divides the result by a third value. The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`, `muldivc` and `muldivr` respectively. See also: [Division and rounding](api-functions-and-members.md#division-and-rounding).
 
 Example:
 
@@ -1144,9 +1019,7 @@ uint res = math.muldivc(3, 7, 2); // res == 11
 math.muldivmod(T a, T b, T c) returns (T /*result*/, T /*remainder*/);
 ```
 
-This instruction multiplies first two arguments, divides the result by third argument and returns
-the result and the remainder. Intermediate result is stored in the 514 bit buffer, and the final
-result is rounded to the floor.
+This instruction multiplies first two arguments, divides the result by third argument and returns the result and the remainder. Intermediate result is stored in the 514 bit buffer, and the final result is rounded to the floor.
 
 Example:
 
@@ -1167,8 +1040,7 @@ int g = 2;
 math.divmod(T a, T b) returns (T /*result*/, T /*remainder*/);
 ```
 
-This function divides the first number by the second and returns the result and the
-remainder. Result is rounded to the floor.
+This function divides the first number by the second and returns the result and the remainder. Result is rounded to the floor.
 
 Example:
 
@@ -1189,9 +1061,10 @@ math.sign(T val) returns (int2);
 ```
 
 Returns:
- * -1 if `val` is negative;
- * 0 if `val` is zero;
- * 1 if `val` is positive.
+
+* \-1 if `val` is negative;
+* 0 if `val` is zero;
+* 1 if `val` is positive.
 
 Example:
 
@@ -1229,7 +1102,13 @@ Returns the storage fee paid in the current transaction.
 block.timestamp returns (uint32);
 ```
 
-Returns the current Unix time. Unix time is the same for the all transactions from one block. 
+Returns the current Unix time. Unix time is the same for the all transactions from one block.
+
+{% hint style="warning" %}
+The behavior of the method has been changed since **v. 0.67.0**: it has replaced the keyword `now ,`which is now considered deprecated, and now binds to opcode `NOW`, which returns a Unix timestamp.
+
+If you use an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ### block.logicaltime
 
@@ -1241,13 +1120,7 @@ Returns the starting logical time of the current block.
 
 ### **rnd** namespace
 
-The pseudorandom number generator uses the random seed. The
-initial value of the random seed before a smart contract execution in
-Everscale Blockchain is a hash of the smart contract address and the global
-block random seed. If there are several runs of the same smart contract
-inside a block, then all of these runs will have the same random seed.
-This can be fixed, for example, by running `rnd.shuffle()` (without
-parameters) each time before using the pseudorandom number generator.
+The pseudorandom number generator uses the random seed. The initial value of the random seed before a smart contract execution in Everscale Blockchain is a hash of the smart contract address and the global block random seed. If there are several runs of the same smart contract inside a block, then all of these runs will have the same random seed. This can be fixed, for example, by running `rnd.shuffle()` (without parameters) each time before using the pseudorandom number generator.
 
 ### rnd.next
 
@@ -1257,10 +1130,8 @@ rnd.next([Type limit]) returns (Type);
 
 Generates a new pseudo-random number.
 
-1) Returns `uint256` number.
-2) If the first argument `limit > 0` then function returns the value in the
-range `0..limit-1`. Else if `limit < 0` then the returned value lies in range
-`limit..-1`. Else if `limit == 0` then it returns `0`.
+1. Returns `uint256` number.
+2. If the first argument `limit > 0` then function returns the value in the range `0..limit-1`. Else if `limit < 0` then the returned value lies in range `limit..-1`. Else if `limit == 0` then it returns `0`.
 
 Example:
 
@@ -1298,10 +1169,7 @@ rnd.shuffle(uint someNumber);
 rnd.shuffle();
 ```
 
-Randomizes the random seed.
-(1) Mixes the random seed and `someNumber`. The result is set as the random seed.
-(2) Mixes the random seed and the logical time of the current transaction.
-The result is set as the random seed.
+Randomizes the random seed. (1) Mixes the random seed and `someNumber`. The result is set as the random seed. (2) Mixes the random seed and the logical time of the current transaction. The result is set as the random seed.
 
 Example:
 
@@ -1324,9 +1192,7 @@ abi.encode(TypeA a, TypeB b, ...) returns (TvmCell /*cell*/);
 abi.decode(TvmCell cell, (TypeA, TypeB, ...)) returns (TypeA /*a*/, TypeB /*b*/, ...);
 ```
 
-`abi.encode` creates `cell` from the values.
-`abi.decode` decodes the `cell` and returns the values. Note: all types must be set in `abi.decode`.
-Otherwise, `abi.decode` throws an exception.
+`abi.encode` creates `cell` from the values. `abi.decode` decodes the `cell` and returns the values. Note: all types must be set in `abi.decode`. Otherwise, `abi.decode` throws an exception.
 
 Example:
 
@@ -1343,11 +1209,9 @@ TvmCell cell = abi.encode(uint(1), uint(2), uint(3), uint(4));
 
 ## **gosh** namespace
 
-All `gosh.*` functions are experimental features and are available only in certain blockchain
-networks.
+All `gosh.*` functions are experimental features and are available only in certain blockchain networks.
 
 ## gosh.diff and gosh.zipDiff
-
 
 ```TVMSolidity
 (1)
@@ -1355,9 +1219,8 @@ gosh.diff(string oldText, string newText) returns (string patch)
 (2)
 gosh.zipDiff(bytes oldText, bytes newText) returns (bytes patch)
 ```
-(1) Calculates [patch](https://en.wikipedia.org/wiki/Diff) between `oldText` and `newText`. Example:
-(2) It's the same as `gosh.diff` but it calculates `patch` between compressed strings.
 
+(1) Calculates [patch](https://en.wikipedia.org/wiki/Diff) between `oldText` and `newText`. Example: (2) It's the same as `gosh.diff` but it calculates `patch` between compressed strings.
 
 ```TVMSolidity
 string oldText = ...;
@@ -1382,15 +1245,7 @@ gosh.applyZipBinPatch(bytes oldText, bytes patch) returns (bytes newText)
 gosh.applyZipBinPatchQ(bytes oldText, bytes patch) returns (optional(bytes) newText)
 ```
 
-(1)
-Applies `patch` to the `oldText`. If it's impossible (bad patch), `gosh.applyPatch` throws an exception with type check
-error code (-8) but`gosh.applyPatchQ` returns `null`. Example:
-(2)
-These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to binary arrays.
-(3)
-These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed strings.
-(4)
-These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed binary arrays.
+(1) Applies `patch` to the `oldText`. If it's impossible (bad patch), `gosh.applyPatch` throws an exception with type check error code (-8) but`gosh.applyPatchQ` returns `null`. Example: (2) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to binary arrays. (3) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed strings. (4) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed binary arrays.
 
 ```TVMSolidity
 string oldText = ...;
@@ -1409,9 +1264,7 @@ gosh.unzip(bytes zip) returns (optional(string) text)
 
 ## Exponentiation
 
-Exponentiation `**` is only available for unsigned types in the exponent. The resulting type of an
-exponentiation is always equal to the type of the base. Please take care that it is large enough to
-hold the result and prepare for potential assertion failures or wrapping behaviour.
+Exponentiation `**` is only available for unsigned types in the exponent. The resulting type of an exponentiation is always equal to the type of the base. Please take care that it is large enough to hold the result and prepare for potential assertion failures or wrapping behaviour.
 
 Note that `0**0` throws an exception.
 
@@ -1429,12 +1282,11 @@ uint res = b ** p; // res == 81
 selfdestruct(address dest_addr);
 ```
 
-Creates and sends the message that carries all the remaining balance
-of the current smart contract and destroys the current account.
+Creates and sends the message that carries all the remaining balance of the current smart contract and destroys the current account.
 
 See example of how to use the `selfdestruct` function:
 
-* [Kamikaze](https://github.com/tonlabs/samples/blob/master/solidity/8_Kamikaze.sol)
+* [Kamikaze](https://github.com/tonlabs/samples/blob/master/solidity/8\_Kamikaze.sol)
 
 ## sha256
 
@@ -1447,14 +1299,11 @@ sha256(bytes b) returns (uint256)
 sha256(string str) returns (uint256)
 ```
 
-1. Computes the SHA-256 hash. If the bit-length of `slice` is not divisible by eight, throws a cell
-underflow [exception](#tvm-exception-codes). References of `slice` are not used to compute the hash. Only data bits located
-in the root cell of `slice` are used.
-2. Computes the SHA-256 hash only for the first 127 bytes. If `bytes.length > 127` then `b[128],
-b[129], b[130] ...` elements are ignored.
+1. Computes the SHA-256 hash. If the bit-length of `slice` is not divisible by eight, throws a cell underflow [exception](api-functions-and-members.md#tvm-exception-codes). References of `slice` are not used to compute the hash. Only data bits located in the root cell of `slice` are used.
+2. Computes the SHA-256 hash only for the first 127 bytes. If `bytes.length > 127` then `b[128], b[129], b[130] ...` elements are ignored.
 3. Same as for `bytes`: only the first 127 bytes are taken into account.
 
-See also [tvm.hash()](#tvmhash) to compute representation hash of the whole tree of cells.
+See also [tvm.hash()](api-functions-and-members.md#tvmhash) to compute representation hash of the whole tree of cells.
 
 ## gasToValue
 
@@ -1463,9 +1312,7 @@ gasToValue(uint128 gas) returns (uint128 value)
 gasToValue(uint128 gas, int8 wid) returns (uint128 value)
 ```
 
-Returns worth of **gas** in workchain **wid**.
-Throws an exception if **wid** is not equal to `0` or `-1`.
-If `wid` is omitted than used the contract's `wid`.
+Returns worth of **gas** in workchain **wid**. Throws an exception if **wid** is not equal to `0` or `-1`. If `wid` is omitted than used the contract's `wid`.
 
 ## valueToGas
 
@@ -1474,6 +1321,4 @@ valueToGas(uint128 value) returns (uint128 gas)
 valueToGas(uint128 value, int8 wid) returns (uint128 gas)
 ```
 
-Counts how much **gas** could be bought on **value** nanotons in workchain **wid**.
-Throws an exception if **wid** is not equal to `0` or `-1`.
-If `wid` is omitted than used the contract's `wid`.
+Counts how much **gas** could be bought on **value** nanotons in workchain **wid**. Throws an exception if **wid** is not equal to `0` or `-1`. If `wid` is omitted than used the contract's `wid`.

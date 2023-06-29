@@ -6,7 +6,7 @@
 
 * Comparison operators: `==`, `!=` (evaluate to `bool`)
 
-## \<TvmCell>.depth()
+## depth()
 
 ```solidity
 <TvmCell>.depth() returns(uint16);
@@ -18,7 +18,7 @@ Returns the depth **d** of the `TvmCell` **c:**&#x20;
 * Otherwise, **d** equals one plus the maximum of depths of cells referred to from **c**.&#x20;
 * If **c** is a `Null` instead of a `TvmCell`, it returns zero.
 
-## \<TvmCell>.dataSize()
+## dataSize()
 
 ```solidity
 <TvmCell>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
@@ -26,7 +26,7 @@ Returns the depth **d** of the `TvmCell` **c:**&#x20;
 
 Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If the number of the distinct cells exceeds `n+1` , then a cell overflow [exception](tvmcell.md#tvm-exception-codes) is thrown. This function is a wrapper for the `CDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
-## \<TvmCell>.dataSizeQ()
+## dataSizeQ()
 
 ```solidity
 <TvmCell>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
@@ -34,7 +34,7 @@ Returns the number of distinct cells, data bits in the distinct cells and cell r
 
 Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If number of the distinct cells exceeds `n+1` then this function returns an `optional` that has no value. This function is a wrapper for the `CDATASIZEQ` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
-## \<TvmCell>.toSlice()
+## toSlice()
 
 ```solidity
 <TvmCell>.toSlice() returns (TvmSlice);

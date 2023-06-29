@@ -1,6 +1,6 @@
 # Table of contents
 
-* [T-Sol Compiler (v. 0.70.0)](README.md)
+* [Introduction](README.md)
 * [Compiler version](compiler-version.md)
 * [TVM-specific types](tvm-specific-types/README.md)
   * [Units](tvm-specific-types/units.md)

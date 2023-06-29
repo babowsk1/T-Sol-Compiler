@@ -1,8 +1,16 @@
 # Table of contents
 
-* [T-Sol Compiler](README.md)
+* [T-Sol Compiler (v. 0.70.0)](README.md)
 * [Compiler version](compiler-version.md)
-* [TVM specific types](tvm-specific-types.md)
+* [TVM-specific types](tvm-specific-types/README.md)
+  * [Units](tvm-specific-types/units.md)
+  * [TvmCell](tvm-specific-types/tvmcell.md)
+  * [TvmSlice](tvm-specific-types/tvmslice.md)
+  * [TvmBuilder](tvm-specific-types/tvmbuilder.md)
+  * [ExtraCurrencyCollection](tvm-specific-types/extracurrencycollection.md)
+  * [Optional type](tvm-specific-types/optional-type.md)
+  * [Variant](tvm-specific-types/variant.md)
+  * [Vector](tvm-specific-types/vector.md)
 * [TVM specific control structures](tvm-specific-control-structures.md)
 * [Changes and extensions in Solidity types](changes-and-extensions-in-solidity-types.md)
 * [Pragmas](pragmas.md)

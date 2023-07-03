@@ -12,6 +12,7 @@
   * [Variant](tvm-specific-types/variant.md)
   * [Vector](tvm-specific-types/vector.md)
 * [TVM specific control structures](tvm-specific-control-structures.md)
+  * [Range-based for loop](tvm-specific-control-structures/range-based-for-loop.md)
 * [Changes and extensions in Solidity types](changes-and-extensions-in-solidity-types.md)
 * [Pragmas](pragmas.md)
 * [State variables](state-variables.md)

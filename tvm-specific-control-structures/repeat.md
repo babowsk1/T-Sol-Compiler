@@ -4,7 +4,7 @@ Allows repeating block of code several times.
 A `repeat` loop evaluates the expression only one time.
 This expression must have an unsigned integer type.
 
-```Solidity
+```solidity
 uint a = 0;
 repeat(10) {
     a ++;

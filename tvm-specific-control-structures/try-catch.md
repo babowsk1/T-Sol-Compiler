@@ -7,7 +7,7 @@ The `try` statement allows you to define a block of code to be tested for errors
 `catch` block gets two parameters of type variant and uint16, which contain exception argument and code respectively.
 Example:
 
-```Solidity
+```solidity
 TvmBuilder builder;
 uint c = 0;
 try {

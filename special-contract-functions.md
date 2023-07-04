@@ -11,7 +11,7 @@ for example [string](#string) with comment.
 If in the contract there is no `receive` function then the contract has an implicit empty `receive`
 function.
 
-```TVMSolidity
+```solidity
 // file sink.sol
 contract Sink {
     uint public counter = 0;
@@ -60,7 +60,7 @@ that throws [exception](#solidity-runtime-errors).
 
 Example:
 
-```TVMSolidity
+```solidity
 // file ContractA.sol
 contract ContractA {
     uint public counter = 0;
@@ -112,7 +112,7 @@ contract ContractB {
 
 ## onBounce
 
-```TVMSolidity
+```solidity
 onBounce(TvmSlice body) external {
     /*...*/
 }
@@ -145,7 +145,7 @@ For tick transactions **isTock** is false, for tock transactions - true.
 
 Prototype:
 
-```TVMSolidity
+```solidity
 onTickTock(bool isTock) external {
     /*...*/
 }
@@ -162,7 +162,7 @@ finishes TVM execution with exit code 0.
 
 Prototype:
 
-```TVMSolidity
+```solidity
 function onCodeUpgrade(...) private {
     /*...*/
 }
@@ -179,7 +179,7 @@ See example of how to upgrade code of the contract:
 It's good to pass `TvmCell cell` to the public function that calls `onCodeUpgrade(TvmCell cell, ...)`
 function. `TvmCell cell` may contain some data that may be useful for the new contract.
 
-```TVMSolidity
+```solidity
 // old contract
 // Public function that changes the code and takes some cell
 function updateCode(TvmCell newcode, TvmCell cell) public pure checkPubkeyAndAccept {
@@ -201,7 +201,7 @@ function onCodeUpgrade(TvmCell cell) private pure {
 
 ## afterSignatureCheck
 
-```TVMSolidity
+```solidity
 function afterSignatureCheck(TvmSlice body, TvmCell message) private inline returns (TvmSlice) {
     /*...*/
 }

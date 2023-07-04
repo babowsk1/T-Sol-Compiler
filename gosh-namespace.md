@@ -6,7 +6,7 @@ networks.
  gosh.diff and gosh.zipDiff
 
 
-```TVMSolidity
+```solidity
 (1)
 gosh.diff(string oldText, string newText) returns (string patch)
 (2)
@@ -16,7 +16,7 @@ gosh.zipDiff(bytes oldText, bytes newText) returns (bytes patch)
 (2) It's the same as `gosh.diff` but it calculates `patch` between compressed strings.
 
 
-```TVMSolidity
+```solidity
 string oldText = ...;
 string newText = ...;
 string patch = gosh.diff(oldText, newText);
@@ -24,7 +24,7 @@ string patch = gosh.diff(oldText, newText);
 
  gosh.applyPatch, gosh.applyPatchQ, gosh.applyZipPatch, gosh.applyZipPatchQ, gosh.applyZipBinPatch and gosh.applyZipBinPatchQ
 
-```TVMSolidity
+```solidity
 (1)
 gosh.applyPatch(string oldText, string patch) returns (string newText)
 gosh.applyPatchQ(string oldText, string patch) returns (optional(string) newText)
@@ -49,7 +49,7 @@ These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions a
 (4)
 These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed binary arrays.
 
-```TVMSolidity
+```solidity
 string oldText = ...;
 string patch = ...;
 string newText = gosh.applyPatch(oldText, patch);
@@ -57,7 +57,7 @@ string newText = gosh.applyPatch(oldText, patch);
 
  gosh.zip and gosh.unzip
 
-```TVMSolidity
+```solidity
 gosh.zip(string text) returns (bytes zip)
 gosh.unzip(bytes zip) returns (optional(string) text)
 ```
@@ -74,7 +74,7 @@ Note that `0**0` throws an exception.
 
 Example:
 
-```TVMSolidity
+```solidity
 uint b = 3;
 uint32 p = 4;
 uint res = b ** p; // res == 81
@@ -82,7 +82,7 @@ uint res = b ** p; // res == 81
 
  selfdestruct
 
-```TVMSolidity
+```solidity
 selfdestruct(address dest_addr);
 ```
 
@@ -95,7 +95,7 @@ See example of how to use the `selfdestruct` function:
 
  sha256
 
-```TVMSolidity
+```solidity
 // (1)
 sha256(TvmSlice slice) returns (uint256)
 // (2)
@@ -115,7 +115,7 @@ See also [tvm.hash()](#tvmhash) to compute representation hash of the whole tree
 
  gasToValue
 
-```TVMSolidity
+```solidity
 gasToValue(uint128 gas) returns (uint128 value)
 gasToValue(uint128 gas, int8 wid) returns (uint128 value)
 ```
@@ -126,7 +126,7 @@ If `wid` is omitted than used the contract's `wid`.
 
  valueToGas
 
-```TVMSolidity
+```solidity
 valueToGas(uint128 value) returns (uint128 gas)
 valueToGas(uint128 value, int8 wid) returns (uint128 gas)
 ```

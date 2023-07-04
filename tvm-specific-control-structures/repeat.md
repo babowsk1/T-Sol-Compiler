@@ -1,4 +1,4 @@
-# repeat
+# Repeat
 
 Allows repeating block of code several times.
 A `repeat` loop evaluates the expression only one time.

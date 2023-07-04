@@ -12,7 +12,7 @@ For `constant` variables, the value has to be a compile time constant and this v
 substituted where the variable is used. The value has to be assigned where the variable is declared.
 Example:
 
-```TVMSolidity
+```solidity
 contract MyContract {
     uint constant cost = 100;
     uint constant cost2 = cost + 200;
@@ -26,7 +26,7 @@ Static state variables are used in the contract initial state generation.
 Such variables can be set while deploying contract from contract
 (onchain) or by tvm-linker (offchain). Example:
 
-```TVMSolidity
+```solidity
 contract C {
     uint static a; // ok
     uint static b = 123; // error
@@ -47,7 +47,7 @@ because you don't need to write functions that return a particular state variabl
 
 Example:
 
-```TVMSolidity
+```solidity
 contract C {
     uint public a;
     uint public static b; // it's ok. Variable is both public and static.

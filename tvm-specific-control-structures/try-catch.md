@@ -1,4 +1,4 @@
-# try-catch
+# Try-catch
 
 It is an experimental feature available only in certain blockchain networks.
 

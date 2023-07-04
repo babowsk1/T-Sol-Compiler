@@ -5,7 +5,7 @@ Delete operation can be applied not only to variables itself, but to its fields 
 
 Example:
 
-```TVMSolidity
+```solidity
 int a = 5;
 delete a; // a == 0
 

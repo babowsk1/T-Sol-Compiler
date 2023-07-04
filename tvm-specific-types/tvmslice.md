@@ -108,13 +108,13 @@ See also: [\<TvmBuilder>.store()](tvmslice.md#tvmbuilderstore). **Note**: if all
 
 ### loadQ()
 
-```TVMSolidity
+```solidity
 <TvmSlice>.loadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
 ```
 
 Sequentially decodes values of the specified types from the `TvmSlice` if the `TvmSlice` holds sufficient data for all specified types. Otherwise, returns `null`.
 
-```TVMSolidity
+```solidity
 TvmSlice slice = ...;
 optional(uint) a = slice.loadQ(uint);
 optional(uint8, uint16) b = slice.loadQ(uint8, uint16);
@@ -124,7 +124,7 @@ See also: [\<TvmBuilder>.store()](tvmslice.md#tvmbuilderstore).
 
 ### loadRef()
 
-```TVMSolidity
+```solidity
 <TvmSlice>.loadRef() returns (TvmCell);
 ```
 
@@ -132,7 +132,7 @@ Loads a cell from the `TvmSlice` reference.
 
 ### loadRefAsSlice()
 
-```TVMSolidity
+```solidity
 <TvmSlice>.loadRefAsSlice() returns (TvmSlice);
 ```
 
@@ -140,7 +140,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 ### loadInt() and loadIntQ()
 
-```TVMSolidity
+```solidity
 (1)
 <TvmSlice>.loadInt(uint9 bitSize) returns (int);
 (2)
@@ -189,7 +189,7 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 ### loadTons()
 
-```TVMSolidity
+```solidity
 <TvmSlice>.loadTons() returns (uint128);
 ```
 

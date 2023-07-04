@@ -12,7 +12,7 @@ balance even if the contract has been called by internal inbound message.
 
 Example:
 
-```TVMSolidity
+```solidity
 event SomethingIsReceived(uint a, uint b, uint sum);
 ...
 address addr = address.makeAddrExtern(...);
@@ -49,7 +49,7 @@ Because `flag: 0` is used by default.
 
 See also: [External function calls](#external-function-calls).
 
-```TVMSolidity
+```solidity
 function f(uint n) public pure {
     return n <= 1 ? 1 : n * f(n - 1);
 }

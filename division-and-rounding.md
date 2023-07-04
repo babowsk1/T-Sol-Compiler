@@ -9,7 +9,7 @@ In TVM there are 3 variants of rounding:
 rounding variant is used for operator `/`.
 Example:
 
-```TVMSolidity
+```solidity
 int res = int(-2) / 3; // res == -1
 int res = int(-5) / 10; // res == -1
 int res = int(5) / 10; // res == 0
@@ -19,7 +19,7 @@ int res = int(15) / 10; // res == 1
 * **ceiling** - quotient `q` is rounded to +∞. `q = ⌈x/y⌉`, `r` and `y` have opposite signs.
 Example:
 
-```TVMSolidity
+```solidity
 int res = math.divc(-2, 3); // res == 0
 int res = math.divc(-5, 10); // res == 0
 int res = math.divc(5, 10); // res == 1
@@ -29,7 +29,7 @@ int res = math.divc(15, 10); // res == 2
 * **nearest** - quotient `q` is rounded to the nearest number. `q = ⌊x/y + 1/2⌋` and `|r| ≤ |y|/2`.
 Example:
 
-```TVMSolidity
+```solidity
 int res = math.divr(-2, 3); // res == -1
 int res = math.divr(-5, 10); // res == 0
 int res = math.divr(5, 10); // res == 1

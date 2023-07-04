@@ -1,457 +1,16 @@
 # Changes and extensions in Solidity types
 
-## Integers
+#
 
-``int`` / ``uint``: Signed and unsigned integers of various sizes. Keywords ``uintN`` and ``intN``
-where ``N`` is a number from ``1``  to ``256`` in steps of 1 denotes the number of bits. ``uint`` and ``int``
-are aliases for ``uint256`` and ``int256``, respectively.
+#
 
-Operators:
+#
 
-* Comparison: ``<=``, ``<``, ``==``, ``!=``, ``>=``, ``>`` (evaluate to ``bool``)
-* Bit operators: ``&``, ``|``, ``^`` (bitwise exclusive or), ``~`` (bitwise negation)
-* Shift operators: ``<<`` (left shift), ``>>`` (right shift)
-* Arithmetic operators: ``+``, ``-``, unary ``-``, ``*``, ``/``, ``%`` (modulo), ``**`` (exponentiation)
+#
 
-### bitSize() and uBitSize()
+#
 
-```TVMSolidity
-bitSize(int x) returns (uint16)
-uBitSize(uint x) returns (uint16)
-```
-
-`bitSize` computes the smallest `c` ≥ 0 such that `x` fits into a `c`-bit signed integer
-(−2<sup>c−1</sup> ≤ x < 2<sup>c−1</sup>).
-
-`uBitSize` computes the smallest `c` ≥ 0 such that `x` fits into a `c`-bit unsigned integer
-(0 ≤ x < 2<sup>c</sup>).
-
-Example:
-
-```TVMSolidity
-uint16 s = bitSize(12); // s == 5
-uint16 s = bitSize(1); // s == 2
-uint16 s = bitSize(-1); // s == 1
-uint16 s = bitSize(0); // s == 0
-
-uint16 s = uBitSize(10); // s == 4
-uint16 s = uBitSize(1); // s == 1
-uint16 s = uBitSize(0); // s == 0
-```
-
-## varInt and varUint
-
-`varInt`/`varInt16`/`varInt32`/`varUint`/`varUint16`/`varUint32` are kinds of [Integer](#integers)
-types. But they are serialized/deserialized according to [their TLB schemes](https://github.com/ton-blockchain/ton/blob/master/crypto/block/block.tlb#L112).
-These schemes are effective if you want to store or send integers, and they usually have small size.
-Use these types only if you are sure.
-`varInt` is equal to `varInt32`, `varInt32` - `int248` , `varInt16` - `int120`.
-`varUint` is equal to `varUint32`, `varUint32` - `uint248` , `varUint16` - `uint120`.
-Example:
-
-```TVMSolidity
-mapping(uint => varInt) m_map; // use `varInt` as mapping value only if values have small size
-m_map[10] = 15;
-```
-
-## struct
-
-Structs are custom defined types that can group several variables.
-
-### struct constructor
-
-```TVMSolidity
-struct Stakes {
-    uint total;
-    mapping(uint => uint) stakes;
-}
-
-// create struct with default values of its members
-Stakes stakes;
-
-// create struct using parameters
-mapping(uint => uint) values;
-values[100] = 200;
-Stakes stakes = Stakes(200, values);
-
-// create struct using named parameters
-Stakes stakes = Stakes({stakes: values, total: 200});
-```
-
-### \<struct\>.unpack()
-
-```TVMSolidity
-<struct>.unpack() returns (TypeA /*a*/, TypeB /*b*/, ...);
-```
-
-Unpacks all members stored in the `struct`.
-
-Example:
-
-```TVMSolidity
-struct MyStruct {
-    uint a;
-    int b;
-    address c;
-}
-
-function f() pure public {
-    MyStruct s = MyStruct(1, -1, address(2));
-    (uint a, int b, address c) = s.unpack();
-}
-```
-
-## Arrays
-
-
-### Array literals
-
-An array literal is a comma-separated list of one or more expressions, enclosed in square brackets.
-For example: `[100, 200, 300]`.
-
-Initializing constant state variable:
-`uint[] constant fib = [uint(2), 3, 5, 8, 12, 20, 32];`
-
-### Creating new arrays
-
-```TVMSolidity
-uint[] arr; // create 0-length array
-
-uint[] arr = new uint[](0); // create 0-length array
-
-uint constant N = 5;
-uint[] arr = new uint[](N); // create 5-length array
-
-uint[] arr = new uint[](10); // create 10-length array
-```
-
-Note: If `N` is constant expression or integer literal then the complexity of array creation -
-`O(1)`. Otherwise, `O(N)`.
-
-### \<array\>.empty()
-
-```TVMSolidity
-<array>.empty() returns (bool);
-```
-
-Returns status flag whether the `array` is empty (its length is 0).
-
-Example:
-
-```TVMSolidity
-uint[] arr;
-bool b = arr.empty(); // b == true
-arr.push(...);
-bool b = arr.empty(); // b == false
-```
-
-## bytesN
-
-Variables of the `bytesN` types can be explicitly converted to `bytes`. Note: it costs ~500 gas.
-
-```TVMSolidity
-bytes3 b3 = 0x112233;
-bytes b = bytes(b3);
-```
-
-## bytes
-
-`bytes` is an array of `byte`. It is similar to `byte[]`, but they are encoded in different ways.
-
-Example of `bytes` initialization:
-
-```TVMSolidity
-// initialised with string
-bytes a = "abzABZ0129";
-// initialised with hex data
-bytes b = hex"01239abf";
-```
-
-`bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice\>.loadRef()](#tvmsliceloadref) to load that extra bytes.
-
-### \<bytes\>.empty()
-
-```TVMSolidity
-<bytes>.empty() returns (bool);
-```
-
-Returns status flag whether the `bytes` is empty (its length is 0).
-
-### \<bytes\>.operator[]
-
-```TVMSolidity
-<bytes>.operator[](uint index) returns (byte);
-```
-
-Returns the byte located at the **index** position.
-
-Example:
-
-```TVMSolidity
-bytes byteArray = "abba";
-int index = 0;
-byte a0 = byteArray[index]; // a0 = 0x61
-```
-
-### \<bytes\> slice
-
-```TVMSolidity
-<bytes>.operator[](uint from, uint to) returns (bytes);
-```
-
-Returns the slice of `bytes` [**from**, **to**), including **from** byte and
-excluding **to**.
-Example:
-
-```TVMSolidity
-bytes byteArray = "01234567890123456789";
-bytes slice = byteArray[5:10]; // slice == "56789"
-slice = byteArray[10:]; // slice == "0123456789"
-slice = byteArray[:10]; // slice == "0123456789"
-slice = byteArray[:];  // slice == "01234567890123456789"
-```
-
-### \<bytes\>.length
-
-```TVMSolidity
-<bytes>.length returns (uint)
-```
-
-Returns length of the `bytes` array.
-
-### \<bytes\>.dataSize()
-
-```TVMSolidity
-<bytes>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
-```
-
-Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
-
-### \<bytes\>.dataSizeQ()
-
-```TVMSolidity
-<bytes>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
-```
-
-Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
-
-### \<bytes\>.append()
-
-```TVMSolidity
-<bytes>.append(bytes tail);
-```
-
-Modifies the `bytes` by concatenating **tail** data to the end of the `bytes`.
-
-### bytes conversion
-
-```TVMSolidity
-bytes byteArray = "1234";
-bytes4 bb = byteArray;
-```
-
-`bytes` can be converted to `bytesN`.
-If `bytes` object has less than **N** bytes, extra bytes are padded with zero bits.
-
-## string
-
-T-Sol Compiler expands `string` type with the following functions:
-
-**Note**: Due to VM restrictions string length can't exceed `1024 * 127 = 130048` bytes.
-
-`string` can be converted to `TvmSlice`.
-
-### \<string\>.empty()
-
-```TVMSolidity
-<string>.empty() returns (bool);
-```
-
-Returns status flag whether the `string` is empty (its length is 0).
-
-### \<string\>.byteLength()
-
-```TVMSolidity
-<string>.byteLength() returns (uint32);
-```
-
-Returns byte length of the `string` data.
-
-### \<string\>.substr()
-
-```TVMSolidity
-<string>.substr(uint from[, uint count]) returns (string);
-```
-
-Returns the substring starting from the byte with number **from** with byte length **count**.  
-**Note**: if count is not set, then the new `string` will be cut from the **from** byte to the end
-of the string.
-
-```TVMSolidity
-string long = "0123456789";
-string a = long.substr(1, 2); // a = "12"
-string b = long.substr(6); // b = "6789"
-```
-
-### \<string\>.append()
-
-```TVMSolidity
-<string>.append(string tail);
-```
-
-Appends the tail `string` to the `string`.
-
-### \<string\>.operator+
-
-```TVMSolidity
-<string>.operator+(string) returns (string);
-<string>.operator+(bytesN) returns (string);
-```
-
-Creates new `string` as a concatenation of left and right arguments of the operator +. Example:
-
-```TVMSolidity
-string a = "abc";
-bytes2 b = "12";
-string c = a + b; // "abc12"
-```
-
-### \<string\>.find() and \<string\>.findLast()
-
-```TVMSolidity
-<string>.find(bytes1 symbol) returns (optional(uint32));
-<string>.find(string substr) returns (optional(uint32));
-<string>.findLast(bytes1 symbol) returns (optional(uint32));
-```
-
-Looks for **symbol** (or substring) in the `string` and returns index of the first (`find`) or the
-last (`findLast`) occurrence. If there is no such symbol in the `string`, an empty optional is returned.
-
-Example:
-
-```TVMSolidity
-string str = "01234567890";
-optional(uint32) a = str.find(byte('0'));
-bool s = a.hasValue(); // s == true
-uint32 n = a.get(); // n == 0
-
-byte symbol = 'a';
-optional(uint32) b = str.findLast(symbol);
-bool s = b.hasValue(); // s == false
-
-string sub = "111";
-optional(uint32) c = str.find(sub);
-bool s = c.hasValue(); // s == false
-```
-
-### \<string\>.dataSize()
-
-```TVMSolidity
-<string>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
-```
-
-Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
-
-### \<string\>.dataSizeQ()
-
-```TVMSolidity
-<string>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
-```
-
-Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
-
-### \<string\>.toUpperCase()` and \<string\>.toLowerCase()
-
-```TVMSolidity
-<string>.toUpperCase() returns (string)
-<string>.toLowerCase() returns (string)
-```
-
-Converts `string` to upper/lower case. It treats `string` as ASCII string and converts only 'A'..'Z'
-and 'a'..'z' symbols. Example:
-
-```TVMSolidity
-string s = "Hello";
-string a = s.toUpperCase(); // a == "HELLO" 
-string b = s.toLowerCase(); // b == "hello" 
-```
-
-###  format()
-
-```TvmSolidity
-format(string template, TypeA a, TypeB b, ...) returns (string);
-```
-
-Builds a `string` with arbitrary parameters. Empty placeholder {} can be filled with integer
-(in decimal view), address, string or fixed point number. Fixed point number is printed
-based on its type (`fixedMxN` is printed with `N` digits after dot).
-Placeholder should be specified in such formats:
-
-* `"{}"` - empty placeholder
-* `"{:[0]<width>{"x","d","X","t"}}"` - placeholder for integers. Fills num with 0 if format starts with "0".
-Formats integer to have specified `width`. Can format integers in decimal ("d" postfix), lower hex ("x")
-or upper hex ("X") form. Format "t" prints number (in nanotons) as a fixed point Ton sum.
-
-Warning: this function consumes too much gas, that's why it's better not to use it onchain.
-Example:
-
-```TVMSolidity
-string str = format("Hello {} 0x{:X} {}  {}.{} tons", 123, 255, address.makeAddrStd(-33,0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF123456789ABCDE), 100500, 32);
-// str == "Hello 123 0xFF -21:7fffffffffffffffffffffffffffffffffffffffffffffffff123456789abcde  100500.32 tons"
-str = format("Hello {}", 123); // str == "Hello 123"
-str = format("Hello 0x{:X}", 123); // str == "Hello 0x7B"
-str = format("{}", -123); // str == "-123"
-str = format("{}", address.makeAddrStd(127,0)); // str == "7f:0000000000000000000000000000000000000000000000000000000000000000"
-str = format("{}", address.makeAddrStd(-128,0)); // str == "-80:0000000000000000000000000000000000000000000000000000000000000000"
-str = format("{:6}", 123); // str == "   123"
-str = format("{:06}", 123); // str == "000123"
-str = format("{:06d}", 123); // str == "000123"
-str = format("{:06X}", 123); // str == "00007B"
-str = format("{:6x}", 123); // str == "    7b"
-uint128 a = 1 ton;
-str = format("{:t}", a); // str == "1.000000000"
-a = 123;
-str = format("{:t}", a); // str == "0.000000123"
-fixed32x3 v = 1.5;
-str = format("{}", v); // str == "1.500"
-fixed256x10 vv = -987123.4567890321;
-str = format("{}", vv); // str == "-987123.4567890321"
-```
-
-### stoi()
-
-```TvmSolidity
-stoi(string inputStr) returns (optional(int) /*result*/);
-```
-
-Converts a `string` into an integer. If `string` starts with '0x' it will be converted from a hexadecimal format,
-otherwise it is meant to be number in decimal format. Function returns the integer in case of success.
-Otherwise, returns `null`.
-
-Warning: this function consumes too much gas, that's why it's better not to use it onchain.
-Example:
-
-```TVMSolidity
-optional(int) res;
-res = stoi("123"); // res ==123
-string hexstr = "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF123456789ABCDE";
-res = stoi(hexstr); // res == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF123456789ABCDE
-res = stoi("0xag"); // res == null
-```
-
-### string conversion
-
-```TVMSolidity
-string s = "1";
-bytes2 b = bytes2(s); // b == 0x3100
-
-string s = "11";
-bytes2 b = bytes2(s); // b = 0x3131
-```
-
-`string` can be converted to `bytesN` which causes **N** * 8 bits being loaded from the cell and saved to variable.
-If `string` object has less than **N** bytes, extra bytes are padded with zero bits.
-
+#
 ## address
 
 `address` represents different types of TVM addresses: **addr_none**, **addr_extern**,
@@ -462,7 +21,7 @@ members and functions:
 
 #### constructor()
 
-```TVMSolidity
+```solidity
 uint address_value;
 address addrStd = address(address_value);
 ```
@@ -471,7 +30,7 @@ Constructs an `address` of type **addr_std** with zero workchain id and given ad
 
 #### address.makeAddrStd()
 
-```TVMSolidity
+```solidity
 int8 wid;
 uint address;
 address addrStd = address.makeAddrStd(wid, address);
@@ -481,7 +40,7 @@ Constructs an `address` of type **addr_std** with given workchain id **wid** and
 
 #### address.makeAddrNone()
 
-```TVMSolidity
+```solidity
 address addrNone = address.makeAddrNone();
 ```
 
@@ -489,7 +48,7 @@ Constructs an `address` of type **addr_none**.
 
 #### address.makeAddrExtern()
 
-```TVMSolidity
+```solidity
 uint addrNumber;
 uint bitCnt;
 address addrExtern = address.makeAddrExtern(addrNumber, bitCnt);
@@ -501,7 +60,7 @@ Constructs an `address` of type **addr_extern** with given **value** with **bitC
 
 ### \<address\>.wid
 
-```TVMSolidity
+```solidity
 <address>.wid returns (int8);
 ```
 
@@ -509,7 +68,7 @@ Returns the workchain id of **addr_std** or **addr_var**. Throws "range check er
 
 ### \<address\>.value
 
-```TVMSolidity
+```solidity
 <address>.value returns (uint);
 ```
 
@@ -517,7 +76,7 @@ Returns the `address` value of **addr_std** or **addr_var** if **addr_var** has 
 
 ### \<address\>.balance
 
-```TVMSolidity
+```solidity
 address(this).balance returns (uint128);
 ```
 
@@ -525,7 +84,7 @@ Returns balance of the current contract account in nanotons.
 
 ### \<address\>.currencies
 
-```TVMSolidity
+```solidity
 address(this).currencies returns (ExtraCurrencyCollection);
 ```
 
@@ -535,7 +94,7 @@ Returns currencies on the balance of the current contract account.
 
 ### \<address\>.getType()
 
-```TVMSolidity
+```solidity
 <address>.getType() returns (uint8);
 ```
 
@@ -546,7 +105,7 @@ Returns type of the `address`:
 
 ### \<address\>.isStdZero()
 
-```TVMSolidity
+```solidity
 <address>.isStdZero() returns (bool);
 ```
 
@@ -554,7 +113,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 ### \<address\>.isStdAddrWithoutAnyCast()
 
-```TVMSolidity
+```solidity
 <address>.isStdAddrWithoutAnyCast() returns (bool);
 ```
 
@@ -562,7 +121,7 @@ Checks whether this `address` is of type **addr_std** without any cast.
 
 ### \<address\>.isExternZero()
 
-```TVMSolidity
+```solidity
 <address>.isExternZero() returns (bool);
 ```
 
@@ -570,7 +129,7 @@ Returns the result of comparison between this `address` with zero `address` of t
 
 ### \<address\>.isNone()
 
-```TVMSolidity
+```solidity
 <address>.isNone() returns (bool);
 ```
 
@@ -578,7 +137,7 @@ Checks whether this `address` is of type **addr_none**.
 
 ### \<address\>.unpack()
 
-```TVMSolidity
+```solidity
 <address>.unpack() returns (int8 /*wid*/, uint256 /*value*/);
 ```
 
@@ -592,13 +151,13 @@ It's wrapper for opcode `REWRITESTDADDR`.
 
 Example:
 
-```TVMSolidity
+```solidity
 (int8 wid, uint addr) = address(this).unpack();
 ```
 
 ### \<address\>.transfer()
 
-```TVMSolidity
+```solidity
 <address>.transfer(uint128 value, bool bounce, uint16 flag, TvmCell body, ExtraCurrencyCollection currencies, TvmCell stateInit);
 ```
 
@@ -642,7 +201,7 @@ For example, `flag: 128 + 32` is used to send all balance and destroy the contra
 
 In order to clarify flags usage see [this sample](https://github.com/tonlabs/samples/blob/master/solidity/20_bomber.sol).
 
-```TVMSolidity
+```solidity
 address dest = ...;
 uint128 value = ...;
 bool bounce = ...;
@@ -676,7 +235,7 @@ be used as a `KeyType`. Struct type can be used as `KeyType` only if it contains
 integer, boolean, fixed bytes or enum types and fits ~1023 bit. Example of mapping that
 has a struct as a `KeyType`:
 
-```TVMSolidity
+```solidity
 struct Point {
     uint x;
     uint y;
@@ -716,7 +275,7 @@ Keyword `emptyMap` is a constant that is used to indicate a mapping of arbitrary
 
 Example:
 
-```TVMSolidity
+```solidity
 struct Stakes {
     uint total;
     mapping(uint => uint) stakes;
@@ -728,7 +287,7 @@ Stakes stakes = Stakes({stakes: emptyMap, total: 200});
 
 ### \<mapping\>.operator[]
 
-```TVMSolidity
+```solidity
 <map>.operator[](KeyType index) returns (ValueType);
 ```
 
@@ -737,7 +296,7 @@ if key is not in the mapping.
 
 ### \<mapping\>.at()
 
-```TVMSolidity
+```solidity
 <map>.operator[](KeyType index) returns (ValueType);
 ```
 
@@ -746,7 +305,7 @@ is not in the mapping.
 
 ### \<mapping\>.min() and \<mapping\>.max()
 
-```TVMSolidity
+```solidity
 <map>.min() returns (optional(KeyType, ValueType));
 <map>.max() returns (optional(KeyType, ValueType));
 ```
@@ -757,7 +316,7 @@ this function returns an empty `optional`.
 
 ### \<mapping\>.next() and \<mapping\>.prev()
 
-```TVMSolidity
+```solidity
 <map>.next(KeyType key) returns (optional(KeyType, ValueType));
 <map>.prev(KeyType key) returns (optional(KeyType, ValueType));
 ```
@@ -769,7 +328,7 @@ If KeyType is an integer type, argument for this functions can not possibly fit 
 
 Example:
 
-```TVMSolidity
+```solidity
 KeyType key;
 // init key
 optional(KeyType, ValueType) nextPair = map.next(key);
@@ -787,7 +346,7 @@ optional(uint8, uint) = m.prev(65537); // ok, param for next/prev can not possib
 
 ### \<mapping\>.nextOrEq() and \<mapping\>.prevOrEq()
 
-```TVMSolidity
+```solidity
 <map>.nextOrEq(KeyType key) returns (optional(KeyType, ValueType));
 <map>.prevOrEq(KeyType key) returns (optional(KeyType, ValueType));
 ```
@@ -799,7 +358,7 @@ If KeyType is an integer type, argument for this functions can not possibly fit 
 
 ### \<mapping\>.delMin() and \<mapping\>.delMax()
 
-```TVMSolidity
+```solidity
 <map>.delMin() returns (optional(KeyType, ValueType));
 <map>.delMax() returns (optional(KeyType, ValueType));
 ```
@@ -810,7 +369,7 @@ containing that key and the associated value. Returns an empty `optional` if the
 
 ### \<mapping\>.fetch()
 
-```TVMSolidity
+```solidity
 <map>.fetch(KeyType key) returns (optional(ValueType));
 ```
 
@@ -819,7 +378,7 @@ Returns an empty `optional` if there is no such key.
 
 ### \<mapping\>.exists()
 
-```TVMSolidity
+```solidity
 <map>.exists(KeyType key) returns (bool);
 ```
 
@@ -827,7 +386,7 @@ Returns whether **key** is present in the `mapping`.
 
 ### \<mapping\>.empty()
 
-```TVMSolidity
+```solidity
 <map>.empty() returns (bool);
 ```
 
@@ -835,7 +394,7 @@ Returns whether the `mapping` is empty.
 
 ### \<mapping\>.replace()
 
-```TVMSolidity
+```solidity
 <map>.replace(KeyType key, ValueType value) returns (bool);
 ```
 
@@ -844,7 +403,7 @@ returns the success flag.
 
 ### \<mapping\>.add()
 
-```TVMSolidity
+```solidity
 <map>.add(KeyType key, ValueType value) returns (bool);
 ```
 
@@ -852,7 +411,7 @@ Sets the value associated with **key** only if **key** is not present in the `ma
 
 ### \<mapping\>.getSet()
 
-```TVMSolidity
+```solidity
 <map>.getSet(KeyType key, ValueType value) returns (optional(ValueType));
 ```
 
@@ -861,7 +420,7 @@ previous value associated with the **key**, if any. Otherwise, returns an empty 
 
 ### \<mapping\>.getAdd()
 
-```TVMSolidity
+```solidity
 <map>.getAdd(KeyType key, ValueType value) returns (optional(ValueType));
 ```
 
@@ -871,7 +430,7 @@ in the `mapping`, otherwise returns an empty `optional`.
 
 ### \<mapping\>.getReplace()
 
-```TVMSolidity
+```solidity
 <map>.getReplace(KeyType key, ValueType value) returns (optional(ValueType));
 ```
 
@@ -902,7 +461,7 @@ function calls.
 
 If unassigned variable of function type is called then exception with code 65 is thrown.
 
-```TVMSolidity
+```solidity
 function getSum(int a, int b) internal pure returns (int) {
     return a + b;
 }
@@ -933,7 +492,7 @@ is less than 2 then the error code will be set to 100.
 
 ### require
 
-```TVMSolidity
+```solidity
 require(bool condition, [uint errorCode = 100, [Type exceptionArgument]]);
 ```
 
@@ -943,7 +502,7 @@ and the object of any type.
 
 Example:
 
-```TVMSolidity
+```solidity
 uint a = 5;
 
 require(a == 5); // ok
@@ -955,7 +514,7 @@ require(a == 6, 101, a); // throws an exception with code 101 and number a
 
 ### revert
 
-```TVMSolidity
+```solidity
 revert(uint errorCode = 100, [Type exceptionArgument]);
 ```
 
@@ -964,7 +523,7 @@ revert(uint errorCode = 100, [Type exceptionArgument]);
 
 Example:
 
-```TVMSolidity
+```solidity
 uint a = 5;
 revert(); // throw exception 100
 revert(101); // throw exception 101
@@ -988,7 +547,7 @@ uses libraries. In the future, it can be changed.
 
 Example of using library in the manner `LibName.func(a, b, c)`:
 
-```TVMSolidity
+```solidity
 // file MathHelper.sol
 pragma solidity >= 0.6.0;
 
@@ -1038,7 +597,7 @@ The effect of `using A for *;` is that the functions from the library
 
 Example of using library in the manner `obj.func(b, c)`:
 
-```TVMSolidity
+```solidity
 // file ArrayHelper.sol
 pragma solidity >= 0.6.0;
 
@@ -1088,7 +647,7 @@ to download the file, then an error is emitted.
 
 Example:
 
-```TVMSolidity
+```solidity
 pragma ton-solidity >= 0.35.0;
 pragma AbiHeader expire;
 pragma AbiHeader pubkey;

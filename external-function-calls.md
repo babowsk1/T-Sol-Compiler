@@ -16,7 +16,7 @@ function in `*abi.json` file. `answerId` is function id that will be called.
 
 Example of the external call of the function that returns nothing:
 
-```TVMSolidity
+```solidity
 interface IContract {
     function f(uint a) external;
 }
@@ -37,7 +37,7 @@ contract Caller {
 
 Example of the external call of the function that returns some values:
 
-```TVMSolidity
+```solidity
 contract RemoteContract {
     // Note this function is marked as responsible to call callback function
     function getCost(uint x) public pure responsible returns (uint) {
@@ -87,7 +87,7 @@ and [4.1_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/so
 T-Sol compiler allows user to perform synchronous calls. To do it user should call a remote contract
 function with `.await` suffix. Example:
 
-```TVMSolidity
+```solidity
 interface IContract {
     function getNum(uint a) external responsible returns (uint) ;
 }

@@ -8,7 +8,7 @@ automatically applied to the importing file.
 
 ## pragma ton-solidity
 
-```TVMSolidity
+```solidity
 pragma ton-solidity >= 0.35.5;      // Check if the compiler version is greater or equal than 0.35.5
 pragma ton-solidity ^ 0.35.5;       // Check if the compiler version is greater or equal than 0.35.5 and less than 0.36.0
 pragma ton-solidity < 0.35.5;       // Check if the compiler version is less than 0.35.5
@@ -19,7 +19,7 @@ Used to restrict source file compilation to the particular compiler versions.
 
 ## pragma-copyleft
 
-```TVMSolidity
+```solidity
 pragma copyleft <type>, <wallet_address>; 
 ```
 
@@ -34,13 +34,13 @@ is transferred to `<wallet_address>` according to the `<type>` rule.
 
 For example:
 
-```TVMSolidity
+```solidity
 pragma copyleft 0, 0x2cfbdc31c9c4478b61472c72615182e9567595b857b1bba9e0c31cd9942f6ca41;
 ```
 
 ## pragma ignoreIntOverflow
 
-```TVMSolidity
+```solidity
 pragma ignoreIntOverflow;
 ```
 
@@ -48,7 +48,7 @@ Turns off binary operation result overflow check.
 
 ## pragma AbiHeader
 
-```TVMSolidity
+```solidity
 pragma AbiHeader notime;
 pragma AbiHeader pubkey;
 pragma AbiHeader expire;
@@ -71,7 +71,7 @@ Here is example of [message expiration time](https://docs.ton.dev/86757ecb2/p/88
 
 ## pragma msgValue
 
-```TVMSolidity
+```solidity
 pragma msgValue <value>;
 ```
 
@@ -81,7 +81,7 @@ specified, this value is set to 10 000 000 nanotons.
 
 Example:
 
-```TVMSolidity
+```solidity
 pragma msgValue 123456789;
 pragma msgValue 1e8;
 pragma msgValue 10 ton;
@@ -90,7 +90,7 @@ pragma msgValue 10_000_000_123;
 
 ## pragma upgrade func/oldsol
 
-```TVMSolidity
+```solidity
 pragma upgrade func;
 pragma upgrade oldsol;
 ```

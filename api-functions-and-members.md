@@ -13,7 +13,7 @@ The following properties are available for an integer, variable integer and enum
 
 ### msg.sender
 
-```TVMSolidity
+```solidity
 msg.sender (address)
 ```
 
@@ -25,7 +25,7 @@ Returns:
 
 ### msg.value
 
-```TVMSolidity
+```solidity
 msg.value (uint128)
 ```
 
@@ -37,7 +37,7 @@ Returns:
 
 ### msg.currencies
 
-```TVMSolidity
+```solidity
 msg.currencies (ExtraCurrencyCollection)
 ```
 
@@ -45,7 +45,7 @@ Collections of arbitrary currencies contained in the balance of the inbound mess
 
 ### msg.pubkey()
 
-```TVMSolidity
+```solidity
 msg.pubkey() returns (uint256);
 ```
 
@@ -57,7 +57,7 @@ Returns flag whether the contract is called by internal message, external messag
 
 ### msg.createdAt
 
-```TVMSolidity
+```solidity
 msg.createdAt (uint32)
 ```
 
@@ -65,7 +65,7 @@ Returns the field **created\_at** of the external inbound message.
 
 ### msg.data
 
-```TVMSolidity
+```solidity
 msg.data (TvmSlice)
 ```
 
@@ -73,7 +73,7 @@ Returns the payload of an inbound message.
 
 ### msg.hasStateInit
 
-```TVMSolidity
+```solidity
 msg.hasStateInit (bool)
 ```
 
@@ -85,7 +85,7 @@ Whether the internal/external inbound message contains field `stateInit`. Return
 
 ### tvm.accept()
 
-```TVMSolidity
+```solidity
 tvm.accept();
 ```
 
@@ -97,7 +97,7 @@ See example of how to use this function:
 
 ### tvm.setGasLimit()
 
-```TVMSolidity
+```solidity
 tvm.setGasLimit(uint g);
 ```
 
@@ -114,7 +114,7 @@ So if some user's public key will be stolen, then a hacker can spam with externa
 
 ### tvm.buyGas()
 
-```TVMSolidity
+```solidity
 tvm.buyGas(uint value);
 ```
 
@@ -123,7 +123,7 @@ accordingly in the same way as [tvm.setGasLimit()](api-functions-and-members.md#
 
 ### tvm.commit()
 
-```TVMSolidity
+```solidity
 tvm.commit();
 ```
 
@@ -131,7 +131,7 @@ Creates a "check point" of the state variables (by copying them from c7 to c4) a
 
 ### tvm.rawCommit()
 
-```TVMSolidity
+```solidity
 tvm.rawCommit();
 ```
 
@@ -141,7 +141,7 @@ Same as [tvm.commit()](api-functions-and-members.md#tvmcommit) but doesn't copy 
 
 ### tvm.getData()
 
-```TVMSolidity
+```solidity
 tvm.getData() returns (TvmCell);
 ```
 
@@ -155,7 +155,7 @@ Manipulation with a raw storage cell requires understanding of the way the compi
 
 ### tvm.setData()
 
-```TVMSolidity
+```solidity
 tvm.setData(TvmCell data);
 ```
 
@@ -163,7 +163,7 @@ tvm.setData(TvmCell data);
 
 Stores cell `data` in the register `c4`. Mind that after returning from a public function all state variables from `c7` are copied to `c4` and `tvm.setData` will have no effect. Example hint, how to set `c4`:
 
-```TVMSolidity
+```solidity
 TvmCell data = ...;
 tvm.setData(data); // set register c4
 tvm.rawCommit();   // save register c4 and c5
@@ -174,14 +174,14 @@ Be careful with the hidden state variable `timestamp` and think about possibilit
 
 ### tvm.log()
 
-```TVMSolidity
+```solidity
 tvm.log(string log);
 logtvm(string log);
 ```
 
 Dumps `log` string. This function is a wrapper for TVM instructions `PRINTSTR` (for constant literal strings shorter than 16 symbols) and `STRDUMP` (for other strings). `logtvm` is an alias for `tvm.log(string)`. Example:
 
-```TVMSolidity
+```solidity
 tvm.log("Hello, world!");
 logtvm("99_Bottles");
 
@@ -193,7 +193,7 @@ tvm.log(s);
 
 ### tvm.hexdump() and tvm.bindump()
 
-```TVMSolidity
+```solidity
 tvm.hexdump(T a);
 tvm.bindump(T a);
 ```
@@ -202,7 +202,7 @@ Dumps cell data or integer. Note that for cells this function dumps data only fr
 
 Example:
 
-```TVMSolidity
+```solidity
 TvmBuilder b;
 b.storeUnsigned(0x9876543210, 40);
 TvmCell c = b.toCell();
@@ -218,7 +218,7 @@ tvm.bindump(b);
 
 Expected output for the example:
 
-```TVMLog
+```solidityLog
 CS<9876543210>(0..40)
 CS<10011000011101100101010000110010000100001>(0..40)
 7B
@@ -229,7 +229,7 @@ CS<10011000011101100101010000110010000100001>(0..40)
 
 ### tvm.setcode()
 
-```TVMSolidity
+```solidity
 tvm.setcode(TvmCell newCode);
 ```
 
@@ -242,7 +242,7 @@ See example of how to use this function:
 
 ### tvm.configParam()
 
-```TVMSolidity
+```solidity
 tvm.configParam(uint8 paramNumber) returns (TypeA a, TypeB b, ...);
 ```
 
@@ -250,7 +250,7 @@ Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded
 
 ### tvm.rawConfigParam()
 
-```TVMSolidity
+```solidity
 tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
 ```
 
@@ -258,7 +258,7 @@ Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded
 
 ### tvm.rawReserve()
 
-```TVMSolidity
+```solidity
 tvm.rawReserve(uint value, uint8 flag);
 tvm.rawReserve(uint value, ExtraCurrencyCollection currency, uint8 flag);
 ```
@@ -299,7 +299,7 @@ To make it clear, let's consider the order of `reserve` calculation:
 
 Example:
 
-```TVMSolidity
+```solidity
 tvm.rawReserve(1 ton, 4 + 8);
 ```
 
@@ -307,7 +307,7 @@ See also: [23\_rawReserve.sol](https://github.com/tonlabs/samples/blob/master/so
 
 ### tvm.initCodeHash()
 
-```TVMSolidity
+```solidity
 tvm.initCodeHash() returns (uint256 hash)
 ```
 
@@ -317,7 +317,7 @@ Returns the initial code hash that contract had when it was deployed.
 
 ### tvm.hash()
 
-```TVMSolidity
+```solidity
 tvm.hash(TvmCell cellTree) returns (uint256);
 tvm.hash(string data) returns (uint256);
 tvm.hash(bytes data) returns (uint256);
@@ -328,7 +328,7 @@ Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/t
 
 Example:
 
-```TVMSolidity
+```solidity
 uint256 hash = tvm.hash(TvmCell cellTree);
 uint256 hash = tvm.hash(string);
 uint256 hash = tvm.hash(bytes);
@@ -336,7 +336,7 @@ uint256 hash = tvm.hash(bytes);
 
 ### tvm.checkSign()
 
-```TVMSolidity
+```solidity
 tvm.checkSign(uint256 hash, uint256 SignHighPart, uint256 SignLowPart, uint256 pubkey) returns (bool);
 tvm.checkSign(uint256 hash, TvmSlice signature, uint256 pubkey) returns (bool);
 tvm.checkSign(TvmSlice data, TvmSlice signature, uint256 pubkey) returns (bool);
@@ -346,7 +346,7 @@ Executes TVM instruction "CHKSIGNU" ([TVM](https://broxus.gitbook.io/threaded-vi
 
 Example:
 
-```TVMSolidity
+```solidity
 uint256 hash;
 uint256 SignHighPart;
 uint256 SignLowPart;
@@ -368,7 +368,7 @@ bool signatureIsValid = tvm.checkSign(hash, signature, pubkey);  // 3 variant
 
 ### tvm.insertPubkey()
 
-```TVMSolidity
+```solidity
 tvm.insertPubkey(TvmCell stateInit, uint256 pubkey) returns (TvmCell);
 ```
 
@@ -376,7 +376,7 @@ Inserts a public key into the `stateInit` data field. If the `stateInit` has wro
 
 ### tvm.buildStateInit()
 
-```TVMSolidity
+```solidity
 // 1)
 tvm.buildStateInit(TvmCell code, TvmCell data) returns (TvmCell stateInit);
 // 2)
@@ -401,7 +401,7 @@ Generates a `StateInit` ([Everscale documentation](https://docs.everscale.networ
 
 Examples of this function usage:
 
-```TvmSolidity
+```solidity
 contract A {
     uint static var0;
     address static var1;
@@ -440,13 +440,13 @@ contract C {
 
 ### tvm.buildDataInit()
 
-```TVMSolidity
+```solidity
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
 Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in [tvm.buildStateInit()](api-functions-and-members.md#tvmbuildstateinit).
 
-```TVMSolidity
+```solidity
 // SimpleWallet.sol
 contract SimpleWallet {
     uint static value;
@@ -473,7 +473,7 @@ TvmCell stateInit = tvm.buildStateInit({
 
 ### tvm.stateInitHash()
 
-```TVMSolidity
+```solidity
 tvm.stateInitHash(uint256 codeHash, uint256 dataHash, uint16 codeDepth, uint16 dataDepth) returns (uint256);
 ```
 
@@ -481,7 +481,7 @@ Calculates hash of the stateInit for given code and data specifications.
 
 Example:
 
-```TVMSolidity
+```solidity
 TvmCell code = ...;
 TvmCell data = ...;
 uint codeHash = tvm.hash(code);
@@ -514,7 +514,7 @@ Examples:
 
 `stateInit` defines the origin state of the new account.
 
-```TVMSolidity
+```solidity
 TvmCell stateInit = ...;
 address newWallet = new SimpleWallet{value: 1 ton, stateInit: stateInit}(arg0, arg1, ...);
 ```
@@ -523,7 +523,7 @@ address newWallet = new SimpleWallet{value: 1 ton, stateInit: stateInit}(arg0, a
 
 `code` option defines the code of the new contract.
 
-```TVMSolidity
+```solidity
 TvmCell code = ...;
 address newWallet = new SimpleWallet{value: 1 ton, code: code}(arg0, arg1, ...);
 ```
@@ -536,7 +536,7 @@ The following options can only be used with the `code` option:
 
 Example of these options usage:
 
-```TVMSolidity
+```solidity
 // file SimpleWallet.sol
 ...
 contract SimpleWallet {
@@ -566,7 +566,7 @@ The following options can be used with both `stateInit` and `code`:
 * `wid` (`uint8`) - workchain id of the new account address. Defaults to `0`.
 * `flag` (`uint16`) - flag used to send the outbound internal message. Defaults to `0`. Possible values of the `flag` are described here: [\<address>.transfer()](api-functions-and-members.md#addresstransfer).
 
-```TVMSolidity
+```solidity
 TvmCell stateInit = ...;
 address newWallet = new SimpleWallet{
     stateInit: stateInit,
@@ -599,7 +599,7 @@ Let's consider how to protect against this problem:
 
 ### tvm.code()
 
-```TVMSolidity
+```solidity
 tvm.code() returns (TvmCell);
 ```
 
@@ -609,7 +609,7 @@ See [SelfDeployer](https://github.com/tonlabs/samples/blob/master/solidity/21\_s
 
 ### tvm.codeSalt()
 
-```TVMSolidity
+```solidity
 tvm.codeSalt(TvmCell code) returns (optional(TvmCell) optSalt);
 ```
 
@@ -617,7 +617,7 @@ If **code** contains salt then **optSalt** contains one. Otherwise, **optSalt** 
 
 ### tvm.setCodeSalt()
 
-```TVMSolidity
+```solidity
 tvm.setCodeSalt(TvmCell code, TvmCell salt) returns (TvmCell newCode);
 ```
 
@@ -625,7 +625,7 @@ Inserts **salt** into **code** and returns new code **newCode**.
 
 ### tvm.pubkey()
 
-```TVMSolidity
+```solidity
 tvm.pubkey() returns (uint256);
 ```
 
@@ -633,7 +633,7 @@ Returns contract's public key, stored in contract data. If key is not set, funct
 
 ### tvm.setPubkey()
 
-```TVMSolidity
+```solidity
 tvm.setPubkey(uint256 newPubkey);
 ```
 
@@ -641,7 +641,7 @@ Set new contract's public key. Contract's public key can be obtained from `tvm.p
 
 ### tvm.setCurrentCode()
 
-```TVMSolidity
+```solidity
 tvm.setCurrentCode(TvmCell newCode);
 ```
 
@@ -654,7 +654,7 @@ See example of how to use this function:
 
 ### tvm.resetStorage()
 
-```TVMSolidity
+```solidity
 tvm.resetStorage();
 ```
 
@@ -662,7 +662,7 @@ Resets all state variables to their default values.
 
 ### tvm.functionId()
 
-```TVMSolidity
+```solidity
 // id of public function
 tvm.functionId(functionName) returns (uint32);
 
@@ -674,7 +674,7 @@ Returns the function id (uint32) of a public/external function or constructor.
 
 Example:
 
-```TVMSolidity
+```solidity
 contract MyContract {
     constructor(uint a) public {
     }
@@ -703,7 +703,7 @@ See example of how to use this function:
 
 ### tvm.encodeBody()
 
-```TVMSolidity
+```solidity
 tvm.encodeBody(function, arg0, arg1, arg2, ...) returns (TvmCell);
 tvm.encodeBody(function, callbackFunction, arg0, arg1, arg2, ...) returns (TvmCell);
 tvm.encodeBody(contract, arg0, arg1, arg2, ...) returns (TvmCell);
@@ -713,7 +713,7 @@ Constructs a message body for the function call. Body can be used as a payload f
 
 Example:
 
-```TVMSolidity
+```solidity
 contract Remote {
     constructor(uint x, uint y, uint z) public { /* */ }
     function func(uint256 num, int64 num2) public pure { /* */ }
@@ -741,7 +741,7 @@ See also:
 
 ### tvm.exit() and tvm.exit1()
 
-```TVMSolidity
+```solidity
 tvm.exit();
 tvm.exit1();
 ```
@@ -750,7 +750,7 @@ Functions are used to save state variables and quickly terminate execution of th
 
 Example:
 
-```TVMSolidity
+```solidity
 function g0(uint a) private {
     if (a == 0) {
         tvm.exit();
@@ -768,7 +768,7 @@ function g1(uint a) private {
 
 ### tvm.buildExtMsg()
 
-```TVMSolidity
+```solidity
 tvm.buildExtMsg({
     dest: address,
     time: uint64,
@@ -816,7 +816,7 @@ Function throws an exception with code 64 if function is called with wrong param
 
 Example:
 
-```TVMSolidity
+```solidity
 
 interface Foo {
     function bar(uint a, uint b) external pure;
@@ -854,7 +854,7 @@ contract Test {
 
 External inbound message can also be built and sent with construction similar to remote contract call. It requires suffix ".extMsg" and call options similar to `buildExtMsg` function call. **Note**: this type of call should be used only offchain in debot contracts.
 
-```TVMSolidity
+```solidity
 interface Foo {
     function bar(uint a, uint b) external pure;
 }
@@ -878,7 +878,7 @@ contract Test {
 
 ### tvm.buildIntMsg()
 
-```TVMSolidity
+```solidity
 tvm.buildIntMsg({
     dest: address,
     value: uint128,
@@ -901,7 +901,7 @@ See also:
 
 ## tvm.sendrawmsg()
 
-```TVMSolidity
+```solidity
 tvm.sendrawmsg(TvmCell msg, uint8 flag);
 ```
 
@@ -909,7 +909,7 @@ Send the internal/external message `msg` with `flag`. It's a wrapper for opcode 
 
 **Note:** make sure that `msg` has a correct format and follows the \[TL-B scheme]\[3] of `Message X`. For example:
 
-```TVMSolidity
+```solidity
 TvmCell msg = ...
 tvm.sendrawmsg(msg, 2);
 ```
@@ -922,7 +922,7 @@ If the function is called by external message and `msg` has a wrong format (for 
 
 ### math.min() math.max()
 
-```TVMSolidity
+```solidity
 math.min(T a, T b, ...) returns (T);
 math.max(T a, T b, ...) returns (T);
 ```
@@ -931,7 +931,7 @@ Returns the minimal (maximal) value of the passed arguments.
 
 ### math.minmax()
 
-```TVMSolidity
+```solidity
 math.minmax(T a, T b) returns (T /*min*/, T /*max*/);
 ```
 
@@ -939,13 +939,13 @@ Returns minimal and maximal values of the passed arguments.
 
 Example:
 
-```TVMSolidity
+```solidity
 (uint a, uint b) = math.minmax(20, 10); // (a, b) == (10, 20)
 ```
 
 ### math.abs()
 
-```TVMSolidity
+```solidity
 math.abs(T val) returns (T);
 ```
 
@@ -953,7 +953,7 @@ Computes the absolute value of the given integer.
 
 Example:
 
-```TVMSolidity
+```solidity
 int a = math.abs(-100); // a == 100
 int b = -100;
 int c = math.abs(b); // c == 100
@@ -961,7 +961,7 @@ int c = math.abs(b); // c == 100
 
 ### math.modpow2()
 
-```TVMSolidity
+```solidity
 math.modpow2(T value, uint power) returns (T);
 ```
 
@@ -969,7 +969,7 @@ Computes the `value mod 2^power`. Note: `power` should be a constant integer.
 
 Example:
 
-```TVMSolidity
+```solidity
 uint constant pow = 10;
 uint val = 1026;
 uint a = math.modpow2(21, 4); // a == 5
@@ -978,7 +978,7 @@ uint b = math.modpow2(val, pow); // b == 2
 
 ### math.divr() math.divc()
 
-```TVMSolidity
+```solidity
 math.divc(T a, T b) returns (T);
 math.divr(T a, T b) returns (T);
 ```
@@ -987,7 +987,7 @@ Returns result of the division of two integers. The return value is rounded. **c
 
 Example:
 
-```TVMSolidity
+```solidity
 int c = math.divc(10, 3); // c == 4
 int c = math.divr(10, 3); // c == 3
 
@@ -997,7 +997,7 @@ fixed32x2 res = math.divc(a, 2); // res == 0.13
 
 ### math.muldiv() math.muldivr() math.muldivc()
 
-```TVMSolidity
+```solidity
 math.muldiv(T a, T b, T c) returns (T);
 math.muldivr(T a, T b, T c) returns (T);
 math.muldivc(T a, T b, T c) returns (T);
@@ -1007,7 +1007,7 @@ Multiplies two values and then divides the result by a third value. The return v
 
 Example:
 
-```TVMSolidity
+```solidity
 uint res = math.muldiv(3, 7, 2); // res == 10
 uint res = math.muldivr(3, 7, 2); // res == 11
 uint res = math.muldivc(3, 7, 2); // res == 11
@@ -1015,7 +1015,7 @@ uint res = math.muldivc(3, 7, 2); // res == 11
 
 ### math.muldivmod()
 
-```TVMSolidity
+```solidity
 math.muldivmod(T a, T b, T c) returns (T /*result*/, T /*remainder*/);
 ```
 
@@ -1023,7 +1023,7 @@ This instruction multiplies first two arguments, divides the result by third arg
 
 Example:
 
-```TVMSolidity
+```solidity
 uint a = 3;
 uint b = 2;
 uint c = 5;
@@ -1036,7 +1036,7 @@ int g = 2;
 
 ### math.divmod()
 
-```TVMSolidity
+```solidity
 math.divmod(T a, T b) returns (T /*result*/, T /*remainder*/);
 ```
 
@@ -1044,7 +1044,7 @@ This function divides the first number by the second and returns the result and 
 
 Example:
 
-```TVMSolidity
+```solidity
 uint a = 11;
 uint b = 3;
 (uint d, uint r) = math.divmod(a, b); // (d, r) == (3, 2)
@@ -1056,7 +1056,7 @@ int f = 3;
 
 ### math.sign()
 
-```TVMSolidity
+```solidity
 math.sign(T val) returns (int2);
 ```
 
@@ -1068,7 +1068,7 @@ Returns:
 
 Example:
 
-```TVMSolidity
+```solidity
 int8 sign = math.sign(-100); // sign == -1
 int8 sign = math.sign(100); // sign == 1
 int8 sign = math.sign(0); // sign == 0
@@ -1078,7 +1078,7 @@ int8 sign = math.sign(0); // sign == 0
 
 ### tx.logicaltime
 
-```TVMSolidity
+```solidity
 tx.logicaltime returns (uint64);
 ```
 
@@ -1088,7 +1088,7 @@ Returns the logical time of the current transaction.
 
 It's an experimental feature and is available only in certain blockchain networks.
 
-```TVMSolidity
+```solidity
 tx.storageFee returns (uint120);
 ```
 
@@ -1098,7 +1098,7 @@ Returns the storage fee paid in the current transaction.
 
 ### block.timestamp
 
-```TVMSolidity
+```solidity
 block.timestamp returns (uint32);
 ```
 
@@ -1112,7 +1112,7 @@ If you use an earlier version of the compiler, please refer to the corresponding
 
 ### block.logicaltime
 
-```TVMSolidity
+```solidity
 block.logicaltime returns (uint64);
 ```
 
@@ -1124,7 +1124,7 @@ The pseudorandom number generator uses the random seed. The initial value of the
 
 ### rnd.next
 
-```TVMSolidity
+```solidity
 rnd.next([Type limit]) returns (Type);
 ```
 
@@ -1135,7 +1135,7 @@ Generates a new pseudo-random number.
 
 Example:
 
-```TVMSolidity
+```solidity
 // 1)
 uint256 r0 = rnd.next(); // 0..2^256-1
 // 2)
@@ -1146,7 +1146,7 @@ int8 r3 = rnd.next(int8(-100)); // -100..-1
 
 ### rnd.getSeed
 
-```TVMSolidity
+```solidity
 rnd.getSeed() returns (uint256);
 ```
 
@@ -1154,7 +1154,7 @@ Returns the current random seed.
 
 ### rnd.setSeed
 
-```TVMSolidity
+```solidity
 rnd.setSeed(uint256 x);
 ```
 
@@ -1162,7 +1162,7 @@ Sets the random seed to `x`.
 
 ### rnd.shuffle
 
-```TVMSolidity
+```solidity
 (1)
 rnd.shuffle(uint someNumber);
 (2)
@@ -1173,7 +1173,7 @@ Randomizes the random seed. (1) Mixes the random seed and `someNumber`. The resu
 
 Example:
 
-```TVMSolidity
+```solidity
 // (1)
 uint256 someNumber = ...;
 rnd.shuffle(someNumber);
@@ -1185,7 +1185,7 @@ rnd.shuffle();
 
 ### abi.encode(), abi.decode()
 
-```TVMSolidity
+```solidity
 (1)
 abi.encode(TypeA a, TypeB b, ...) returns (TvmCell /*cell*/);
 (2)
@@ -1196,7 +1196,7 @@ abi.decode(TvmCell cell, (TypeA, TypeB, ...)) returns (TypeA /*a*/, TypeB /*b*/,
 
 Example:
 
-```TVMSolidity
+```solidity
 // pack the values to the cell
 TvmCell cell = abi.encode(uint(1), uint(2), uint(3), uint(4));
 // unpack the cell
@@ -1213,7 +1213,7 @@ All `gosh.*` functions are experimental features and are available only in certa
 
 ## gosh.diff and gosh.zipDiff
 
-```TVMSolidity
+```solidity
 (1)
 gosh.diff(string oldText, string newText) returns (string patch)
 (2)
@@ -1222,7 +1222,7 @@ gosh.zipDiff(bytes oldText, bytes newText) returns (bytes patch)
 
 (1) Calculates [patch](https://en.wikipedia.org/wiki/Diff) between `oldText` and `newText`. Example: (2) It's the same as `gosh.diff` but it calculates `patch` between compressed strings.
 
-```TVMSolidity
+```solidity
 string oldText = ...;
 string newText = ...;
 string patch = gosh.diff(oldText, newText);
@@ -1230,7 +1230,7 @@ string patch = gosh.diff(oldText, newText);
 
 ## gosh.applyPatch, gosh.applyPatchQ, gosh.applyZipPatch, gosh.applyZipPatchQ, gosh.applyZipBinPatch and gosh.applyZipBinPatchQ
 
-```TVMSolidity
+```solidity
 (1)
 gosh.applyPatch(string oldText, string patch) returns (string newText)
 gosh.applyPatchQ(string oldText, string patch) returns (optional(string) newText)
@@ -1247,7 +1247,7 @@ gosh.applyZipBinPatchQ(bytes oldText, bytes patch) returns (optional(bytes) newT
 
 (1) Applies `patch` to the `oldText`. If it's impossible (bad patch), `gosh.applyPatch` throws an exception with type check error code (-8) but`gosh.applyPatchQ` returns `null`. Example: (2) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to binary arrays. (3) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed strings. (4) These are the same as `gosh.applyPatch`/`gosh.applyPatchQ` but these functions are applied to compressed binary arrays.
 
-```TVMSolidity
+```solidity
 string oldText = ...;
 string patch = ...;
 string newText = gosh.applyPatch(oldText, patch);
@@ -1255,7 +1255,7 @@ string newText = gosh.applyPatch(oldText, patch);
 
 ## gosh.zip and gosh.unzip
 
-```TVMSolidity
+```solidity
 gosh.zip(string text) returns (bytes zip)
 gosh.unzip(bytes zip) returns (optional(string) text)
 ```
@@ -1270,7 +1270,7 @@ Note that `0**0` throws an exception.
 
 Example:
 
-```TVMSolidity
+```solidity
 uint b = 3;
 uint32 p = 4;
 uint res = b ** p; // res == 81
@@ -1278,7 +1278,7 @@ uint res = b ** p; // res == 81
 
 ## selfdestruct
 
-```TVMSolidity
+```solidity
 selfdestruct(address dest_addr);
 ```
 
@@ -1290,7 +1290,7 @@ See example of how to use the `selfdestruct` function:
 
 ## sha256
 
-```TVMSolidity
+```solidity
 // (1)
 sha256(TvmSlice slice) returns (uint256)
 // (2)
@@ -1307,7 +1307,7 @@ See also [tvm.hash()](api-functions-and-members.md#tvmhash) to compute represent
 
 ## gasToValue
 
-```TVMSolidity
+```solidity
 gasToValue(uint128 gas) returns (uint128 value)
 gasToValue(uint128 gas, int8 wid) returns (uint128 value)
 ```
@@ -1316,7 +1316,7 @@ Returns worth of **gas** in workchain **wid**. Throws an exception if **wid** is
 
 ## valueToGas
 
-```TVMSolidity
+```solidity
 valueToGas(uint128 value) returns (uint128 gas)
 valueToGas(uint128 value, int8 wid) returns (uint128 gas)
 ```

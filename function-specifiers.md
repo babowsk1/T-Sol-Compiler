@@ -11,7 +11,7 @@ Possible values of the function mutability:
 
 Example:
 
-```TVMSolidity
+```solidity
 contract Test {
 
     uint a;
@@ -43,7 +43,7 @@ Keyword can be used only for private and internal functions.
 
 Example:
 
-```TVMSolidity
+```solidity
 // This function is called as a usual function.
 function getSum(uint a, uint b) public returns (uint) {
     return sum(a, b);
@@ -61,7 +61,7 @@ To make inline assembler you should mark free function as `assembly`. Function b
 
 It is up to user to set correct mutability (`pure`, `view` or default), return parameters of the function and so on. 
 
-```TVMSolidity
+```solidity
 function checkOverflow(uint a, uint b) assembly pure returns (bool) {
     "QADD",
     "ISNAN",
@@ -80,7 +80,7 @@ contract Contract {
 
 You can use inline assembler to support new opcodes in experimental or another implementations of TVM. 
 
-```TVMSolidity
+```solidity
 function incomingValue() assembly pure returns (uint) {
     ".blob xF82B", // it's opcode INCOMINGVALUE 
 }
@@ -95,7 +95,7 @@ In general, there is no purpose to set the function id manually.
 
 Example:
 
-```TVMSolidity
+```solidity
 function f() public pure functionID(123) {
     /*...*/
 }
@@ -111,7 +111,7 @@ an exception with code 72.
 
 Example:
 
-```TVMSolidity
+```solidity
 function f() public externalMsg { // this function receives only external messages
     /*...*/
 }

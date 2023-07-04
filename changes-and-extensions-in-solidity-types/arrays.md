@@ -2,11 +2,13 @@
 
 ## Array literals
 
-An array literal is a comma-separated list of one or more expressions, enclosed in square brackets.
-For example: `[100, 200, 300]`.
+An array literal is a comma-separated list of one or more expressions, enclosed in square brackets. For example: `[100, 200, 300]`.
 
-Initializing constant state variable:
-`uint[] constant fib = [uint(2), 3, 5, 8, 12, 20, 32];`
+Initializing constant state variable:&#x20;
+
+```solidity
+uint[] constant fib = [uint(2), 3, 5, 8, 12, 20, 32];
+```
 
 ## Creating new arrays
 
@@ -21,8 +23,7 @@ uint[] arr = new uint[](N); // create 5-length array
 uint[] arr = new uint[](10); // create 10-length array
 ```
 
-Note: If `N` is constant expression or integer literal then the complexity of array creation -
-`O(1)`. Otherwise, `O(N)`.
+Note: If `N` is constant expression or integer literal then the complexity of array creation - `O(1)`. Otherwise, `O(N)`.
 
 ## empty()
 

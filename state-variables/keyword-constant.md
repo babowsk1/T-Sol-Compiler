@@ -1,8 +1,6 @@
-# Keyword `constant`
+# Keyword constant
 
-For `constant` variables, the value has to be a compile time constant and this value is
-substituted where the variable is used. The value has to be assigned where the variable is declared.
-Example:
+For `constant` variables, the value has to be a compile-time constant, which is substituted where the variable is used. The value has to be assigned where the variable is declared. Example:
 
 ```solidity
 contract MyContract {

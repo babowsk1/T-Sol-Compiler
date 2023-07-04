@@ -1,12 +1,10 @@
-# msgValue
+# MsgValue
+
+Allows specifying default value in nanoevers attached to the internal outbound messages used to call another contract. This value is set to 10 000 000 nanoevers if it's not specified.
 
 ```solidity
 pragma msgValue <value>;
 ```
-
-Allows specifying default value in nanotons attached to the
-internal outbound messages used to call another contract. If it's not
-specified, this value is set to 10 000 000 nanotons.
 
 Example:
 

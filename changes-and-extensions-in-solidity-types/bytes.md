@@ -1,4 +1,4 @@
-# bytes
+# Bytes
 
 `bytes` is an array of `byte`. It is similar to `byte[]`, but they are encoded in different ways.
 
@@ -11,7 +11,7 @@ bytes a = "abzABZ0129";
 bytes b = hex"01239abf";
 ```
 
-`bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice\>.loadRef()](#tvmsliceloadref) to load that extra bytes.
+`bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice>.loadRef()](bytes.md#tvmsliceloadref) to load that extra bytes.
 
 ### empty()
 
@@ -21,7 +21,7 @@ bytes b = hex"01239abf";
 
 Returns status flag whether the `bytes` is empty (its length is 0).
 
-### operator[]
+### operator\[]
 
 ```solidity
 <bytes>.operator[](uint index) returns (byte);
@@ -37,15 +37,13 @@ int index = 0;
 byte a0 = byteArray[index]; // a0 = 0x61
 ```
 
-### \<bytes\> slice
+### Slice
 
 ```solidity
 <bytes>.operator[](uint from, uint to) returns (bytes);
 ```
 
-Returns the slice of `bytes` [**from**, **to**), including **from** byte and
-excluding **to**.
-Example:
+Returns the slice of `bytes` \[**from**, **to**), including **from** byte and excluding **to**. Example:
 
 ```solidity
 bytes byteArray = "01234567890123456789";
@@ -69,7 +67,7 @@ Returns length of the `bytes` array.
 <bytes>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
 ```
 
-Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
+Same as [\<TvmCell>.dataSize()](bytes.md#tvmcelldatasize).
 
 ### dataSizeQ()
 
@@ -77,7 +75,7 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 <bytes>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
 ```
 
-Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
+Same as [\<TvmCell>.dataSizeQ()](bytes.md#tvmcelldatasizeq).
 
 ### append()
 
@@ -87,14 +85,11 @@ Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
 
 Modifies the `bytes` by concatenating **tail** data to the end of the `bytes`.
 
-### bytes conversion
+### Bytes conversion
 
 ```solidity
 bytes byteArray = "1234";
 bytes4 bb = byteArray;
 ```
 
-`bytes` can be converted to `bytesN`.
-If `bytes` object has less than **N** bytes, extra bytes are padded with zero bits.
-
-
+`bytes` can be converted to `bytesN`. If `bytes` object has less than **N** bytes, extra bytes are padded with zero bits.

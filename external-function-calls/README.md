@@ -1,18 +1,12 @@
-# External function calls
+# External function call
 
-T-Sol compiler allows specifying different parameters of the outbound internal message that
-is sent via external function call. Note, all external function calls are asynchronous, so
-callee function will be called after termination of the current transaction.
-`value`, `currencies`, `bounce` or `flag` options can be set. See [\<address\>.transfer()](#addresstransfer)
-where these options are described.
-**Note:** if `value` isn't set, then the default value is equal to 0.01 ton, or 10^7 nanoton. It's equal
-to 10_000 units of gas in workchain.
-If the callee function returns some value and marked as `responsible` then `callback` option must be set.
-This callback function will be called by another contract. Remote function will pass its return
-values as function arguments for the callback function. That's why types of return values of the
-callee function must be equal to function arguments of the callback function.
-If the function marked as `responsible` then field `answerId` appears in the list of input parameters of the
-function in `*abi.json` file. `answerId` is function id that will be called.
+T-Sol compiler allows specifying different parameters of the outbound internal message that is sent via external function call. Note, all external function calls are asynchronous, so callee function will be called after termination of the current transaction. `value`, `currencies`, `bounce` or `flag` options can be set. See [\<address>.transfer()](./#addresstransfer) where these options are described.&#x20;
+
+{% hint style="info" %}
+If `value` isn't set, then the default value is equal to 0.01 ton, or 10^7 nanoton. It's equal to 10\_000 units of gas in workchain.&#x20;
+{% endhint %}
+
+If the callee function returns some value and is marked as `responsible` , then `callback` option must be set. Another contract will call this callback function. The remote. Remote function will pass its return values as function arguments for the callback function. That's why types of return values of the callee function must be equal to function arguments of the callback function. If the function marked as `responsible` then field `answerId` appears in the list of input parameters of the function in `*abi.json` file. `answerId` is function id that will be called.
 
 Example of the external call of the function that returns nothing:
 
@@ -77,7 +71,6 @@ contract Caller {
 
 See also:
 
-* Example of callback usage: [24_SquareProvider](https://github.com/tonlabs/samples/blob/master/solidity/24_SquareProvider.sol)
-* Example of callback usage: [4.1_CentralBank](https://github.com/tonlabs/samples/blob/master/solidity/4.1_CentralBank.sol)
-and [4.1_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/solidity/4.1_CurrencyExchange.sol)
-* [return](#return)
+* Example of callback usage: [24\_SquareProvider](https://github.com/tonlabs/samples/blob/master/solidity/24\_SquareProvider.sol)
+* Example of callback usage: [4.1\_CentralBank](https://github.com/tonlabs/samples/blob/master/solidity/4.1\_CentralBank.sol) and [4.1\_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/solidity/4.1\_CurrencyExchange.sol)
+* [return](./#return)

@@ -8,7 +8,7 @@ T-Sol Compiler adds its current version to the generated code. This version can 
 tvm_linker decode --tvm <tvc-file>
 ```
 
-1. using [tonos-cli](https://github.com/tonlabs/tonos-cli#48-decode-commands) from a `*.boc` file, a `*.tvc` file, or a network account:
+1. Using [tonos-cli](https://github.com/tonlabs/tonos-cli#48-decode-commands) from a `*.boc` file, a `*.tvc` file, or a network account:
 
 ```bash
 tonos-cli decode tvc [--tvc] [--boc] <input>

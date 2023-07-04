@@ -1,11 +1,10 @@
-# require, revert
+# Require, revert
 
-In case of exception state variables of the contract are reverted to the state before
-[tvm.commit()](#tvmcommit) or to the state of the contract before it was called.
-Use error codes that are greater than 100 because other error codes can be
-[reserved](#solidity-runtime-errors).
-**Note**: if a nonconstant error code is passed as the function argument and the error code
-is less than 2 then the error code will be set to 100.
+In case of exception, state variables of the contract are reverted to the state before [tvm.commit()](require-revert.md#tvmcommit) or to the state of the contract before it was called. Use error codes that are greater than 100 because other error codes can be [reserved](require-revert.md#solidity-runtime-errors).&#x20;
+
+{% hint style="info" %}
+If a nonconstant error code is passed as the function argument and the error code is less than 2, then the error code will be set to 100.
+{% endhint %}
 
 ## require
 
@@ -13,9 +12,7 @@ is less than 2 then the error code will be set to 100.
 require(bool condition, [uint errorCode = 100, [Type exceptionArgument]]);
 ```
 
-**require** function can be used to check the condition and throw an exception if the condition
-is not met. The function takes condition and optional parameters: error code (unsigned integer)
-and the object of any type.
+**require** function can be used to check the condition and throw an exception if the condition is not met. The function takes condition and optional parameters: error code (unsigned integer) and the object of any type.
 
 Example:
 
@@ -35,8 +32,7 @@ require(a == 6, 101, a); // throws an exception with code 101 and number a
 revert(uint errorCode = 100, [Type exceptionArgument]);
 ```
 
-**revert** function can be used to throw exceptions. The function takes an optional error code
-(unsigned integer) and the object of any type.
+**revert** function can be used to throw exceptions. The function takes an optional error code (unsigned integer) and the object of any type.
 
 Example:
 

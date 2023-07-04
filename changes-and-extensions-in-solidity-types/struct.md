@@ -1,8 +1,8 @@
-# struct
+# Struct
 
 Structs are custom defined types that can group several variables.
 
-## struct constructor
+## `struct` constructor
 
 ```solidity
 struct Stakes {

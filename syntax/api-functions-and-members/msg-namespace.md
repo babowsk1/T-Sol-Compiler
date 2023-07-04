@@ -1,4 +1,4 @@
-# **msg** namespace
+# Msg namespace
 
 ## sender
 
@@ -38,7 +38,7 @@ Collections of arbitrary currencies contained in the balance of the inbound mess
 msg.pubkey() returns (uint256);
 ```
 
-Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`. See also: [Contract execution](api-functions-and-members.md#contract-execution), [pragma AbiHeader](api-functions-and-members.md#pragma-abiheader).
+Returns public key that is used to check the message signature. If the message isn't signed then it's equal to `0`. See also: [Contract execution](../../api-functions-and-members/api-functions-and-members.md#contract-execution), [pragma AbiHeader](../../api-functions-and-members/api-functions-and-members.md#pragma-abiheader).
 
 ## isInternal, isExternal and isTickTock
 

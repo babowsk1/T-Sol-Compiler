@@ -1,6 +1,6 @@
-# **math** namespace
+# Math namespace
 
-`T` is an integer, [variable integer](api-functions-and-members.md#varint-and-varuint) or fixed point type in the `math.*` functions where applicable. Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
+`T` is an integer, [variable integer](../../api-functions-and-members/api-functions-and-members.md#varint-and-varuint) or fixed point type in the `math.*` functions where applicable. Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
 
 ## min() max()
 
@@ -65,7 +65,7 @@ math.divc(T a, T b) returns (T);
 math.divr(T a, T b) returns (T);
 ```
 
-Returns result of the division of two integers. The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr` respectively. See also: [Division and rounding](api-functions-and-members.md#division-and-rounding).
+Returns result of the division of two integers. The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr` respectively. See also: [Division and rounding](../../api-functions-and-members/api-functions-and-members.md#division-and-rounding).
 
 Example:
 
@@ -85,7 +85,7 @@ math.muldivr(T a, T b, T c) returns (T);
 math.muldivc(T a, T b, T c) returns (T);
 ```
 
-Multiplies two values and then divides the result by a third value. The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`, `muldivc` and `muldivr` respectively. See also: [Division and rounding](api-functions-and-members.md#division-and-rounding).
+Multiplies two values and then divides the result by a third value. The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`, `muldivc` and `muldivr` respectively. See also: [Division and rounding](../../api-functions-and-members/api-functions-and-members.md#division-and-rounding).
 
 Example:
 

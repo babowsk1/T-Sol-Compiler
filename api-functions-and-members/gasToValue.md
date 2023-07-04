@@ -1,4 +1,4 @@
-# gasToValue
+# GasToValue
 
 ```solidity
 gasToValue(uint128 gas) returns (uint128 value)

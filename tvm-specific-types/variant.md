@@ -4,7 +4,7 @@ The `variant` type acts like a union for the most common solidity data types. Su
 
 ## isUint()
 
-```TVMSolidity
+```solidity
 <variant>.isUint() returns (bool)
 ```
 

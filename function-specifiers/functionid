@@ -1,0 +1,14 @@
+# functionID()
+
+`functionID` keyword allows assigning function identifier explicitly.
+Each public function has a unique 32-bit identifier (id). id 0 is reserved for [receive](#receive) function.
+In case `functionID` is not defined explicitly, it is calculated as a hash of the function signature.
+In general, there is no purpose to set the function id manually.
+
+Example:
+
+```solidity
+function f() public pure functionID(123) {
+    /*...*/
+}
+ ```

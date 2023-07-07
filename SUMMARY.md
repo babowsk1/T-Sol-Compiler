@@ -91,6 +91,7 @@
 * [TVM exception codes](troubleshooting/tvm-exception-codes.md)
 * [Solidity runtime errors](troubleshooting/solidity-runtime-errors.md)
 * [Gas optimization hints](troubleshooting/gas-optimization-hints.md)
+* [Executor result codes](troubleshooting/executor-result-codes.md)
 
 ## 🌀 OTHER
 

@@ -30,7 +30,7 @@ Generates a `StateInit` ([Everscale documentation](https://docs.everscale.networ
 * `data` (`TvmCell`) - defines the data field of the `StateInit`. Conflicts with `pubkey` and `varInit`. Can be omitted, in this case data field would be built from `pubkey` and `varInit`.
 * `splitDepth` (`uint8`) - splitting depth. `0 <= splitDepth <= 31`. Can be omitted. By default, it has no value.
 * `pubkey` (`uint256`) - defines the public key of the new contract. Conflicts with `data`. Can be omitted, default value is 0.
-* `varInit` (`initializer list`) - used to set [static](../../api-functions-and-members/api-functions-and-members.md#keyword-static) variables of the contract. Conflicts with `data` and requires `contr` to be set. Can be omitted.
+* `varInit` (`initializer list`) - used to set [static](/syntax/state-variables/keyword-static.md) variables of the contract. Conflicts with `data` and requires `contr` to be set. Can be omitted.
 * `contr` (`contract`) - defines the contract whose `StateInit` is being built. Mandatory to be set if the option `varInit` is specified.
 
 Examples of this function usage:
@@ -78,7 +78,7 @@ contract C {
 tvm.buildDataInit({pubkey: uint256 pubkey, contr: contract Contract, varInit: {VarName0: varValue0, ...}});
 ```
 
-Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in [tvm.buildStateInit()](../../api-functions-and-members/api-functions-and-members.md#tvmbuildstateinit).
+Generates `data` field of the `StateInit` ([Everscale documentation](https://docs.everscale.network/arch/accounts#smart-contract-storage-stateinit)). Parameters are the same as in [tvm.buildStateInit()](deploy-contract-from-contract.md/#builddatainit).
 
 ```solidity
 // SimpleWallet.sol
@@ -135,7 +135,7 @@ See also [Everscale documentation](https://docs.everscale.network/arch/accounts#
 
 Use `stateInit` option if you have the created account state (maybe offchain or onchain) and use `code` if you want to create account state in the `new` expression.
 
-**Note**: Address of the new account is calculated as a hash of the `stateInit`. Constructor function parameters don't influence the address. See [New contract address problem](../../api-functions-and-members/api-functions-and-members.md#new-contract-address-problem).
+**Note**: Address of the new account is calculated as a hash of the `stateInit`. Constructor function parameters don't influence the address. See [New contract address problem](deploy-contract-from-contract.md/#new-contract-address-problem).
 
 [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.md).
 
@@ -165,7 +165,7 @@ address newWallet = new SimpleWallet{value: 1 ton, code: code}(arg0, arg1, ...);
 The following options can only be used with the `code` option:
 
 * `pubkey` (`uint256`) - defines the public key of the new contract.
-* `varInit` (`initializer list`) - used to set [static](../../api-functions-and-members/api-functions-and-members.md#keyword-static) variables of the new contract.
+* `varInit` (`initializer list`) - used to set [static](/syntax/state-variables/keyword-static.md) variables of the new contract.
 * `splitDepth` (`uint8`) - splitting depth. `0 <= splitDepth <= 31`. By default, it has no value.
 
 Example of these options usage:
@@ -198,7 +198,7 @@ The following options can be used with both `stateInit` and `code`:
 * `currencies` (`ExtraCurrencyCollection`) - currencies attached to the outbound internal message. Defaults to an empty set.
 * `bounce` (`bool`) - if it's set and deploy falls (only at the computing phase, not at the action phase!) then funds will be returned. Otherwise, (flag isn't set or deploying terminated successfully) the address accepts the funds. Defaults to `true`.
 * `wid` (`uint8`) - workchain id of the new account address. Defaults to `0`.
-* `flag` (`uint16`) - flag used to send the outbound internal message. Defaults to `0`. Possible values of the `flag` are described here: [\<address>.transfer()](../../api-functions-and-members/api-functions-and-members.md#addresstransfer).
+* `flag` (`uint16`) - flag used to send the outbound internal message. Defaults to `0`. Possible values of the `flag` are described here: [\<address>.transfer()](../changes-and-extensions-in-solidity-types/functions.md#transfer).
 
 ```solidity
 TvmCell stateInit = ...;
@@ -212,7 +212,7 @@ address newWallet = new SimpleWallet{
 
 ### Deploy via \<address>.transfer()
 
-You can also deploy the contract via [\<address>.transfer()](../../api-functions-and-members/api-functions-and-members.md#addresstransfer). Just set the option `stateInit`.
+You can also deploy the contract via [\<address>.transfer()](../changes-and-extensions-in-solidity-types/functions.md#transfer). Just set the option `stateInit`.
 
 * [Example of usage](https://github.com/tonlabs/samples/blob/master/solidity/11\_ContractDeployer.sol)
 * [Step-by-step description how to deploy contracts from the contract here](https://github.com/tonlabs/samples/blob/master/solidity/17\_ContractProducer.md).

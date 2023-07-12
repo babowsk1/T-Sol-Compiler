@@ -16,7 +16,7 @@ Before calling contract's function `main_external` does:
    - If signature is present, `pubkey` header is defined and `pubkey` is present in the
    message then `msg.pubkey()` is used for checking.
    - If signature isn't present, `pubkey` header is defined and `pubkey` is present in the
-   message then an [exception with code 58](#solidity-runtime-errors) is thrown.
+   message then an [exception with code 58](troubleshooting/solidity-runtime-errors.md) is thrown.
 2. Replay protection:
    - `time` is present and there is no `afterSignatureCheck` then the contract checks whether
    `oldTime` < `time` < `now` * 1000 + 30 minutes. If it's true then `oldTime` is updated by new `time`.
@@ -27,4 +27,4 @@ Before calling contract's function `main_external` does:
    `expire` > `now`.
    - there is `afterSignatureCheck` (despite usage of `expire`) then make your own check.
 
-See also: [pragma AbiHeader](#pragma-abiheader), [afterSignatureCheck](#aftersignaturecheck).
+See also: [pragma AbiHeader](syntax/pragmas/abiheader.md), [afterSignatureCheck](syntax/special-contract-functions/aftersignaturecheck.md).

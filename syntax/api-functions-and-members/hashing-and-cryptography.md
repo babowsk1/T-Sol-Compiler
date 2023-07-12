@@ -9,7 +9,7 @@ tvm.hash(bytes data) returns (uint256);
 tvm.hash(TvmSlice data) returns (uint256);
 ```
 
-Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F900). It computes the representation hash of a given argument and returns it as a 256-bit unsigned integer. For `string` and `bytes` it computes hash of the tree of cells that contains data but not data itself. See [sha256](../../api-functions-and-members/api-functions-and-members.md#sha256) to count hash of data.
+Executes TVM instruction "HASHCU" or "HASHSU" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.6. - F900). It computes the representation hash of a given argument and returns it as a 256-bit unsigned integer. For `string` and `bytes` it computes hash of the tree of cells that contains data but not data itself. See [sha256](sha256.md) to count hash of data.
 
 Example:
 

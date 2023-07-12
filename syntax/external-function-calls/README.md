@@ -1,6 +1,6 @@
 # External function call
 
-T-Sol compiler allows specifying different parameters of the outbound internal message that is sent via external function call. Note, all external function calls are asynchronous, so callee function will be called after termination of the current transaction. `value`, `currencies`, `bounce` or `flag` options can be set. See [\<address>.transfer()](./#addresstransfer) where these options are described.&#x20;
+T-Sol compiler allows specifying different parameters of the outbound internal message that is sent via external function call. Note, all external function calls are asynchronous, so callee function will be called after termination of the current transaction. `value`, `currencies`, `bounce` or `flag` options can be set. See [\<address>.transfer()](../changes-and-extensions-in-solidity-types/functions.md#transfer) where these options are described.&#x20;
 
 {% hint style="info" %}
 If `value` isn't set, then the default value is equal to 0.01 ton, or 10^7 nanoton. It's equal to 10\_000 units of gas in workchain.&#x20;
@@ -73,4 +73,4 @@ See also:
 
 * Example of callback usage: [24\_SquareProvider](https://github.com/tonlabs/samples/blob/master/solidity/24\_SquareProvider.sol)
 * Example of callback usage: [4.1\_CentralBank](https://github.com/tonlabs/samples/blob/master/solidity/4.1\_CentralBank.sol) and [4.1\_CurrencyExchange.sol](https://github.com/tonlabs/samples/blob/master/solidity/4.1\_CurrencyExchange.sol)
-* [return](./#return)
+* [return](../events-and-return/)

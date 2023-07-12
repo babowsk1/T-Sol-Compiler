@@ -46,7 +46,7 @@ Returns the number of references in the `TvmSlice`.
 <TvmSlice>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
 ```
 
-Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If number of the distinct cells exceeds `n+1` then a cell overflow [exception](tvmslice.md#tvm-exception-codes) is thrown. Note that the returned `count of distinct cells` does not take into account the cell that contains the slice itself. This function is a wrapper for `SDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
+Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If number of the distinct cells exceeds `n+1` then a cell overflow [exception](../../troubleshooting/tvm-exception-codes.md) is thrown. Note that the returned `count of distinct cells` does not take into account the cell that contains the slice itself. This function is a wrapper for `SDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ## dataSizeQ()
 
@@ -88,7 +88,7 @@ Lexicographically compares the `slice` and `other` data bits of the root slices 
 
 ## TvmSlice load primitives
 
-All `load*` functions below modify the `TvmSlice` object. If you wants to load second reference from the `TvmSlice`, you should load the first one with [\<TvmSlice>.loadRef()](tvmslice.md#tvmsliceloadref) and then load the reference you need. The same rule is applied to data bits. To load bits from 2 to 10 positions, you should load or skip first two bits.
+All `load*` functions below modify the `TvmSlice` object. If you wants to load second reference from the `TvmSlice`, you should load the first one with [\<TvmSlice>.loadRef()](tvmslice.md#loadref) and then load the reference you need. The same rule is applied to data bits. To load bits from 2 to 10 positions, you should load or skip first two bits.
 
 ### load()
 
@@ -104,7 +104,7 @@ TvmSlice slice = ...;
 (uint16 num0, uint32 num1, address addr) = slice.load(uint16, uint32, address);
 ```
 
-See also: [\<TvmBuilder>.store()](tvmslice.md#tvmbuilderstore). **Note**: if all the argument types can't be loaded from the slice a cell underflow [exception](tvmslice.md#tvm-exception-codes) is thrown.
+See also: [\<TvmBuilder>.store()](tvmbuilder.md#store). **Note**: if all the argument types can't be loaded from the slice a cell underflow [exception](../../troubleshooting/tvm-exception-codes.md) is thrown.
 
 ### loadQ()
 
@@ -120,7 +120,7 @@ optional(uint) a = slice.loadQ(uint);
 optional(uint8, uint16) b = slice.loadQ(uint8, uint16);
 ```
 
-See also: [\<TvmBuilder>.store()](tvmslice.md#tvmbuilderstore).
+See also: [\<TvmBuilder>.store()](tvmbuilder.md#store).
 
 ### loadRef()
 
@@ -226,7 +226,7 @@ Loads (deserializes) **VarUInteger16** and returns an unsigned 128-bit integer. 
 <TvmSlice>.loadFunctionParams(ContractName) returns (TypeA /*a*/, TypeB /*b*/, ...);
 ```
 
-Loads parameters of the function or constructor (if contract type is provided). This function is usually used in the [**onBounce**](tvmslice.md#onbounce) function.
+Loads parameters of the function or constructor (if contract type is provided). This function is usually used in the [**onBounce**](../special-contract-functions/onbounce.md) function.
 
 See the example of how to use **onBounce** function:
 
@@ -305,7 +305,7 @@ Skips the first `bits` bits and `refs` references from the `TvmSlice`.
 
 (3) Returns the count `n` of leading bits equal to `0 ≤ value ≤ 1` in `TvmSlice`, and removes these bits from `TvmSlice`.
 
-See also: [\<TvmBuilder>.storeZeroes(), \<TvmBuilder>.storeOnes() and \<TvmBuilder>.storeSame()](tvmslice.md#tvmbuilderstorezeroes-tvmbuilderstoreones-and-tvmbuilderstoresame).
+See also: [\<TvmBuilder>.storeZeroes(), \<TvmBuilder>.storeOnes() and \<TvmBuilder>.storeSame()](tvmbuilder.md#storezeroes-storeones-and-storesame).
 
 ## ➖➖➖
 
@@ -327,7 +327,7 @@ Same as [\<TvmSlice>.load()](tvmslice.md#tvmsliceload) but doesn't modify `TvmSl
 <TvmSlice>.preloadQ(TypeA, TypeB, ...) returns (optional(TypeA, TypeB, ...));
 ```
 
-Same as [\<TvmSlice>.loadQ()](tvmslice.md#tvmsliceloadq) but doesn't modify `TvmSlice`.
+Same as [\<TvmSlice>.loadQ()](tvmslice.md#loadq) but doesn't modify `TvmSlice`.
 
 ### preloadRef()
 
@@ -353,7 +353,7 @@ Same as [\<TvmSlice>.loadQ()](tvmslice.md#tvmsliceloadq) but doesn't modify `Tvm
 <TvmSlice>.preloadIntQ(uint9 bitSize) returns (optional(int));
 ```
 
-Same as [\<TvmSlice>.loadInt() and \<TvmSlice>.loadIntQ()](tvmslice.md#tvmsliceloadint-and-tvmsliceloadintq) but doesn't modify `TvmSlice`.
+Same as [\<TvmSlice>.loadInt() and \<TvmSlice>.loadIntQ()](tvmslice.md#loadint-and-loadintq) but doesn't modify `TvmSlice`.
 
 ### preloadUint() and preloadUintQ()
 
@@ -365,7 +365,7 @@ Same as [\<TvmSlice>.loadInt() and \<TvmSlice>.loadIntQ()](tvmslice.md#tvmslicel
 <TvmSlice>.preloadUintQ(uint9 bitSize) returns (optional(uint));
 ```
 
-Same as [\<TvmSlice>.loadUint() and \<TvmSlice>.loadUintQ()](tvmslice.md#tvmsliceloaduint-and-tvmsliceloaduintq) but doesn't modify `TvmSlice`.
+Same as [\<TvmSlice>.loadUint() and \<TvmSlice>.loadUintQ()](tvmslice.md#loaduint-and-loaduintq) but doesn't modify `TvmSlice`.
 
 ### Preload little-endian integers
 
@@ -399,4 +399,4 @@ Same as [Load little-endian integers](tvmslice.md#load-little-endian-integers) b
 <TvmSlice>.preloadSliceQ(uint10 bits, uint4 refs) returns (optional(TvmSlice));
 ```
 
-Same as [\<TvmSlice>.loadSlice() and \<TvmSlice>.loadSliceQ()](tvmslice.md#tvmsliceloadslice-and-tvmsliceloadsliceq) but doesn't modify `TvmSlice`.
+Same as [\<TvmSlice>.loadSlice() and \<TvmSlice>.loadSliceQ()](tvmslice.md#loadslice-and-loadsliceq) but doesn't modify `TvmSlice`.

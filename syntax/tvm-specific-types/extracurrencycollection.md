@@ -1,6 +1,6 @@
 # ExtraCurrencyCollection
 
-ExtraCurrencyCollection represents TVM type ExtraCurrencyCollection. It has the same functions as [mapping(uint32 => uint256)](extracurrencycollection.md#mapping):
+ExtraCurrencyCollection represents TVM type ExtraCurrencyCollection. It has the same functions as [mapping(uint32 => uint256)](../changes-and-extensions-in-solidity-types/mapping.md):
 
 ```solidity
 ExtraCurrencyCollection curCol;

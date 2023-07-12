@@ -1,4 +1,4 @@
-# string
+# String
 
 T-Sol Compiler expands `string` type with the following functions:
 
@@ -28,9 +28,8 @@ Returns byte length of the `string` data.
 <string>.substr(uint from[, uint count]) returns (string);
 ```
 
-Returns the substring starting from the byte with number **from** with byte length **count**.  
-**Note**: if count is not set, then the new `string` will be cut from the **from** byte to the end
-of the string.
+Returns the substring starting from the byte with number **from** with byte length **count**.\
+**Note**: if count is not set, then the new `string` will be cut from the **from** byte to the end of the string.
 
 ```solidity
 string long = "0123456789";
@@ -69,8 +68,7 @@ string c = a + b; // "abc12"
 <string>.findLast(bytes1 symbol) returns (optional(uint32));
 ```
 
-Looks for **symbol** (or substring) in the `string` and returns index of the first (`find`) or the
-last (`findLast`) occurrence. If there is no such symbol in the `string`, an empty optional is returned.
+Looks for **symbol** (or substring) in the `string` and returns index of the first (`find`) or the last (`findLast`) occurrence. If there is no such symbol in the `string`, an empty optional is returned.
 
 Example:
 
@@ -95,7 +93,7 @@ bool s = c.hasValue(); // s == false
 <string>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
 ```
 
-Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
+Same as [\<TvmCell>.dataSize()](string.md#datasize).
 
 ## dataSizeQ()
 
@@ -103,17 +101,16 @@ Same as [\<TvmCell\>.dataSize()](#tvmcelldatasize).
 <string>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
 ```
 
-Same as [\<TvmCell\>.dataSizeQ()](#tvmcelldatasizeq).
+Same as [\<TvmCell>.dataSizeQ()](string.md#datasizeq).
 
-## toUpperCase()` and toLowerCase()
+## toUpperCase()\` and toLowerCase()
 
 ```solidity
 <string>.toUpperCase() returns (string)
 <string>.toLowerCase() returns (string)
 ```
 
-Converts `string` to upper/lower case. It treats `string` as ASCII string and converts only 'A'..'Z'
-and 'a'..'z' symbols. Example:
+Converts `string` to upper/lower case. It treats `string` as ASCII string and converts only 'A'..'Z' and 'a'..'z' symbols. Example:
 
 ```solidity
 string s = "Hello";
@@ -121,24 +118,18 @@ string a = s.toUpperCase(); // a == "HELLO"
 string b = s.toLowerCase(); // b == "hello" 
 ```
 
-##  format()
+## format()
 
 ```solidity
 format(string template, TypeA a, TypeB b, ...) returns (string);
 ```
 
-Builds a `string` with arbitrary parameters. Empty placeholder {} can be filled with integer
-(in decimal view), address, string or fixed point number. Fixed point number is printed
-based on its type (`fixedMxN` is printed with `N` digits after dot).
-Placeholder should be specified in such formats:
+Builds a `string` with arbitrary parameters. Empty placeholder {} can be filled with integer (in decimal view), address, string or fixed point number. Fixed point number is printed based on its type (`fixedMxN` is printed with `N` digits after dot). Placeholder should be specified in such formats:
 
 * `"{}"` - empty placeholder
-* `"{:[0]<width>{"x","d","X","t"}}"` - placeholder for integers. Fills num with 0 if format starts with "0".
-Formats integer to have specified `width`. Can format integers in decimal ("d" postfix), lower hex ("x")
-or upper hex ("X") form. Format "t" prints number (in nanotons) as a fixed point Ton sum.
+* `"{:[0]<width>{"x","d","X","t"}}"` - placeholder for integers. Fills num with 0 if format starts with "0". Formats integer to have specified `width`. Can format integers in decimal ("d" postfix), lower hex ("x") or upper hex ("X") form. Format "t" prints number (in nanotons) as a fixed point Ton sum.
 
-Warning: this function consumes too much gas, that's why it's better not to use it onchain.
-Example:
+Warning: this function consumes too much gas, that's why it's better not to use it onchain. Example:
 
 ```solidity
 string str = format("Hello {} 0x{:X} {}  {}.{} tons", 123, 255, address.makeAddrStd(-33,0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF123456789ABCDE), 100500, 32);
@@ -169,12 +160,9 @@ str = format("{}", vv); // str == "-987123.4567890321"
 stoi(string inputStr) returns (optional(int) /*result*/);
 ```
 
-Converts a `string` into an integer. If `string` starts with '0x' it will be converted from a hexadecimal format,
-otherwise it is meant to be number in decimal format. Function returns the integer in case of success.
-Otherwise, returns `null`.
+Converts a `string` into an integer. If `string` starts with '0x' it will be converted from a hexadecimal format, otherwise it is meant to be number in decimal format. Function returns the integer in case of success. Otherwise, returns `null`.
 
-Warning: this function consumes too much gas, that's why it's better not to use it onchain.
-Example:
+Warning: this function consumes too much gas, that's why it's better not to use it onchain. Example:
 
 ```solidity
 optional(int) res;
@@ -194,5 +182,4 @@ string s = "11";
 bytes2 b = bytes2(s); // b = 0x3131
 ```
 
-`string` can be converted to `bytesN` which causes **N** * 8 bits being loaded from the cell and saved to variable.
-If `string` object has less than **N** bytes, extra bytes are padded with zero bits.
+`string` can be converted to `bytesN` which causes **N** \* 8 bits being loaded from the cell and saved to variable. If `string` object has less than **N** bytes, extra bytes are padded with zero bits.

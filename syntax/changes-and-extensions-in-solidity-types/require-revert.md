@@ -1,6 +1,6 @@
 # Require, revert
 
-In case of exception, state variables of the contract are reverted to the state before [tvm.commit()](require-revert.md#tvmcommit) or to the state of the contract before it was called. Use error codes that are greater than 100 because other error codes can be [reserved](require-revert.md#solidity-runtime-errors).&#x20;
+In case of exception, state variables of the contract are reverted to the state before [tvm.commit()](../api-functions-and-members/tvm-namespace.md#commit) or to the state of the contract before it was called. Use error codes that are greater than 100 because other error codes can be [reserved](../../troubleshooting/solidity-runtime-errors.md).&#x20;
 
 {% hint style="info" %}
 If a nonconstant error code is passed as the function argument and the error code is less than 2, then the error code will be set to 100.

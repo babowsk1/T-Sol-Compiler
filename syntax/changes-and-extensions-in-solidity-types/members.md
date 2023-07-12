@@ -6,7 +6,7 @@
 <address>.wid returns (int8);
 ```
 
-Returns the workchain id of **addr_std** or **addr_var**. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
+Returns the workchain id of **addr\_std** or **addr\_var**. Throws "range check error" [exception](../../troubleshooting/tvm-exception-codes.md) for other `address` types.
 
 ## value
 
@@ -14,7 +14,7 @@ Returns the workchain id of **addr_std** or **addr_var**. Throws "range check er
 <address>.value returns (uint);
 ```
 
-Returns the `address` value of **addr_std** or **addr_var** if **addr_var** has 256-bit `address` value. Throws "range check error" [exception](#tvm-exception-codes) for other `address` types.
+Returns the `address` value of **addr\_std** or **addr\_var** if **addr\_var** has 256-bit `address` value. Throws "range check error" [exception](../../troubleshooting/tvm-exception-codes.md) for other `address` types.
 
 ## balance
 

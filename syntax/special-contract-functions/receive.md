@@ -2,12 +2,10 @@
 
 `receive` function is called in two cases:
 
-1. [msg.data](#msgdata) (or message body) is empty.
-2. [msg.data](#msgdata) starts with 32-bit zero. Then message body may contain data,
-for example [string](#string) with comment.
+1. [msg.data](../api-functions-and-members/msg-namespace.md#data) (or message body) is empty.
+2. [msg.data](../api-functions-and-members/msg-namespace.md#data) starts with 32-bit zero. Then message body may contain data, for example [string](../changes-and-extensions-in-solidity-types/string.md) with comment.
 
-If in the contract there is no `receive` function then the contract has an implicit empty `receive`
-function.
+If in the contract there is no `receive` function then the contract has an implicit empty `receive` function.
 
 ```solidity
 // file sink.sol

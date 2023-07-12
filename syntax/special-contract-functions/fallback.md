@@ -6,11 +6,9 @@
 2. Bit-length of the message is from 1 to 31 (including).
 3. Bit-length of the message is equal to zero, but the message contains reference(s).
 
-**Note**: if the message has correct function id but invalid encoded function parameters then
-the transaction fail with an exception (e.g. [cell underflow exception](#tvm-exception-codes)).
+**Note**: if the message has correct function id but invalid encoded function parameters then the transaction fail with an exception (e.g. [cell underflow exception](../../troubleshooting/tvm-exception-codes.md)).
 
-If in the contract there is no fallback function then contract has implicit fallback function
-that throws [exception](#solidity-runtime-errors).
+If in the contract there is no fallback function then contract has implicit fallback function that throws [exception](../../troubleshooting/solidity-runtime-errors.md).
 
 Example:
 

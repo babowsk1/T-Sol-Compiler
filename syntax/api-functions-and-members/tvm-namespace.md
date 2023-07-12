@@ -38,7 +38,7 @@ tvm.buyGas(uint value);
 ```
 
 Computes the amount of gas that can be bought for `value` nanotons, and sets **gl**\
-accordingly in the same way as [tvm.setGasLimit()](../../api-functions-and-members/api-functions-and-members.md#tvmsetgaslimit).
+accordingly in the same way as [tvm.setGasLimit()](tvm-namespace.md#setgaslimit).
 
 ### commit()
 
@@ -54,7 +54,7 @@ Creates a "check point" of the state variables (by copying them from c7 to c4) a
 tvm.rawCommit();
 ```
 
-Same as [tvm.commit()](../../api-functions-and-members/api-functions-and-members.md#tvmcommit) but doesn't copy the state variables from c7 to c4. It's a wrapper for opcode `COMMIT`. See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
+Same as [tvm.commit()](tvm-namespace.md#commit) but doesn't copy the state variables from c7 to c4. It's a wrapper for opcode `COMMIT`. See [TVM](https://broxus.gitbook.io/threaded-virtual-machine/).
 
 **Note**: Don't use `tvm.rawCommit()` after `tvm.accept()` in processing external messages because you don't save from c7 to c4 the hidden state variable `timestamp` that is used for replay protection.
 
@@ -70,7 +70,7 @@ A dual of the `tvm.setData()`function. It returns value of the `c4` register. Ob
 
 Manipulation with a raw storage cell requires understanding of the way the compiler stores the data. Refer to the description of `tvm.setData()` below to get more details.
 
-**Note:** state variables and replay protection timestamp stored in the data cell have the same values that were before the transaction. See [tvm.commit()](../../api-functions-and-members/api-functions-and-members.md#tvmcommit) to learn about register `c4` update.
+**Note:** state variables and replay protection timestamp stored in the data cell have the same values that were before the transaction. See [tvm.commit()](tvm-namespace.md#commit) to learn about register `c4` update.
 
 ### setData()
 

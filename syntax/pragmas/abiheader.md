@@ -16,4 +16,4 @@ pragma AbiHeader expire;
 
 Defined headers are listed in `*.abi.json` file in `header` section.
 
-See also: [Contract execution](abiheader.md#contract-execution), [afterSignatureCheck](abiheader.md#aftersignaturecheck), [msg.pubkey()](abiheader.md#msgpubkey) and [tvm.pubkey()](abiheader.md#tvmpubkey). To read more about these fields and ABI follow this [link](https://docs.ton.dev/86757ecb2/p/40ba94-abi-specification-v2). Here is example of [message expiration time](https://docs.ton.dev/86757ecb2/p/88321a-message-expiration-time) usage.
+See also: [Contract execution](../../other/contract-execution.md), [afterSignatureCheck](../special-contract-functions/aftersignaturecheck.md), [msg.pubkey()](../api-functions-and-members/msg-namespace.md#pubkey) and [tvm.pubkey()](../api-functions-and-members/misc-functions-from-tvm.md#pubkey). To read more about these fields and ABI follow this [link](https://docs.ton.dev/86757ecb2/p/40ba94-abi-specification-v2). Here is example of [message expiration time](https://docs.ton.dev/86757ecb2/p/88321a-message-expiration-time) usage.

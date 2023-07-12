@@ -11,7 +11,7 @@ bytes a = "abzABZ0129";
 bytes b = hex"01239abf";
 ```
 
-`bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice>.loadRef()](bytes.md#tvmsliceloadref) to load that extra bytes.
+`bytes` can be converted to `TvmSlice`. Warning: if length of the array is greater than 127 then extra bytes are stored in the first reference of the slice. Use [\<TvmSlice>.loadRef()](../tvm-specific-types/tvmslice.md#loadref) to load that extra bytes.
 
 ### empty()
 
@@ -67,7 +67,7 @@ Returns length of the `bytes` array.
 <bytes>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
 ```
 
-Same as [\<TvmCell>.dataSize()](bytes.md#tvmcelldatasize).
+Same as [\<TvmCell>.dataSize()](bytes.md#datasize).
 
 ### dataSizeQ()
 
@@ -75,7 +75,7 @@ Same as [\<TvmCell>.dataSize()](bytes.md#tvmcelldatasize).
 <bytes>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
 ```
 
-Same as [\<TvmCell>.dataSizeQ()](bytes.md#tvmcelldatasizeq).
+Same as [\<TvmCell>.dataSizeQ()](bytes.md#datasizeq).
 
 ### append()
 

@@ -24,7 +24,7 @@ Returns the depth **d** of the `TvmCell` **c:**&#x20;
 <TvmCell>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
 ```
 
-Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If the number of the distinct cells exceeds `n+1` , then a cell overflow [exception](tvmcell.md#tvm-exception-codes) is thrown. This function is a wrapper for the `CDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
+Returns the number of distinct cells, data bits in the distinct cells and cell references in the distinct cells. If the number of the distinct cells exceeds `n+1` , then a cell overflow [exception](../../troubleshooting/tvm-exception-codes.md) is thrown. This function is a wrapper for the `CDATASIZE` opcode ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.7).
 
 ## dataSizeQ()
 

@@ -1,6 +1,8 @@
-# **tx** namespace
+# Tx namespace
 
-## logicaltime
+## **tx** namespace
+
+### logicaltime
 
 ```solidity
 tx.logicaltime returns (uint64);
@@ -8,7 +10,7 @@ tx.logicaltime returns (uint64);
 
 Returns the logical time of the current transaction.
 
-## storageFee
+### storageFee
 
 It's an experimental feature and is available only in certain blockchain networks.
 
@@ -18,9 +20,15 @@ tx.storageFee returns (uint120);
 
 Returns the storage fee paid in the current transaction.
 
-# **block** namespace
+{% hint style="warning" %}
+&#x20;The return type of **`tx.storageFee`** has been changed to **`uint120`** (previously **`uint64`**).
 
-### block.timestamp
+The old property is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
+## **block** namespace
+
+#### block.timestamp
 
 ```solidity
 block.timestamp returns (uint32);
@@ -34,7 +42,7 @@ The behavior of the method has been changed since **v. 0.67.0**: it has replaced
 If you use an earlier version of the compiler, please refer to the corresponding version of the documentation.
 {% endhint %}
 
-### block.logicaltime
+#### block.logicaltime
 
 ```solidity
 block.logicaltime returns (uint64);
@@ -42,11 +50,15 @@ block.logicaltime returns (uint64);
 
 Returns the starting logical time of the current block.
 
-# **rnd** namespace
+{% hint style="warning" %}
+The property **`tx.timestamp`** has been renamed to **`tx.logicaltime`**. The old property is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
+## **rnd** namespace
 
 The pseudorandom number generator uses the random seed. The initial value of the random seed before a smart contract execution in Everscale Blockchain is a hash of the smart contract address and the global block random seed. If there are several runs of the same smart contract inside a block, then all of these runs will have the same random seed. This can be fixed, for example, by running `rnd.shuffle()` (without parameters) each time before using the pseudorandom number generator.
 
-### rnd.next
+#### rnd.next
 
 ```solidity
 rnd.next([Type limit]) returns (Type);
@@ -68,7 +80,7 @@ int8 r2 = rnd.next(int8(100));  // 0..99
 int8 r3 = rnd.next(int8(-100)); // -100..-1
 ```
 
-### rnd.getSeed
+#### rnd.getSeed
 
 ```solidity
 rnd.getSeed() returns (uint256);
@@ -76,7 +88,7 @@ rnd.getSeed() returns (uint256);
 
 Returns the current random seed.
 
-### rnd.setSeed
+#### rnd.setSeed
 
 ```solidity
 rnd.setSeed(uint256 x);
@@ -84,7 +96,7 @@ rnd.setSeed(uint256 x);
 
 Sets the random seed to `x`.
 
-### rnd.shuffle
+#### rnd.shuffle
 
 ```solidity
 (1)

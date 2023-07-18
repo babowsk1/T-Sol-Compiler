@@ -1,5 +1,11 @@
 # OnCodeUpgrade
 
+{% hint style="warning" %}
+The function **`onCodeUpgrade`** previously had function ID = 2. Now, it has a different ID, but you can set **`functionID(2)`** in new contracts to upgrade the old ones.
+
+Please update your code accordingly and refer to the corresponding version of the documentation if you are using an earlier version of the compiler.
+{% endhint %}
+
 `onCodeUpgrade` function can have an arbitrary set of arguments and should be executed after [tvm.setcode()](../api-functions-and-members/tvm-namespace.md#setcode) function call. In this function [tvm.resetStorage()](../api-functions-and-members/misc-functions-from-tvm.md#resetstorage) should be called if the set of state variables is changed in the new version of the contract. This function implicitly calls [tvm.commit()](../api-functions-and-members/tvm-namespace.md#commit). `onCodeUpgrade` function does not return value. `onCodeUpgrade` function finishes TVM execution with exit code 0.
 
 Prototype:

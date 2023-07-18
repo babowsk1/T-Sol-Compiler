@@ -1,5 +1,11 @@
 # AbiHeader
 
+{% hint style="warning" %}
+From version **0.69.0** onwards, the usage of `pragma`` `**`AbiHeader time`** is no longer allowed. Timestamp in the header of an external message is now enabled by default and can be disabled with `pragma`**`AbiHeader notime`**.
+
+If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation to ensure compatibility.
+{% endhint %}
+
 Defines headers that are used in external messages:
 
 * `notime` - disables `time` abi header, which is enabled by default. Abi header `time` – `uint64` local time when message was created, used for replay protection

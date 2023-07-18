@@ -129,6 +129,12 @@ See also: [\<TvmSlice>.load()](tvmbuilder.md#tvmsliceload).
 
 See also: [\<TvmSlice>.loadZeroes(), \<TvmSlice>.loadOnes() and \<TvmSlice>.loadSame()](tvmbuilder.md#tvmsliceloadzeroes-tvmsliceloadones-and-tvmsliceloadsame).
 
+{% hint style="warning" %}
+The behavior of the method has been changed since **v0.64.0**: the function **`storeZeros`** has been renamed to **`storeZeroes`**.
+
+Please update your code accordingly to use the new function name **`storeZeroes`** instead. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ## storeInt()
 
 ```solidity
@@ -137,6 +143,10 @@ See also: [\<TvmSlice>.loadZeroes(), \<TvmSlice>.loadOnes() and \<TvmSlice>.load
 
 Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
+{% hint style="warning" %}
+**`<TvmBuilder>.storeSigned()`** has been renamed to **`<TvmBuilder>.storeInt()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ## storeUint()
 
 ```solidity
@@ -144,6 +154,10 @@ Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 ```
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
+
+{% hint style="warning" %}
+**`<TvmBuilder>.storeUnsigned()`** has been renamed to **`<TvmBuilder>.storeUint()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ## storeRef()
 

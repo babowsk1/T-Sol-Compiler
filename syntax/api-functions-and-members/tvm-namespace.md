@@ -175,6 +175,10 @@ tvm.rawConfigParam(uint8 paramNumber) returns (TvmCell cell, bool status);
 
 Executes TVM instruction "CONFIGPARAM" ([TVM](https://broxus.gitbook.io/threaded-virtual-machine/) - A.11.4. - F832). Returns the value of the global configuration parameter with integer index **paramNumber** as a `TvmCell` and a boolean status.
 
+{% hint style="warning" %}
+The behavior of the **`tvm.rawConfigParam(...)`** method has been changed since **v0.68.0**: it now returns an optional `TvmCell` instead of a tuple **`(TvmCell, bool)`**. If you use an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ### rawReserve()
 
 ```solidity

@@ -106,6 +106,10 @@ TvmSlice slice = ...;
 
 See also: [\<TvmBuilder>.store()](tvmbuilder.md#store). **Note**: if all the argument types can't be loaded from the slice a cell underflow [exception](../../troubleshooting/tvm-exception-codes.md) is thrown.
 
+{% hint style="warning" %}
+**`<TvmSlice>.decode()`** has been renamed to **`<TvmSlice>.load()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ### loadQ()
 
 ```solidity
@@ -121,6 +125,10 @@ optional(uint8, uint16) b = slice.loadQ(uint8, uint16);
 ```
 
 See also: [\<TvmBuilder>.store()](tvmbuilder.md#store).
+
+{% hint style="warning" %}
+**`<TvmSlice>.decodeQ()`** has been renamed to **`<TvmSlice>.loadQ()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ### loadRef()
 
@@ -151,6 +159,10 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 
 (2) Loads a signed integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
 
+{% hint style="warning" %}
+**`<TvmSlice>.loadSigned()`** has been renamed to **`<TvmSlice>.loadInt()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ### loadUint() and loadUintQ()
 
 ```solidity
@@ -164,6 +176,10 @@ Loads a cell from the `TvmSlice` reference and converts it into a `TvmSlice`.
 (1) Loads an unsigned integer with the given **bitSize** from the `TvmSlice`.
 
 (2) Loads an unsigned integer with the given **bitSize** from the `TvmSlice` if `TvmSlice` contains it. Otherwise, returns `null`.
+
+{% hint style="warning" %}
+**`<TvmSlice>.loadUnsigned()`** has been renamed to **`<TvmSlice>.loadUint()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ### Load little-endian integers
 
@@ -232,6 +248,10 @@ See the example of how to use **onBounce** function:
 
 * [onBounceHandler](https://github.com/tonlabs/samples/blob/master/solidity/16\_onBounceHandler.sol)
 
+{% hint style="warning" %}
+**`<TvmSlice>.decodeFunctionParams()`** has been renamed to **`<TvmSlice>.loadFunctionParams()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 ### loadStateVars()
 
 ```solidity
@@ -276,6 +296,10 @@ contract B {
 	}
 }
 ```
+
+{% hint style="warning" %}
+**`<TvmSlice>.decodeStateVars()`**has been renamed to **`<TvmSlice>.loadStateVars()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ### skip()
 

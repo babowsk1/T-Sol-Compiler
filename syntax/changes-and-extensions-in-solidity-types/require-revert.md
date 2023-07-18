@@ -1,5 +1,9 @@
 # Require, revert
 
+{% hint style="warning" %}
+The behavior of the **`require()`** and **`revert()`** methods has been changed since **v0.68.0**: they now take a **`uint16`** exception code instead of **`uint256`**. If you use an earlier version of the compiler, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 In case of exception, state variables of the contract are reverted to the state before [tvm.commit()](../api-functions-and-members/tvm-namespace.md#commit) or to the state of the contract before it was called. Use error codes that are greater than 100 because other error codes can be [reserved](../../troubleshooting/solidity-runtime-errors.md).&#x20;
 
 {% hint style="info" %}

@@ -61,6 +61,17 @@ slice = byteArray[:];  // slice == "01234567890123456789"
 
 Returns length of the `bytes` array.
 
+### toSlice
+
+```solidity
+<bytes>.toSlice() returns (TvmSlice);
+```
+
+Converts `bytes` to `TvmSlice`.
+Warning: if length of the array is greater than 127 then extra bytes are
+stored in the first reference of the slice. Use [\<TvmSlice\>.loadRef()](../tvm-specific-types/tvmslice.md#loadref) to load that extra bytes.
+
+
 ### dataSize()
 
 ```solidity

@@ -2,20 +2,22 @@
 
 ## **tx** namespace
 
-### logicaltime
+### timestamp
 
 ```solidity
-tx.logicaltime returns (uint64);
+tx.timestamp returns (uint64);
 ```
 
 Returns the logical time of the current transaction.
+
+[0.70.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/3e3eb04e249c2d3ffd6284c93fb18d8555fcaf96) - ФУНКЦИЯ БЫЛА ПЕРЕИМЕНОВАНА
 
 ### storageFee
 
 It's an experimental feature and is available only in certain blockchain networks.
 
 ```solidity
-tx.storageFee returns (uint120);
+tx.storageFee returns (uint64);
 ```
 
 Returns the storage fee paid in the current transaction.
@@ -31,28 +33,10 @@ The old property is available and marked as deprecated. If you are using an earl
 #### block.timestamp
 
 ```solidity
-block.timestamp returns (uint32);
-```
-
-Returns the current Unix time. Unix time is the same for the all transactions from one block.
-
-{% hint style="warning" %}
-The behavior of the method has been changed since **v. 0.67.0**: it has replaced the keyword `now ,`which is now considered deprecated, and now binds to opcode `NOW`, which returns a Unix timestamp.
-
-If you use an earlier version of the compiler, please refer to the corresponding version of the documentation.
-{% endhint %}
-
-#### block.logicaltime
-
-```solidity
-block.logicaltime returns (uint64);
+block.timestamp returns (uint64);
 ```
 
 Returns the starting logical time of the current block.
-
-{% hint style="warning" %}
-The property **`tx.timestamp`** has been renamed to **`tx.logicaltime`**. The old property is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
-{% endhint %}
 
 ## **rnd** namespace
 

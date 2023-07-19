@@ -1,7 +1,5 @@
 # Math namespace
 
-`T` is an integer, [variable integer](../changes-and-extensions-in-solidity-types/varint-and-varuint.md) or fixed point type in the `math.*` functions where applicable. Fixed point type is not applicable for `math.modpow2()`, `math.muldiv[r|c]()`, `math.muldivmod()` and `math.divmod()`.
-
 ## min() max()
 
 ```solidity
@@ -9,7 +7,7 @@ math.min(T a, T b, ...) returns (T);
 math.max(T a, T b, ...) returns (T);
 ```
 
-Returns the minimal (maximal) value of the passed arguments.
+Returns the minimal (maximal) value of the passed arguments. `T` should be an integer or fixed point type.
 
 ## minmax()
 
@@ -17,7 +15,7 @@ Returns the minimal (maximal) value of the passed arguments.
 math.minmax(T a, T b) returns (T /*min*/, T /*max*/);
 ```
 
-Returns minimal and maximal values of the passed arguments.
+Returns minimal and maximal values of the passed arguments.`T` should be an integer or fixed point type.
 
 Example:
 
@@ -28,7 +26,8 @@ Example:
 ## abs()
 
 ```solidity
-math.abs(T val) returns (T);
+math.abs(intM val) returns (intM);
+math.abs(fixedMxN val) returns (fixedMxN);
 ```
 
 Computes the absolute value of the given integer.
@@ -36,15 +35,15 @@ Computes the absolute value of the given integer.
 Example:
 
 ```solidity
-int a = math.abs(-100); // a == 100
-int b = -100;
-int c = math.abs(b); // c == 100
+int a = math.abs(-4123); // 4123
+int b = -333;
+int c = math.abs(b); // 333
 ```
 
 ## modpow2()
 
 ```solidity
-math.modpow2(T value, uint power) returns (T);
+math.modpow2(uint value, uint power) returns (uint);
 ```
 
 Computes the `value mod 2^power`. Note: `power` should be a constant integer.
@@ -52,10 +51,10 @@ Computes the `value mod 2^power`. Note: `power` should be a constant integer.
 Example:
 
 ```solidity
-uint constant pow = 10;
-uint val = 1026;
-uint a = math.modpow2(21, 4); // a == 5
-uint b = math.modpow2(val, pow); // b == 2
+uint constant pow = 12;
+uint val = 12313;
+uint a = math.modpow2(val, 10);
+uint b = math.modpow2(val, pow);
 ```
 
 ## divr() math.divc()
@@ -65,7 +64,10 @@ math.divc(T a, T b) returns (T);
 math.divr(T a, T b) returns (T);
 ```
 
-Returns result of the division of two integers. The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr` respectively. See also: [Division and rounding](../division-and-rounding.md).
+Returns result of the division of two integers. `T` should be an integer or fixed point type.
+The return value is rounded. **ceiling** and **nearest** modes are used for `divc` and `divr`
+respectively.       
+See also: [Division and rounding](../division-and-rounding.md).
 
 Example:
 
@@ -85,7 +87,10 @@ math.muldivr(T a, T b, T c) returns (T);
 math.muldivc(T a, T b, T c) returns (T);
 ```
 
-Multiplies two values and then divides the result by a third value. The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`, `muldivc` and `muldivr` respectively. See also: [Division and rounding](../division-and-rounding.md).
+Multiplies two values and then divides the result by a third value. `T` is integer type.
+The return value is rounded. **floor**, **ceiling** and **nearest** modes are used for `muldiv`,
+`muldivc` and `muldivr` respectively.
+See also: [Division and rounding](../division-and-rounding.md).
 
 Example:
 
@@ -109,11 +114,11 @@ Example:
 uint a = 3;
 uint b = 2;
 uint c = 5;
-(uint d, uint r) = math.muldivmod(a, b, c); // (d, r) == (1, 1)
+(uint d, uint r) = math.muldivmod(a, b, c); // (1, 1)
 int e = -1;
 int f = 3;
 int g = 2;
-(int h, int p) = math.muldivmod(e, f, g); // (h, p) == (-2, 1)
+(int h, int p) = math.muldivmod(e, f, g); // (-2, 1)
 ```
 
 ## divmod()
@@ -122,27 +127,27 @@ int g = 2;
 math.divmod(T a, T b) returns (T /*result*/, T /*remainder*/);
 ```
 
-This function divides the first number by the second and returns the result and the remainder. Result is rounded to the floor.
+This function divides the first number by the second and returns the result and the remainder. Result is rounded to the floor. `T` must be an integer type.
 
 Example:
 
 ```solidity
-uint a = 11;
-uint b = 3;
-(uint d, uint r) = math.divmod(a, b); // (d, r) == (3, 2)
+uint a = 3;
+uint b = 2;
+(uint d, uint r) = math.divmod(a, b); //
 
 int e = -11;
 int f = 3;
-(int h, int p) = math.divmod(e, f); // (h, p) == (-3, 2)
+(int h, int p) = math.divmod(e, f); //
 ```
 
 ## sign()
 
 ```solidity
-math.sign(T val) returns (int2);
+math.sign(int val) returns (int8);
 ```
 
-Returns:
+Returns the number in case of the sign of the argument value `val`:
 
 * \-1 if `val` is negative;
 * 0 if `val` is zero;

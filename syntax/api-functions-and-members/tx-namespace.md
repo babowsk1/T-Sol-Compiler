@@ -10,7 +10,9 @@ tx.timestamp returns (uint64);
 
 Returns the logical time of the current transaction.
 
-[0.70.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/3e3eb04e249c2d3ffd6284c93fb18d8555fcaf96) - ФУНКЦИЯ БЫЛА ПЕРЕИМЕНОВАНА
+{% hint style="info" %}
+In version 0.70.0 of the compiler, this method was renamed. For detailed information, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ### storageFee
 

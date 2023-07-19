@@ -112,8 +112,8 @@ TvmSlice slice = ...;
 (uint16 num0, uint32 num1, address addr) = slice.decode(uint16, uint32, address);
 ```
 
-{% hint style="warning" %}
-[0.70.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/3e3eb04e249c2d3ffd6284c93fb18d8555fcaf96) - МЕТОД ПЕРЕИМЕНОВАН
+{% hint style="info" %}
+In version 0.70.0 of the compiler, this method was renamed. For detailed information, please refer to the corresponding version of the documentation.
 {% endhint %}
 
 ### decodeQ()
@@ -138,8 +138,8 @@ See also: [\<TvmBuilder\>.store()](#tvmbuilderstore).
 
 See also: [\<TvmBuilder>.store()](tvmbuilder.md#store).
 
-{% hint style="warning" %}
-[0.70.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/3e3eb04e249c2d3ffd6284c93fb18d8555fcaf96) - МЕТОД ПЕРЕИМЕНОВАН
+{% hint style="info" %}
+In version 0.70.0 of the compiler, this method was renamed. For detailed information, please refer to the corresponding version of the documentation.
 {% endhint %}
 
 ### loadRef()
@@ -261,5 +261,6 @@ contract B {
 Skips the first `length` bits and `refs` references from the `TvmSlice`.
 
 {% hint style="warning" %}
-[0.68.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/8ceceed0f75b05db3ea1ccba0efb8a2c65abc636), [0.70.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/3e3eb04e249c2d3ffd6284c93fb18d8555fcaf96) - ДОБАВЛЕНА ПОДДЕРЖКА НОВЫХ ФУНКЦИЙ
+In version 0.68.0, new functions were added to this method.
+For more details, please refer to the corresponding version of the documentation.
 {% endhint %}

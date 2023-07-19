@@ -85,9 +85,13 @@ optional(uint32) c = str.find(sub);
 bool s = c.hasValue(); // s == false
 ```
 
-[0.67.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/f9667e6c17fb987fa7372d2c7152919c427ba991) - ДОБАВЛЕНЫ НОВЫЕ ФУНКЦИИ
-
 Same as [\<TvmCell>.dataSizeQ()](string.md#datasizeq).
+
+{% hint style="warning" %}
+In version 0.67.0, new functions were added to this method.
+For more details, please refer to the corresponding version of the documentation.
+{% endhint %}
+
 
 ## toUpperCase()\` and toLowerCase()
 

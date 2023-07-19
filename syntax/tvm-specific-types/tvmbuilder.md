@@ -142,7 +142,9 @@ Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
-0.70.0 - ДОБАВЛЕНЫ НОВЫЕ
+{% hint style="warning" %}
+In version 0.70.0 of the compiler, new functions were added for this method. For more details, please refer to the corresponding version of the documentation.
+{% endhint %}
 
 ## storeRef()
 

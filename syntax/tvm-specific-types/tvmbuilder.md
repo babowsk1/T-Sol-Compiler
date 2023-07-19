@@ -108,56 +108,41 @@ TvmBuilder builder;
 builder.store(a, b, uint(33));
 ```
 
-See also: [\<TvmSlice>.load()](tvmbuilder.md#tvmsliceload).
+See also: [\<TvmSlice>.decode()](tvmslice.md#decode).
 
-## storeZeroes(), storeOnes() and storeSame()
+## storeOnes()
 
 ```solidity
-// (1)
-<TvmBuilder>.storeZeroes(uint10 n);
-// (2)
-<TvmBuilder>.storeOnes(uint10 n);
-// (3)
-<TvmBuilder>.storeSame(uint10 n, uint1 value);
+<TvmBuilder>.storeOnes(uint n);
 ```
 
-(1) Stores `n` binary zeroes into the `TvmBuilder`.
+Stores `n` binary ones into the `TvmBuilder`.
 
-(2) Stores `n` binary ones into the `TvmBuilder`.
-
-(3) Stores `n` binary `value`s (0 ≤ value ≤ 1) into the `TvmBuilder`.
-
-See also: [\<TvmSlice>.loadZeroes(), \<TvmSlice>.loadOnes() and \<TvmSlice>.loadSame()](tvmbuilder.md#tvmsliceloadzeroes-tvmsliceloadones-and-tvmsliceloadsame).
-
-{% hint style="warning" %}
-The behavior of the method has been changed since **v0.64.0**: the function **`storeZeros`** has been renamed to **`storeZeroes`**.
-
-Please update your code accordingly to use the new function name **`storeZeroes`** instead. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
-{% endhint %}
-
-## storeInt()
+## storeZeroes()
 
 ```solidity
-<TvmBuilder>.storeInt(int256 value, uint9 bitSize);
+<TvmBuilder>.storeZeroes(uint n);
+```
+
+Stores `n` binary zeroes into the `TvmBuilder`.
+
+## storeSigned()
+
+```solidity
+<TvmBuilder>.storeSigned(int256 value, uint16 bitSize);
 ```
 
 Stores a signed integer **value** with given **bitSize** in the `TvmBuilder`.
 
-{% hint style="warning" %}
-**`<TvmBuilder>.storeSigned()`** has been renamed to **`<TvmBuilder>.storeInt()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
-{% endhint %}
-
-## storeUint()
+## storeUnsigned()
 
 ```solidity
-<TvmBuilder>.storeUint(uint256 value, uint9 bitSize);
+<TvmBuilder>.storeUnsigned(uint256 value, uint16 bitSize);
 ```
 
 Stores an unsigned integer **value** with given **bitSize** in the `TvmBuilder`.
 
-{% hint style="warning" %}
-**`<TvmBuilder>.storeUnsigned()`** has been renamed to **`<TvmBuilder>.storeUint()`**. The old function is available and marked as deprecated. If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation.
-{% endhint %}
+0.70.0 - ДОБАВЛЕНЫ НОВЫЕ
 
 ## storeRef()
 

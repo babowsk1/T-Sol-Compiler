@@ -1,7 +1,7 @@
 # Integers
 
 ``int`` / ``uint``: Signed and unsigned integers of various sizes. Keywords ``uintN`` and ``intN``
-where ``N`` is a number from ``1``  to ``256`` in steps of 1 denotes the number of bits. ``uint`` and ``int``
+where ``N`` is a number from ``8``  to ``256`` in steps of 8 denotes the number of bits. ``uint`` and ``int``
 are aliases for ``uint256`` and ``int256``, respectively.
 
 Operators:

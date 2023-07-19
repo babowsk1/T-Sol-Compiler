@@ -4,8 +4,6 @@ T-Sol Compiler expands `string` type with the following functions:
 
 **Note**: Due to VM restrictions string length can't exceed `1024 * 127 = 130048` bytes.
 
-`string` can be converted to `TvmSlice`.
-
 ## empty()
 
 ```solidity
@@ -87,19 +85,7 @@ optional(uint32) c = str.find(sub);
 bool s = c.hasValue(); // s == false
 ```
 
-## dataSize()
-
-```solidity
-<string>.dataSize(uint n) returns (uint /*cells*/, uint /*bits*/, uint /*refs*/);
-```
-
-Same as [\<TvmCell>.dataSize()](string.md#datasize).
-
-## dataSizeQ()
-
-```solidity
-<string>.dataSizeQ(uint n) returns (optional(uint /*cells*/, uint /*bits*/, uint /*refs*/));
-```
+[0.67.0](https://github.com/tonlabs/TON-Solidity-Compiler/commit/f9667e6c17fb987fa7372d2c7152919c427ba991) - ДОБАВЛЕНЫ НОВЫЕ ФУНКЦИИ
 
 Same as [\<TvmCell>.dataSizeQ()](string.md#datasizeq).
 

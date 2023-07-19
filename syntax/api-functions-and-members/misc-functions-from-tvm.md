@@ -139,7 +139,7 @@ addr.transfer({value: 10 ton, body: body});
 See also:
 
 * [External function calls](../external-function-calls/)
-* [\<TvmSlice>.loadFunctionParams()](../tvm-specific-types/tvmslice.md#loadfunctionparams)
+* [\<TvmSlice\>.decodeFunctionParams()](../tvm-specific-types/tvmslice.md#decodefunctionparams)
 * [tvm.buildIntMsg()](misc-functions-from-tvm.md#buildintmsg)
 
 ## exit() and tvm.exit1()

@@ -117,6 +117,7 @@ Example:
 ```solidity
 pragma ton-solidity >= 0.35.0;
 pragma AbiHeader expire;
+pragma AbiHeader time;
 pragma AbiHeader pubkey;
 
 import "https://github.com/tonlabs/debots/raw/9c6ca72b648fa51962224ec0d7ce91df2a0068c1/Debot.sol";

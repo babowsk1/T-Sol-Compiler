@@ -4,7 +4,7 @@
 It is an experimental feature available only in certain blockchain networks.
 {% endhint %}
 
-The `try` statement allows you to define a block of code to be tested for errors while it is executed. The `catch` statement allows you to define a block of code to be executed, if an error occurs in the try block. `catch` block gets two parameters of type variant and uint16, which contain exception argument and code respectively. Example:
+The `try` statement allows you to define a block of code to be tested for errors while it is executed. The `catch` statement allows you to define a block of code to be executed, if an error occurs in the try block. `catch` block gets two parameters of type variant and uint, which contain exception argument and code respectively. Example:
 
 ```solidity
 TvmBuilder builder;
@@ -14,7 +14,7 @@ try {
     require(c != 42, 100, 22);
     require(c != 43, 100, 33);
     builder.store(c);
-} catch (variant value, uint16 errorCode) {
+} catch (variant value, uint errorCode) {
     uint errorValue;
     if (value.isUint()) {
         errorValue = value.toUint();

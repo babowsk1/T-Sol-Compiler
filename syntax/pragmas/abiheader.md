@@ -1,24 +1,23 @@
 # AbiHeader
 
-{% hint style="warning" %}
-From version **0.69.0** onwards, the usage of `pragma`` `**`AbiHeader time`** is no longer allowed. Timestamp in the header of an external message is now enabled by default and can be disabled with `pragma`**`AbiHeader notime`**.
-
-If you are using an earlier version of the compiler, please refer to the corresponding version of the documentation to ensure compatibility.
-{% endhint %}
-
-Defines headers that are used in external messages:
-
-* `notime` - disables `time` abi header, which is enabled by default. Abi header `time` – `uint64` local time when message was created, used for replay protection
-* `pubkey` (`uint256`) - optional public key that the message can be signed with.
-* `expire` (`uint32`) - time when the message should be meant as expired.
-
 ```solidity
-pragma AbiHeader notime;
+pragma AbiHeader time;
 pragma AbiHeader pubkey;
 pragma AbiHeader expire;
 ```
 
-### **Note**
+Defines headers that are used in external messages:
+
+* `pubkey` (`uint256`) - optional public key that the message can be signed with.
+* `time` (`uint64`)  - local time when message was created. Used for replay protection.
+* `expire` (`uint32`) - time when the message should be meant as expired.
+
+### **Note:**
+
+- `time` presents in external messages if `pragma AbiHeader time` is used OR there is no
+`afterSignatureCheck` function defined in the contract.
+- `time` doesn't present in external messages if `pragma AbiHeader time` isn't used AND there
+is `afterSignatureCheck` function defined in the contract.
 
 Defined headers are listed in `*.abi.json` file in `header` section.
 
